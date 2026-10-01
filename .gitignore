@@ -15,3 +15,6 @@ build
 # not publishable: source prototypes and local backups from the rewrite
 guides-rules/
 _old-*/
+
+# raw 2x captures of the social images
+design/og/_raw/

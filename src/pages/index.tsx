@@ -40,8 +40,8 @@ function AgentCard({agent}: {agent: Agent}): ReactNode {
 export default function Home(): ReactNode {
   return (
     <Layout
-      title={translate({id: 'home.metaTitle', message: 'Home'})}
-      description={translate({id: 'home.metaDescription', message: 'Documentation for the Atrium Growth System and its platform'})}>
+      title={translate({id: 'home.metaTitle', message: 'A system that turns strangers into regulars'})}
+      description={translate({id: 'home.metaDescription', message: 'Atrium Docs: the source of truth for the Atrium Growth System. Five engines, the data behind one score, six agents and the plan to build it.'})}>
       <main className="home">
         <h1 className="home__title">
           <Translate id="home.title.before">A system that turns strangers into</Translate>{' '}
