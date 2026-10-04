@@ -60,6 +60,28 @@ stateDiagram-v2
 
 Immediate email alert to the owner and the Account Manager. A public review is never linked to a guest by guessing: a case opens from a survey response, or when the Account Manager links the review.
 
+## Case screens
+
+The Manager (agency) and the Platform (client) show the same case list from `@atrium/ui`. What changes is the role, not the code.
+
+| Who | Sees | Can do |
+| --- | --- | --- |
+| Agency admin | Cases of every client | Mark contacted, resolve |
+| Account Manager | Cases of the clients assigned to them | Mark contacted, resolve |
+| Client owner | Cases of their own client | Read only; the team works the case |
+| Client staff | Cases of their own locations | Read only |
+
+Decisions taken while building it:
+
+- **The role comes from the database, never the screen.** The API resolves the scope from the membership and Postgres RLS decides which clients' cases come back. A case of another client is a `404`, not a `403`, so its existence is not revealed.
+- **Contact details only with consent.** A case shows the guest's email or phone only when they agreed to be reached about the visit (a `transactional` consent given in the survey). Otherwise the screen says so, and says not to reach out when the guest did not ask.
+- **The guest's comment is data.** It is rendered as plain text, never as markup, and never read as an instruction (see Recovery's `untrusted_input`).
+- **The 24-hour target is visible.** Open cases count down and turn urgent in the last four hours; past the target they are flagged. Contacted and resolved cases have no clock.
+- **One origin per screen.** Each app proxies `/api` to the API, so the session cookie stays same-origin and the API needs no CORS. Sign-in is Better Auth at `/api/auth/*`.
+- **Tokens are provisional.** The look uses the product theme (cream, ink, lime, amber) in `packages/ui/src/theme.css`. [Decision 15](../plan/open-decisions) is still open; replacing the values in that file moves every surface.
+
+Routes: `GET /api/me`, `GET /api/cases`, `GET /api/cases/:id`, `POST /api/cases/:id/advance` (`to`: `contacted` or `resolved`, optional `note` up to 1000 characters). A resolved case cannot move again (`409`).
+
 ## MCP tools
 
 | Tool | Writes | Initial level |

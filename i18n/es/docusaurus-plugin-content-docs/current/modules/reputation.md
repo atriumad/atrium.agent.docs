@@ -60,6 +60,28 @@ stateDiagram-v2
 
 Alerta inmediata por email al dueño y al Account Manager. Una reseña pública nunca se vincula a un guest por suposición: un caso se abre desde una respuesta de encuesta, o cuando el Account Manager vincula la reseña.
 
+## Pantallas de casos
+
+El Manager (agencia) y la Platform (cliente) muestran la misma lista de casos desde `@atrium/ui`. Lo que cambia es el rol, no el código.
+
+| Quién | Ve | Puede hacer |
+| --- | --- | --- |
+| Admin de agencia | Casos de todos los clientes | Marcar contactado, resolver |
+| Account Manager | Casos de los clientes que tiene asignados | Marcar contactado, resolver |
+| Dueño del cliente | Casos de su propio cliente | Solo leer; el equipo trabaja el caso |
+| Staff del cliente | Casos de sus propios locales | Solo leer |
+
+Decisiones tomadas al construirlo:
+
+- **El rol viene de la base de datos, nunca de la pantalla.** La API resuelve el alcance desde la membresía y el RLS de Postgres decide qué casos de qué clientes vuelven. Un caso de otro cliente es un `404`, no un `403`, para no revelar que existe.
+- **Contacto solo con consentimiento.** Un caso muestra el email o teléfono del guest solo si aceptó que lo contacten por la visita (un consentimiento `transactional` dado en la encuesta). Si no, la pantalla lo dice, y avisa que no se le contacte cuando el guest no lo pidió.
+- **El comentario del guest es dato.** Se dibuja como texto plano, nunca como marcado, y nunca se lee como instrucción (ver `untrusted_input` de Recovery).
+- **El objetivo de 24 horas es visible.** Los casos abiertos cuentan hacia atrás y se marcan urgentes en las últimas cuatro horas; pasado el objetivo se señalan. Los casos contactados y resueltos no tienen reloj.
+- **Un origen por pantalla.** Cada app hace proxy de `/api` hacia la API, así la cookie de sesión es del mismo origen y la API no necesita CORS. El inicio de sesión es Better Auth en `/api/auth/*`.
+- **Los tokens son provisionales.** El aspecto usa el tema del producto (crema, tinta, lima, ámbar) en `packages/ui/src/theme.css`. La [decisión 15](../plan/open-decisions) sigue abierta; cambiar los valores de ese archivo mueve todas las superficies.
+
+Rutas: `GET /api/me`, `GET /api/cases`, `GET /api/cases/:id`, `POST /api/cases/:id/advance` (`to`: `contacted` o `resolved`, `note` opcional de hasta 1000 caracteres). Un caso resuelto no puede volver a moverse (`409`).
+
 ## Herramientas MCP
 
 | Herramienta | Escribe | Nivel inicial |
