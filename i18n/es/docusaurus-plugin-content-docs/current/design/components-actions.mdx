@@ -1,41 +1,42 @@
 ---
 sidebar_position: 7
 title: "Acciones"
-description: "Botón, botón de icono, enlace y chip."
+description: "Botón y chip."
 ---
 
-import {Demo, Button, Chip, DoDont, DoDontRow, Atr} from '@site/src/components/design';
-import {Plus, ArrowRight, Download, Trash2, Search, X} from 'lucide-react';
+import {Demo, Button, Chip, DoDont, DoDontRow} from '@site/src/components/design';
+import {Plus, ArrowRight, Search} from 'lucide-react';
 import {useState} from 'react';
 
 # *Acciones*: lo que se pulsa
 
-Todo lo que se puede pulsar es una píldora. Una acción primaria por vista; las demás son más discretas.
+Un botón es recto, con rellenos planos y trazos de 1 px. Un chip es la única píldora. Una acción primaria por vista.
 
 ## Botón
 
 <Demo switcher code={`<Button>Primario</Button>
-<Button variant="mint">Menta</Button>
-<Button variant="amber">Ámbar</Button>
+<Button variant="lime">Lima</Button>
+<Button variant="clay">Arcilla</Button>
 <Button variant="outline">Contorno</Button>
-<Button variant="ghost">Fantasma</Button>
-<Button variant="danger">Peligro</Button>`}>
+<Button variant="ghost">Fantasma</Button>`}>
   <Button>Primario</Button>
-  <Button variant="mint">Menta</Button>
-  <Button variant="amber">Ámbar</Button>
+  <Button variant="lime">Lima</Button>
+  <Button variant="clay">Arcilla</Button>
   <Button variant="outline">Contorno</Button>
   <Button variant="ghost">Fantasma</Button>
-  <Button variant="danger">Peligro</Button>
 </Demo>
 
 | Variante | Uso |
 | --- | --- |
-| `primary` | La acción principal de una vista. Teal con texto menta (menta con texto teal sobre oscuro) |
-| `mint` | La acción principal sobre un campo teal, o una secundaria amable sobre claro |
-| `amber` | Una llamada a la acción de campaña en marketing. No para acciones del producto |
-| `outline` | Una acción secundaria junto a una primaria |
+| `primary` | La llamada a la acción por defecto. Relleno carbón, texto crema. Sobre un campo oscuro pasa a lima |
+| `lime` | La señal ruidosa. Una por vista |
+| `clay` | El secundario cálido, y una acción destructiva tras una confirmación. **Nunca** es la llamada a la acción principal |
+| `outline` | Una acción secundaria. Al pasar el cursor se invierte a relleno carbón sólido |
 | `ghost` | Una acción terciaria, y acciones dentro de barras de herramientas densas |
-| `danger` | Una acción destructiva, solo después de una confirmación (ver Diálogo) |
+
+:::note El botón arcilla es clay-600
+El sistema rellena el botón arcilla con clay-500. Crema sobre clay-500 es 3.8:1, que no cumple para una etiqueta de 15 px. El relleno aquí es **clay-600** (5.2:1) y el estado presionado es **clay-700**.
+:::
 
 ### Tamaños, iconos, carga, deshabilitado
 
@@ -50,9 +51,9 @@ Todo lo que se puede pulsar es una píldora. Una acción primaria por vista; las
   <Button size="sm">Pequeño</Button>
   <Button>Mediano</Button>
   <Button size="lg">Grande</Button>
-  <Button icon={<Plus size={16} strokeWidth={1.75} />}>Añadir cliente</Button>
-  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.75} />}>Continuar</Button>
-  <Button iconOnly variant="ghost" aria-label="Buscar"><Search size={18} strokeWidth={1.75} /></Button>
+  <Button icon={<Plus size={16} strokeWidth={1.5} />}>Añadir cliente</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.5} />}>Continuar</Button>
+  <Button iconOnly variant="ghost" aria-label="Buscar"><Search size={18} strokeWidth={1.5} /></Button>
   <Button loading>Guardando</Button>
   <Button disabled>Deshabilitado</Button>
 </Demo>
@@ -61,58 +62,55 @@ Todo lo que se puede pulsar es una píldora. Una acción primaria por vista; las
 
 | Prop | Tipo | Por defecto | Notas |
 | --- | --- | --- | --- |
-| `variant` | `primary` \| `mint` \| `amber` \| `outline` \| `ghost` \| `danger` | `primary` | |
-| `size` | `sm` \| `md` \| `lg` | `md` | `sm` 13 px, `md` 15 px, `lg` 17 px |
-| `icon` / `iconRight` | `ReactNode` | ninguno | Lucide a 16 px (`sm`, `md`) o 20 px (`lg`) |
-| `iconOnly` | `boolean` | `false` | Necesita `aria-label`. Cuadrado, 44 px en móvil |
-| `loading` | `boolean` | `false` | Muestra un spinner, pone `aria-busy`, deshabilita el botón, conserva su ancho |
-| `block` | `boolean` | `false` | Ancho completo. Úsalo en diálogos y en móvil |
-| `disabled` | `boolean` | `false` | 45% de opacidad. Explica el porqué al lado; no dependas del aspecto |
+| `variant` | `primary` \| `lime` \| `clay` \| `outline` \| `ghost` | `primary` | |
+| `size` | `sm` \| `md` \| `lg` | `md` | Padding 7/14, 11/22, 15/30; texto 13, 15, 17 px |
+| `icon` / `iconRight` | `ReactNode` | ninguno | 16 px, trazo 1.5, `currentColor` |
+| `iconOnly` | `boolean` | `false` | Necesita `aria-label`. 44 px en táctil |
+| `loading` | `boolean` | `false` | Un spinner, `aria-busy`, deshabilitado, conserva su ancho |
+| `block` | `boolean` | `false` | Ancho completo: diálogos y móvil |
+| `disabled` | `boolean` | `false` | Opacidad 0.4 y sin cambio de color. Explica el porqué cerca |
 
-### Anatomía y estados
+### Estados
 
-La etiqueta es de 15 px, peso 600, `0.01em`, sin saltos de línea. El padding es de 12 por 24 px. El **hover** profundiza el campo un paso. Al **pulsar** escala a 0.97. El **foco** muestra el anillo teal con el halo ámbar. **Cargando** reemplaza el icono por un spinner y conserva la etiqueta.
+El texto es 500 con `0.01em`. El **hover** profundiza el relleno un paso (un botón de contorno se invierte a sólido). Al **pulsar** baja 1 px. El **foco** es un contorno arcilla de 2 px a 2 px de distancia. **Cargando** muestra un spinner y conserva la etiqueta.
 
 <DoDontRow>
-  <DoDont kind="do">Empieza la etiqueta con un verbo: "Guardar cliente", "Resolver", "Enviar respuesta".</DoDont>
-  <DoDont kind="dont">Usar "OK", "Enviar" o "Haz clic aquí", o poner dos botones primarios lado a lado.</DoDont>
-  <DoDont kind="do">Pon la acción primaria al final (a la derecha) en un grupo, y deja una por vista.</DoDont>
-  <DoDont kind="dont">Usar `danger` para una acción reversible. Usa `outline`.</DoDont>
+  <DoDont kind="do">Empieza con un verbo: "Guardar cliente", "Resolver", "Ver el trabajo".</DoDont>
+  <DoDont kind="dont">Redondear un botón en píldora, usar "OK" o "Enviar", o poner dos botones lima en una vista.</DoDont>
 </DoDontRow>
-
-## Enlace
-
-Un enlace en texto corrido es teal profundo (teal-500 es solo para texto secundario), subrayado con 3 px de separación. Al pasar el cursor el subrayado se oscurece. Un enlace que sale de la app lo dice.
 
 ## Chip
 
-La píldora estadio para filtros, etiquetas y opciones. **Con contorno** por defecto, un campo **relleno** cuando está seleccionado.
+La única píldora: etiquetas de servicio y filtros. **Con contorno** por defecto; **tinta** cuando está seleccionado. Mayúsculas, 0.06em, 11 o 13 px.
 
 export const ChipDemo = () => {
   const [on, setOn] = useState('SEO');
   return (
     <>
-      {['SEO', 'Marketing', 'Fotografía', 'Diseño'].map((c) => (
-        <Chip key={c} onClick={() => setOn(c)} selected={on === c}>{c}</Chip>
+      {['SEO', 'Medios', 'Contenido', 'Marca'].map((c) => (
+        <Chip key={c} onClick={() => setOn(c)} active={on === c}>{c}</Chip>
       ))}
     </>
   );
 };
 
-<Demo surface="white" code={`<Chip onClick={...} selected={on === 'SEO'}>SEO</Chip>   // un filtro
-<Chip variant="mint-soft">Reseñas</Chip>                  // una etiqueta
-<Chip onRemove={...}>Houston</Chip>                       // removible`}>
+<Demo surface="white" code={`<Chip onClick={...} active={on === 'SEO'}>SEO</Chip>   // un filtro
+<Chip variant="lime">Nuevo</Chip>                        // una etiqueta
+<Chip onRemove={...}>Houston</Chip>                      // removible`}>
   <ChipDemo />
 </Demo>
 
 <Demo surface="light">
-  <Chip variant="soft">Suave</Chip>
-  <Chip variant="mint">Menta</Chip>
-  <Chip variant="mint-soft">Menta suave</Chip>
-  <Chip variant="teal">Teal</Chip>
-  <Chip variant="amber">Ámbar</Chip>
+  <Chip>Contorno</Chip>
+  <Chip variant="ink">Tinta</Chip>
+  <Chip variant="lime">Lima</Chip>
+  <Chip variant="clay">Arcilla</Chip>
   <Chip size="sm">Pequeño</Chip>
+  <Chip count={3}>Con conteo</Chip>
   <Chip onRemove={() => undefined}>Removible</Chip>
 </Demo>
+<Demo surface="dark">
+  <Chip variant="dark">Sobre oscuro</Chip>
+</Demo>
 
-Un chip con `onClick` es un botón de alternancia (`aria-pressed`). Sin él, un chip es una etiqueta y no recibe foco. El botón de cerrar de un chip removible se llama "Remove".
+Un chip con `onClick` es un botón de alternancia (`aria-pressed`). Sin él, un chip es una etiqueta y no recibe foco. El chip arcilla usa texto **clay-700** sobre clay-200 (el clay-600 del sistema daba 4.1:1).

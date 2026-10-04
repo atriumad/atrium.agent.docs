@@ -12,9 +12,9 @@ A pattern is a screen or a region that more than one place needs. These are real
 
 ## Recovery cases
 
-The first screen the product ships ([Reputation](../modules/reputation#case-screens)). A list of cases on the left, the case on the right, tabs to filter, a banner when something is overdue. The Manager's account manager can act; the Platform owner reads. Try it: choose a case and a tab.
+The first screen the product ships ([Reputation](../modules/reputation#case-screens)). A list of cases on the left, the case on the right, chips to filter, a banner when something is overdue. The account manager in the Manager can act; the owner in the Platform reads. Try it: choose a case and a filter.
 
-<Demo surface="white">
+<Demo surface="light">
   <CasesPattern />
 </Demo>
 
@@ -22,32 +22,33 @@ The first screen the product ships ([Reputation](../modules/reputation#case-scre
 
 Every data screen has a **loading**, an **empty** and an **error** design. They are part of the screen, not an afterthought.
 
-<Demo surface="white" column>
+<Demo surface="light" column>
   <CasesPattern state="loading" />
 </Demo>
 
-<Demo surface="white" column>
+<Demo surface="light" column>
   <CasesPattern state="empty" />
 </Demo>
 
 | State | What to show |
 | --- | --- |
 | Loading | The shape of the content as skeletons, with `aria-busy`. Never a lone spinner |
-| Empty | A serif title that says what will appear and when, and one next step |
+| Empty | A title that says what will appear and when, and one next step |
 | Error | A `danger` banner at the top of the region: what failed and a Retry. Keep what was already on screen |
 | Partial | Show what loaded; mark what did not |
 
 ### Rules the screen follows
 
 - **The urgent thing is first.** Unresolved cases are ordered by due date, not by when they opened.
-- **A status has a word and a mark.** "Overdue by 6h" is a danger badge with an icon.
+- **A status has a word and a mark.** "Overdue by 6h" is a danger badge with an icon and a clay rule.
 - **The guest's words are quoted, in a sunken block.** They are third-party text: shown as text, never as markup, never as an instruction.
 - **Contact appears only with consent.** Otherwise the screen says to improve, not to reach out.
 - **The role decides the buttons.** An owner sees no actions and a line saying who works the case.
+- **The selected case is the ruled, offset card.** It is the one emphasis card of the list.
 
 ## Dashboard
 
-The Platform home: the one number that matters (the Growth Score), four supporting numbers, a trend and what to do next. A greeting in the serif, a range switch top right.
+The Platform home: the one number that matters (the Growth Score), four supporting numbers, a trend and what to do next. A greeting with one italic phrase, a range switch top right.
 
 <Demo surface="light">
   <DashboardPattern />
@@ -55,11 +56,11 @@ The Platform home: the one number that matters (the Growth Score), four supporti
 
 - **One hero.** The score ring leads. The other tiles are equal and quiet.
 - **Trends have direction and goodness** (see [Delta](./components-data#delta)).
-- **"Up next" is the mint card.** It is the only filled card on the page, so it is the call to act.
+- **"Up next" is the lime card.** It is the only filled card on the page, so it is the call to act.
 
 ## Portfolio table
 
-The Manager's front page: one row per client, with the clients that need a person first. Dark theme, dense rows, status in every row.
+The Manager's front page: one row per client, the clients that need a person first. A charcoal field, dense rows, a status in every row, under the 3 px rule.
 
 <Demo surface="dark">
   <PortfolioPattern />
@@ -71,7 +72,7 @@ The Manager's front page: one row per client, with the clients that need a perso
 
 ## Forms
 
-<Demo surface="white">
+<Demo surface="light">
   <FormPattern />
 </Demo>
 
@@ -79,15 +80,15 @@ See [Forms](./components-forms) for the field states and the validation rules.
 
 ## Application shell
 
-<Demo surface="white">
+<Demo surface="light">
   <ShellPattern />
 </Demo>
 
 ## Writing for screens
 
 <DoDontRow>
+  <DoDont kind="do">"We could not reach Google. Your reviews are safe. Try again."</DoDont>
+  <DoDont kind="dont">"Error 500. Something went wrong!"</DoDont>
   <DoDont kind="do">"3 reviews are waiting for your approval. We drafted a reply to each."</DoDont>
   <DoDont kind="dont">"Pending items: 3. Action required!"</DoDont>
-  <DoDont kind="do">"We could not reach Google. Your reviews are safe. Try again."</DoDont>
-  <DoDont kind="dont">"Error 500. Something went wrong."</DoDont>
 </DoDontRow>

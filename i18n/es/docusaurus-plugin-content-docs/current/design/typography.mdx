@@ -1,89 +1,87 @@
 ---
 sidebar_position: 3
 title: "Tipografía"
-description: "Las cuatro familias, la escala tipográfica, el tracking y los recursos de énfasis."
+description: "Dos familias, la escala, la etiqueta en mayúsculas espaciadas y los recursos de énfasis."
 ---
 
-import {FontCards, TypeRamp, TrackingTable, Demo, Eyebrow, Emph, Highlight, ScriptAccent, DoDont, DoDontRow, Stat} from '@site/src/components/design';
+import {FontCards, TypeRamp, TrackingTable, Demo, Eyebrow, Emphasis, Highlight, StatFigure, Rule, DoDont, DoDontRow, Stat} from '@site/src/components/design';
 
-# *Tipografía*: una sans, un acento serif
+# *Tipografía*: escala y tracking, no peso
 
-La interfaz habla en **Inter Tight**. La calidez viene de una sola frase en serif cursiva, un trazo de marcador o una palabra manuscrita, nunca de una segunda sans. Los números que importan van en la serif.
+Dos familias hacen tres trabajos. **Inter Tight** lleva display, titulares, cuerpo e interfaz en regular 400, con 500 como único escalón. **Instrument Serif** lleva la frase de énfasis en cursiva y **cada cifra**. Nada en el sistema es más pesado que 500: la jerarquía viene del tamaño, el tracking y la interlínea.
 
 ## Las familias
 
 <FontCards />
 
-Todas las fuentes son de uso libre. Inter Tight e Instrument Serif se cargan desde Google Fonts en la documentación; las apps las empaquetan para que funcionen sin conexión.
+Inter Tight e Instrument Serif vienen empaquetadas con el sistema y con este sitio (`static/fonts`), así que funcionan sin conexión.
 
 :::note Una decisión registrada
-El prototipo de la Platform se dibujó en **Geist**. El sistema de marca y los prototipos del Manager y Mobile usan **Inter Tight**, así que Inter Tight es la fuente del producto y Geist es un artefacto del prototipo. Las dos tienen métricas cercanas; ninguna pantalla hay que redibujarla.
+El prototipo de la Platform se dibujó en **Geist**. El sistema de diseño usa **Inter Tight**, así que Inter Tight es la fuente del producto y Geist es un artefacto del prototipo. Las dos tienen métricas cercanas; ninguna pantalla hay que redibujarla.
 :::
 
-## La receta del titular
+## El titular
 
-Un titular es una frase en sans con **una** frase destacada en serif cursiva. Añade el trazo de marcador o la manuscrita solo cuando la línea tenga espacio para una tercera voz.
+Un titular es una frase de grotesca apretada y apilada en 400. Dale **un** recurso de énfasis, nunca dos: la frase en serif cursiva para dar calidez, o el marcador lima para dar volumen.
 
 <Demo surface="white" column>
-  <Eyebrow tone="teal">Bienvenido</Eyebrow>
-  <div style={{fontSize: 'clamp(2rem, 5vw, 3.25rem)', lineHeight: 1.05, letterSpacing: '-0.03em', color: 'var(--teal-800)'}}>
-    Bienvenido a <Emph>atrium</Emph>
+  <div style={{fontSize: 'var(--text-display-md)', lineHeight: 0.95, letterSpacing: 'var(--tracking-tighter)', color: 'var(--charcoal-900)'}}>
+    Tomamos <Emphasis>cuatro</Emphasis> clientes a la vez
   </div>
-  <div style={{fontSize: 'clamp(1.6rem, 4vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--teal-800)'}}>
-    Construimos <Highlight>motores de crecimiento</Highlight>, no solo anuncios.
-  </div>
-  <div style={{fontSize: 'clamp(1.6rem, 4vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--teal-800)'}}>
-    Encontraste a <ScriptAccent>tu gente</ScriptAccent>.
+  <div style={{fontSize: 'var(--text-display-md)', lineHeight: 0.95, letterSpacing: 'var(--tracking-tighter)', color: 'var(--charcoal-900)'}}>
+    Hecho para pagarse <Highlight>solo</Highlight> en nueve semanas
   </div>
 </Demo>
 
 | Recurso | Fuente | Regla |
 | --- | --- | --- |
-| Frase de énfasis | Instrument Serif, cursiva | Una por titular, de 1 a 4 palabras |
-| Trazo de marcador | Banda ámbar detrás del texto | Uno por vista; teal o menta si se pide |
-| Manuscrita | Nothing You Could Do, subrayada | Una palabra por pantalla, solo en tamaños de display |
-| Eyebrow | Inter Tight 600, mayúsculas, 0.18em | Sobre un titular, de 12 a 13 px |
-| Cifra grande | Instrument Serif, recta | El único número del que trata una tarjeta |
+| Frase de énfasis | Instrument Serif, cursiva | Una por titular, de 1 a 4 palabras. Lleva un poco de padding a la derecha para que la cursiva no se corte |
+| Bloque marcador | Lima plano detrás de la palabra | Uno por línea. Existe una variante de tinte arcilla para citas |
+| Cifra | Instrument Serif, recta | Todo número que sea una afirmación, en tamaño de display |
+| Etiqueta | Inter Tight 500, 11 px, mayúsculas, 0.16em | Eyebrows, navegación, pies, metadatos, cabeceras de tabla |
+
+## La etiqueta en mayúsculas espaciadas
+
+El tejido conectivo del sistema: 11 px, 500, mayúsculas, `0.16em`, en el color atenuado. Los eyebrows llevan una regla inicial de 28 px y se numeran en marketing (`01 —`, `02 —`).
+
+<Demo surface="white" column>
+  <Eyebrow>Caso de estudio</Eyebrow>
+  <Eyebrow rule={false}>Metadato, sin regla</Eyebrow>
+  <Rule label="Sección" />
+</Demo>
+
+## Cifras
+
+Las cifras siempre van en la serif, nunca en la grotesca a tamaño de display, con numerales tabulares para que las columnas alineen. Un pie en la etiqueta de mayúsculas dice qué es el número.
+
+<Demo surface="white">
+  <StatFigure value="2.7x" label="Retorno de la inversión" />
+  <StatFigure value="$44M" label="Medios gestionados" size="sm" />
+  <div style={{width: 220}}><Stat label="Nota media" value="4.6" unit="/ 5" delta={2} /></div>
+</Demo>
 
 ## La escala
 
-La escala de la marca va de 12 a 72 px. Las pantallas de producto viven entre 12 y 32: tablas e interfaz densa a **14 px**, cuerpo a 16.
+Los tamaños de display son fluidos (`--text-display-xl`, `-lg`, `-md`, cada uno un `clamp()`). La escala estática va de 72 a 11 px. Las pantallas de producto viven entre 11 y 32: tablas e interfaz densa a **14 px**, cuerpo a 16.
 
 <TypeRamp />
-
-Los tamaños de display son fluidos para marketing y el Hub: `--text-display-xl` (hasta 120 px), `-lg` (80) y `-md` (56), cada uno con un `clamp()`.
 
 ### Pesos e interlínea
 
 | Peso | Uso |
 | --- | --- |
-| 400 | Cuerpo, texto largo |
-| 500 | Etiquetas, chips, celdas de tabla que necesitan peso |
-| 600 | Botones, etiquetas de campo, titulares en producto |
-| 700 | Raro: solo frases de marketing |
+| 400 | Titulares, cuerpo, todo por defecto |
+| 500 | El único escalón: etiquetas en mayúsculas, botones, chips, una celda de tabla que necesita peso |
 
-La interlínea es `0.95` para líneas de display apiladas, de `1.1` a `1.15` para titulares y `1.6` para el cuerpo. Mantén los párrafos entre **60 y 75 caracteres** por línea.
+La interlínea es `0.92` a `1.05` para titulares apretados y apilados, `1.15` para titulares menores, `1.6` para el cuerpo. Mantén los párrafos en **68 caracteres** (`--container-text`).
 
 ## Tracking
 
-Los titulares se aprietan, las etiquetas se abren. El eyebrow en mayúsculas espaciadas es la firma.
+Los titulares se aprietan, las etiquetas se abren.
 
 <TrackingTable />
 
-## Números
-
-Las tablas y las stats usan **numerales tabulares** (`font-variant-numeric: tabular-nums`) para que las columnas alineen. Alinea los números a la derecha. La cifra de una stat va en la serif; su unidad y su etiqueta siguen en sans.
-
-<Demo surface="white">
-  <div style={{width: 220}}><Stat label="Nota media" value="4.6" unit="/ 5" delta={2} /></div>
-  <div style={{width: 220}}><Stat label="Casos abiertos" value="3" delta={-25} goodWhen="down" note="1 vencido" /></div>
-</Demo>
-
-## Haz y no hagas
-
 <DoDontRow>
-  <DoDont kind="do">Usa la serif para una frase de un titular, o para una cifra de una tarjeta.</DoDont>
-  <DoDont kind="dont">Componer en serif el cuerpo, las etiquetas, los botones o la navegación.</DoDont>
-  <DoDont kind="do">Escribe el texto de la interfaz en minúscula de oración.</DoDont>
-  <DoDont kind="dont">Usar Title Case, MAYÚSCULAS más allá de los eyebrows, o negrita simulada.</DoDont>
+  <DoDont kind="do">Construye la jerarquía con tamaño, tracking e interlínea. Escribe los titulares en minúscula de oración.</DoDont>
+  <DoDont kind="dont">Usar negrita, Title Case o mayúsculas más allá de la etiqueta. Nunca componer una cifra en grotesca a tamaño de display.</DoDont>
 </DoDontRow>

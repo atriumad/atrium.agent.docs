@@ -4,73 +4,71 @@ title: "Surfaces"
 description: "How the Platform, Manager, Hub, mobile app and documentation theme the same parts."
 ---
 
-import {Demo, Card, Button, Badge, StatusBadge, Eyebrow, Emph, Stat, DoDont, DoDontRow, AgentIdentities, Atr} from '@site/src/components/design';
+import {Atr, Demo, Card, Button, Eyebrow, Emphasis, Stat, DoDont, DoDontRow} from '@site/src/components/design';
 
-# *Surfaces*: one system, four rooms
+# *Surfaces*: one system, five rooms
 
 One set of tokens and components, themed per room. A surface changes **roles** (what is the page, what is the card, what is the accent), never the components.
 
 | | Platform | Manager | Hub | Mobile |
 | --- | --- | --- | --- | --- |
 | **For** | The restaurant owner | The agency team | The restaurant's guest | The owner on the go |
-| **Theme** | Light | Dark chrome, light work area | Light, per restaurant | Light |
+| **Theme** | Light | Charcoal chrome, cream work area | Light, per restaurant | Light |
 | **Density** | Calm: 16 px body, roomy cards | Dense: 14 px, tables | Spacious, one task | Large targets, one decision |
-| **Page** | `surface-page` cloud | `surface-page` cloud, side nav teal | The restaurant's brand field | `surface-page` cloud |
-| **Accent** | Mint and amber | Mint, amber count badge | The restaurant's color | Mint |
-| **Numbers** | Serif | Sans with tabular numerals | Serif for the big figure | Serif |
+| **Page** | `surface-page` cream | `surface-page` cream, charcoal side navigation | The restaurant's field | `surface-page` cream |
+| **Accent** | Lime, once | Lime for the current page, clay for counts | The restaurant's color | Lime, once |
+| **Figures** | Serif | Sans with tabular numerals in tables, serif in tiles | Serif | Serif |
 
 ## Platform
 
-Calm and personal. The greeting is in the serif, the score leads, and every tile is a card with room to breathe. The only filled card is the "Up next" call.
+Calm and personal. A greeting with one italic phrase, the score leading, cards with room to breathe. The only filled card is the "Up next" call, in lime.
 
 <Demo surface="light">
-  <div style={{display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', width: '100%'}}>
+  <div style={{display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', width: '100%'}}>
     <Stat label="New reviews" value="38" delta={12} />
-    <Card tone="mint" title="Up next">Approve the reply to the 2-star review.</Card>
+    <Card tone="lime" title="Up next">Approve the reply to the 2-star review.</Card>
   </div>
 </Demo>
 
 ## Manager
 
-Dense and fast. A teal side navigation, tables with a status in every row, and an **amber count** for the work waiting on a person. See the [portfolio pattern](./patterns#portfolio-table).
+Dense and fast. A charcoal side navigation, tables under a 3 px rule with a status in every row, and a **clay count** for the work waiting on a person. See the [portfolio pattern](./patterns#portfolio-table).
 
-## Hub: a restaurant's own colors
+## Hub: a restaurant's own color
 
 The Hub, the survey and public pages take each restaurant's **accent color and logo** on top of the same components. Two guards keep that safe:
 
-1. **The accent replaces `--accent` only.** Text stays teal or ink; the accent never becomes text on white.
-2. **A contrast check at setup.** The accent must give 4.5:1 for its label color (the system picks teal or white, whichever passes) and 3:1 against the page. If it fails, the system darkens it until it does and tells the account manager.
+1. **The accent replaces `--accent` only.** Text stays charcoal or cream; the accent never becomes text on cream.
+2. **A contrast check at setup.** The accent must give 4.5:1 with its label color (the system picks charcoal or cream, whichever passes) and 3:1 against the page. If it fails, the system darkens it until it does and tells the account manager.
 
 <Demo surface="light">
-  <div style={{display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', width: '100%'}}>
-    <Card bordered>
-      <div style={{display: 'grid', gap: 10}}>
+  <div style={{display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', width: '100%'}}>
+    <Card>
+      <div style={{display: 'grid', gap: 12}}>
         <Eyebrow>How was your visit?</Eyebrow>
-        <div style={{fontSize: 24, lineHeight: 1.15, color: 'var(--teal-800)'}}>Thanks for visiting <Emph>Casa Olivo</Emph></div>
-        <Button block>Leave a review</Button>
+        <div style={{fontSize: 28, lineHeight: 1.05, letterSpacing: 'var(--tracking-tight)', color: 'var(--charcoal-900)'}}>Thanks for visiting <Emphasis>Casa Olivo</Emphasis></div>
+        <Button variant="lime" block>Leave a review</Button>
       </div>
     </Card>
-    <div style={{padding: 20, borderRadius: 14, background: '#8b1e2d', color: '#fff', display: 'grid', gap: 10}}>
+    <Atr dark style={{padding: 24, borderRadius: 6, background: '#7a1f2b', color: '#fbf8f1', display: 'grid', gap: 12}}>
       <Eyebrow tone="on-dark">How was your visit?</Eyebrow>
-      <div style={{fontSize: 24, lineHeight: 1.15}}>Thanks for visiting <Emph>Brasa Norte</Emph></div>
-      <Button variant="mint" block>Leave a review</Button>
-    </div>
+      <div style={{fontSize: 28, lineHeight: 1.05, letterSpacing: 'var(--tracking-tight)', color: '#fbf8f1'}}>Thanks for visiting <Emphasis>Brasa Norte</Emphasis></div>
+      <Button variant="outline" block>Leave a review</Button>
+    </Atr>
   </div>
 </Demo>
 
 ## Mobile
 
-The owner checks in for a minute. One decision per screen, **44 px targets**, the figure that matters in the serif, push for what needs them. Same tokens, larger type (base 16, headings one step up) and more space.
+The owner checks in for a minute. One decision per screen, **44 px targets**, the figure that matters in the serif, push for what needs them. The same tokens, base type at 16 and more space.
 
 ## Agents
 
-An agent appears wherever it acts or speaks: a face (Blobatar), a name and a card color. The colors are its **identity**, so it never takes a status color, and a status never takes an agent's.
-
-<AgentIdentities />
+An agent appears wherever it acts or speaks: a face (Blobatar) and a name. Their colors predate this system and are their own identity, so they keep them for now. An agent never takes a status color, and a status never takes an agent's.
 
 ## Documentation
 
-This site is the sixth room: light and dark, the same tokens, with Infima mapped onto them (see [Tokens](./tokens#in-this-site)). Code blocks use JetBrains Mono.
+This site is the fifth room: cream and charcoal, a dark theme, the same tokens mapped onto Infima (see [Tokens](./tokens#in-this-site)). Headings carry the 3 px rule, tables sit under it, code uses JetBrains Mono.
 
 <DoDontRow>
   <DoDont kind="do">Change a role (the page color, the accent) to theme a surface.</DoDont>

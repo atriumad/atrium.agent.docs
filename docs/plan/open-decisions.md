@@ -22,7 +22,7 @@ description: "What has to be closed, including the points where the source mater
 | 12 | Where do the API, worker, agents and N8N run? | Railway; Fly.io as an alternative | Proposed |
 | 13 | Mobile distribution | Expo, TestFlight and Play internal testing first | Proposed |
 | 14 | Growth Score color thresholds | 80, 60 per engine, scaled to 240 and 180 | Proposed |
-| 15 | Brand tokens | The brand system (deep teal, mint, cloud, amber, a lowercase wordmark) and the product theme used here (ink, lime, cream) need to be reconciled in `packages/ui` | Proposed: [ADR 0019](../adr/0019-one-token-set) and [Design](../design/) reconcile them; `packages/ui` still has to adopt the tokens |
+| 15 | Brand tokens | Which visual system the product uses | Closed: the ATRIUM AD design system ([ADR 0019](../adr/0019-one-token-set)). `packages/ui` still has to adopt the tokens |
 | 16 | Own booking engine | Deferred ([ADR 0012](../adr/0012-own-reservations-by-covers)) | Proposed |
 | 17 | Which restaurants are the pilot? | 2 clients with Toast and an active Google profile, chosen in F1 | Open |
 | 18 | The prototypes | The HTML prototypes in `guides-rules` are design references, not code to port | Proposed |

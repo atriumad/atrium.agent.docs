@@ -1,55 +1,65 @@
 ---
 sidebar_position: 8
 title: "Forms"
-description: "Field, input, textarea, select, checkbox, radio and switch."
+description: "Input, select, checkbox, and the textarea, radio and switch built on them."
 ---
 
-import {Demo, Input, Textarea, Select, Check, Switch, Field, DoDont, DoDontRow, FormPattern} from '@site/src/components/design';
+import {Demo, Input, Textarea, Select, Check, Switch, DoDont, DoDontRow, FormPattern} from '@site/src/components/design';
 
 # *Forms*: label, control, hint, error
 
-A form is a conversation. Ask for what you need, say why when it is not obvious, and when something is wrong say what to do.
+A field is squared, with a wide-caps label above it and a clay focus ring. Ask for what you need, say why when it is not obvious, and when something is wrong say what to do.
 
-## Field
+## Input
 
-The **field** wires the pieces together: a visible **label** above, the **control**, then a **hint** or an **error** underneath. The error replaces the hint, is announced (`role="alert"`) and is linked to the control with `aria-describedby`.
+The **label** is the 11 px wide-caps label. The **hint** or the **error** sits underneath; the error replaces the hint, is announced (`role="alert"`) and is tied to the control with `aria-describedby`.
 
-<Demo surface="white" column code={`<Input label="Owner email" type="email" hint="We send the weekly summary here." />
-<Input label="Owner email" error="Enter a full email, for example marco@casaolivo.com" />
+<Demo surface="light" column code={`<Input label="Work email" placeholder="you@company.com" />
+<Input label="Budget" error="Tell us a range so we can be useful." />
 <Input label="Location" disabled defaultValue="Bellaire" />`}>
-  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20}}>
-    <Input label="Owner email" type="email" placeholder="marco@casaolivo.com" hint="We send the weekly summary here." />
-    <Input label="Owner email" type="email" defaultValue="marco@" error="Enter a full email, for example marco@casaolivo.com" />
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24}}>
+    <Input label="Work email" type="email" placeholder="you@company.com" hint="We reply within two working days." />
+    <Input label="Budget" defaultValue="" error="Tell us a range so we can be useful." />
     <Input label="Location" disabled defaultValue="Bellaire" />
     <Input label="Phone" optional placeholder="+1 713 555 0142" />
   </div>
 </Demo>
 
-| State | Border | Notes |
+On a charcoal field the input is transparent with a lighter edge (`tone="dark"` in the system):
+
+<Demo surface="dark">
+  <div style={{width: '100%', maxWidth: 360}}><Input label="Email for the newsletter" placeholder="you@company.com" /></div>
+</Demo>
+
+| State | Edge | Notes |
 | --- | --- | --- |
-| Rest | `border-light` 1.5 px | White field, 8 px radius |
-| Hover | `teal-500` | |
-| Focus | `teal-800` + ring and halo | |
-| Error | `status-danger-fg` | A message with an icon; never color alone |
-| Disabled | none, cloud fill | Muted text; say why nearby |
+| Rest | `field-border` (charcoal-500), 1 px | Cream-100 fill, 4 px radius |
+| Hover | charcoal-800 | |
+| Focus | charcoal-800 and a 2 px clay outline | |
+| Error | clay-500 | A message in clay-600 under the field; never color alone |
+| Disabled | opacity 0.4 | Say why nearby |
 
-Labels are 13 px, weight 600. Mark **optional** fields with "(optional)" and leave required ones unmarked: most fields are required.
+:::note The field edge is charcoal-500
+The system draws a field with the cream hairline. Cream-400 on a cream-100 field is 1.5:1, below the 3:1 a control edge needs, so the product uses `--field-border` (6.1:1). Cards and rules keep the hairline.
+:::
 
-## Text, long text and select
+Mark **optional** fields with "(optional)" and leave required ones unmarked.
 
-<Demo surface="white" column>
-  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20}}>
-    <Textarea label="Internal notes" optional rows={3} placeholder="Anything the team should know" />
+## Select, textarea
+
+<Demo surface="light" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24}}>
     <Select label="Package" options={['Essential', 'Pillar 1', 'Pillar 2', 'Full system']} hint="Sets which modules the client sees." />
+    <Textarea label="Internal notes" optional rows={3} placeholder="Anything the team should know" />
     <Input small label="Compact field" placeholder="14 px, for toolbars" />
   </div>
 </Demo>
 
 ## Checkbox, radio and switch
 
-A **checkbox** is for a yes that is part of a form. A **radio** picks one of a few. A **switch** takes effect immediately, so it is for settings and never for a form that has a Save button.
+The **checkbox** is a squared 18 px box that fills lime with a charcoal tick (a CSS tick, not an icon). A **radio** picks one of a few and is round because the shape carries its meaning. A **switch** takes effect at once, so it is for settings and never for a form with a Save button.
 
-<Demo surface="white" column>
+<Demo surface="light" column>
   <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24}}>
     <div style={{display: 'grid', gap: 12}}>
       <Check label="I have the client's consent" defaultChecked />
@@ -71,19 +81,15 @@ A **checkbox** is for a yes that is part of a form. A **radio** picks one of a f
 
 ## A whole form
 
-<Demo surface="white">
+<Demo surface="light">
   <FormPattern />
 </Demo>
 
-## Rules
-
 <DoDontRow>
-  <DoDont kind="do">Validate when the person leaves the field, and again on submit. Keep what they typed.</DoDont>
-  <DoDont kind="dont">Clear a form on error, or show errors before the person has had a chance to finish.</DoDont>
-  <DoDont kind="do">Write the error as a fix: "Enter a full email, for example marco@casaolivo.com".</DoDont>
-  <DoDont kind="dont">Write "Invalid input", and never put the label inside the field as a placeholder.</DoDont>
+  <DoDont kind="do">Validate when the person leaves the field, and again on submit. Write the error as a fix.</DoDont>
+  <DoDont kind="dont">Clear the form on error, write "Invalid input", or put the label inside the field as a placeholder.</DoDont>
 </DoDontRow>
 
-- Use the **right control and keyboard**: `type="email"`, `inputmode="numeric"`, `autocomplete` tokens.
-- Place **one column** of fields; put two side by side only when they are short and related (city and state).
-- Disable the submit button only while saving (`loading`); never to say "the form is incomplete".
+- Use the right control and keyboard: `type="email"`, `inputmode="numeric"`, `autocomplete` tokens.
+- One column of fields; two side by side only when short and related.
+- Disable submit only while saving (`loading`), never to say "incomplete".

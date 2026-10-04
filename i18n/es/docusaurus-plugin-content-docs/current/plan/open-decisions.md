@@ -22,7 +22,7 @@ description: "Lo que hay que cerrar, incluidos los puntos donde el material de o
 | 12 | ¿Dónde corren la API, el worker, los agentes y N8N? | Railway; Fly.io como alternativa | Propuesta |
 | 13 | Distribución de Mobile | Expo, TestFlight y pruebas internas de Play primero | Propuesta |
 | 14 | Umbrales de color del Growth Score | 80 y 60 por engine, escalados a 240 y 180 | Propuesta |
-| 15 | Tokens de marca | El sistema de marca (deep teal, mint, cloud, amber, un wordmark en minúsculas) y el tema de producto usado aquí (ink, lime, cream) hay que reconciliarlos en `packages/ui` | Propuesta: el [ADR 0019](../adr/0019-one-token-set) y [Diseño](../design/) los reconcilian; `packages/ui` todavía debe adoptar los tokens |
+| 15 | Tokens de marca | Qué sistema visual usa el producto | Cerrada: el sistema de diseño ATRIUM AD ([ADR 0019](../adr/0019-one-token-set)). `packages/ui` todavía debe adoptar los tokens |
 | 16 | Motor de reservas propio | Diferido ([ADR 0012](../adr/0012-own-reservations-by-covers)) | Propuesta |
 | 17 | ¿Qué restaurantes son el piloto? | 2 clients con Toast y un perfil de Google activo, elegidos en F1 | Abierta |
 | 18 | Los prototipos | Los prototipos HTML de `guides-rules` son referencias de diseño, no código para portar | Propuesta |

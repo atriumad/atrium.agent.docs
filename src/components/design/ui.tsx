@@ -23,18 +23,44 @@ export function Atr({children, dark, className, style}: {children: ReactNode; da
 
 /* ---------------------------------------------------------------------- type accents */
 
-export const Eyebrow = ({children, tone, spread}: {children: ReactNode; tone?: 'teal' | 'mint' | 'amber' | 'on-dark'; spread?: 'widest'}) => (
-  <div className={cx('atr-eyebrow', tone && `atr-eyebrow--${tone}`, spread && 'atr-eyebrow--widest')}>{children}</div>
+export const Eyebrow = ({children, tone, rule = true}: {children: ReactNode; tone?: 'ink' | 'on-dark' | 'lime'; rule?: boolean}) => (
+  <span className={cx('atr-eyebrow', tone && `atr-eyebrow--${tone}`, !rule && 'atr-eyebrow--norule')}>{children}</span>
 );
-export const Highlight = ({children, color}: {children: ReactNode; color?: 'mint' | 'teal'}) => (
+
+/** The flat lime block behind one word. */
+export const Highlight = ({children, color}: {children: ReactNode; color?: 'clay'}) => (
   <span className={cx('atr-highlight', color && `atr-highlight--${color}`)}>{children}</span>
 );
-export const Emph = ({children}: {children: ReactNode}) => <em className="atr-emph">{children}</em>;
-export const ScriptAccent = ({children}: {children: ReactNode}) => <span className="atr-script">{children}</span>;
+
+/** The italic-serif phrase inside a headline. */
+export const Emphasis = ({children}: {children: ReactNode}) => <em className="atr-emph">{children}</em>;
+export const Emph = Emphasis;
+
+/** The heavy section divider, optionally carrying a caps label. */
+export const Rule = ({label, weight = 'bold', tone}: {label?: string; weight?: 'bold' | 'hair'; tone?: 'on-dark'}) => (
+  <div className={cx('atr-rule', weight === 'hair' && 'atr-rule--hair', tone === 'on-dark' && 'atr-rule--on-dark')} role="separator">
+    <span />
+    {label ? <span className="atr-caps">{label}</span> : null}
+    {label ? <span /> : null}
+  </div>
+);
+
+/** A big serif figure with a caps caption: the proof device. */
+export const StatFigure = ({value, label, tone, size}: {value: ReactNode; label: string; tone?: 'lime' | 'clay' | 'cream'; size?: 'sm' | 'lg'}) => (
+  <div className={cx('atr-figure', size && `atr-figure--${size}`, tone && `atr-figure--${tone}`)}>
+    <span className="atr-figure__value">{value}</span>
+    <span className="atr-caps">{label}</span>
+  </div>
+);
+
+/** The typographic mark. No logo artwork exists for this brand. */
+export const Wordmark = ({size, tone}: {size?: 'sm' | 'lg'; tone?: 'cream' | 'lime'}) => (
+  <span className={cx('atr-wordmark', size && `atr-wordmark--${size}`, tone && `atr-wordmark--${tone}`)}><span>Atrium</span><span>AD</span></span>
+);
 
 /* ------------------------------------------------------------------------- actions */
 
-export type ButtonVariant = 'primary' | 'mint' | 'amber' | 'outline' | 'ghost' | 'danger';
+export type ButtonVariant = 'primary' | 'lime' | 'clay' | 'outline' | 'ghost';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -63,36 +89,38 @@ export function Button({variant = 'primary', size = 'md', block, icon, iconRight
   );
 }
 
-export type ChipVariant = 'outline' | 'soft' | 'mint' | 'mint-soft' | 'teal' | 'amber' | 'on-dark';
+export type ChipVariant = 'outline' | 'ink' | 'lime' | 'clay' | 'dark';
 
-export function Chip({variant = 'outline', size = 'md', selected, onRemove, children, onClick}: {
-  variant?: ChipVariant; size?: 'sm' | 'md' | 'lg'; selected?: boolean; onRemove?: () => void; children: ReactNode; onClick?: () => void;
+/** The only pill in the system: tags and filters. With onClick it is a toggle. */
+export function Chip({variant = 'outline', size = 'md', active, count, onRemove, children, onClick}: {
+  variant?: ChipVariant; size?: 'sm' | 'md'; active?: boolean; count?: number; onRemove?: () => void; children: ReactNode; onClick?: () => void;
 }) {
   const ui = UI[useLang()];
-  const cls = cx('atr-chip', variant !== 'outline' && `atr-chip--${variant}`, size !== 'md' && `atr-chip--${size}`);
+  const cls = cx('atr-chip', variant !== 'outline' && `atr-chip--${variant}`, size === 'sm' && 'atr-chip--sm');
+  const body = <>{children}{count !== undefined ? <span className="atr-chip__count">{count}</span> : null}</>;
   if (!onClick) {
     return (
       <span className={cls}>
-        {children}
-        {onRemove ? <button type="button" className="atr-chip__x" onClick={onRemove} aria-label={ui.remove}><X size={14} /></button> : null}
+        {body}
+        {onRemove ? <button type="button" className="atr-chip__x" onClick={onRemove} aria-label={ui.remove}><X size={12} /></button> : null}
       </span>
     );
   }
-  return <button type="button" className={cls} aria-pressed={selected ?? false} onClick={onClick}>{children}</button>;
+  return <button type="button" className={cls} aria-pressed={active ?? false} onClick={onClick}>{body}</button>;
 }
 
 /* ------------------------------------------------------------------ badge and status */
 
-export type Tone = 'mint' | 'teal' | 'amber' | 'cloud' | 'outline';
+export type BadgeVariant = 'ink' | 'lime' | 'clay' | 'quiet';
 export type StatusKey = 'positive' | 'warning' | 'danger' | 'info' | 'neutral';
 
-export const Badge = ({tone = 'mint', children}: {tone?: Tone; children: ReactNode}) => (
-  <span className={cx('atr-badge', tone !== 'mint' && `atr-badge--${tone}`)}>{children}</span>
+export const Badge = ({variant = 'ink', children}: {variant?: BadgeVariant; children: ReactNode}) => (
+  <span className={cx('atr-badge', variant !== 'ink' && `atr-badge--${variant}`)}>{children}</span>
 );
 
 const STATUS_ICON = {positive: CheckCircle2, warning: AlertTriangle, danger: XCircle, info: Info, neutral: Minus};
 
-/** A status always carries a word and a mark: color alone never says it. */
+/** A status always carries a word and a mark: a fill, a left rule and an icon or a dot. */
 export function StatusBadge({status, children, dot}: {status: StatusKey; children: ReactNode; dot?: boolean}) {
   const Icon = STATUS_ICON[status];
   return (
@@ -105,15 +133,15 @@ export function StatusBadge({status, children, dot}: {status: StatusKey; childre
 
 /* ----------------------------------------------------------------------------- card */
 
-export type CardTone = 'light' | 'cloud' | 'mint' | 'amber' | 'teal' | 'aurora' | 'aurora-cool' | 'aurora-deep';
+export type CardTone = 'paper' | 'ruled' | 'sunken' | 'dark' | 'lime' | 'clay';
 
-export function Card({tone = 'light', pad, bordered, elevation, hover, bento, title, description, children, className}: {
-  tone?: CardTone; pad?: 'sm' | 'md'; bordered?: boolean; elevation?: 'soft' | 'float'; hover?: boolean; bento?: boolean;
+/** A drawn container: a hairline by default, a 1px ink border for emphasis, a 2px printed offset for the one card that matters. */
+export function Card({tone = 'paper', elevation = 'flat', interactive, padding, title, description, children, className}: {
+  tone?: CardTone; elevation?: 'flat' | 'card' | 'offset' | 'pop'; interactive?: boolean; padding?: 'none' | 'sm' | 'lg';
   title?: ReactNode; description?: ReactNode; children?: ReactNode; className?: string;
 }) {
-  const toneClass = tone.startsWith('aurora') ? cx('atr-aurora', tone !== 'aurora' && `atr-aurora--${tone.slice(7)}`) : tone !== 'light' && `atr-card--${tone}`;
   return (
-    <div className={cx('atr-card', toneClass, pad && `atr-card--pad-${pad}`, bordered && 'atr-card--bordered', elevation && `atr-card--${elevation}`, hover && 'atr-card--hover', bento && 'atr-card--bento', className)}>
+    <div className={cx('atr-card', tone !== 'paper' && `atr-card--${tone}`, elevation !== 'flat' && `atr-card--${elevation}`, padding && `atr-card--pad-${padding}`, interactive && 'atr-card--interactive', className)}>
       {title ? <h4 className="atr-card__title">{title}</h4> : null}
       {description ? <p className="atr-card__desc">{description}</p> : null}
       {children}
@@ -177,12 +205,13 @@ export const Switch = ({label, ...rest}: InputHTMLAttributes<HTMLInputElement> &
 
 /* -------------------------------------------------------------------------- tabs */
 
+/** Filter tabs are chips: the only pill. They switch views of the same list. */
 export function Tabs<T extends string>({items, value, onChange, label}: {items: {id: T; label: string; count?: number}[]; value: T; onChange: (v: T) => void; label: string}) {
   return (
     <div className="atr-tabs" role="tablist" aria-label={label}>
       {items.map((t) => (
-        <button key={t.id} type="button" role="tab" className="atr-tab" aria-selected={value === t.id} onClick={() => onChange(t.id)}>
-          {t.label}{t.count !== undefined ? <span className="atr-tab__count">{t.count}</span> : null}
+        <button key={t.id} type="button" role="tab" className="atr-chip" aria-selected={value === t.id} onClick={() => onChange(t.id)}>
+          {t.label}{t.count !== undefined ? <span className="atr-chip__count">{t.count}</span> : null}
         </button>
       ))}
     </div>
@@ -212,7 +241,7 @@ export function Delta({value, goodWhen = 'up'}: {value: number; goodWhen?: 'up' 
   const dir = value === 0 ? 'flat' : value > 0 ? 'up' : 'down';
   const good = dir === 'flat' ? 'flat' : (dir === goodWhen ? 'up' : 'down');
   const Icon = dir === 'up' ? ArrowUpRight : dir === 'down' ? ArrowDownRight : Minus;
-  return <span className={cx('atr-delta', `atr-delta--${good}`)}><Icon size={14} aria-hidden="true" />{Math.abs(value)}%<span className="atr-sr">{dir === 'up' ? ui.up : dir === 'down' ? ui.down : ui.flat}</span></span>;
+  return <span className={cx('atr-delta', good === 'down' && 'atr-delta--down', good === 'flat' && 'atr-delta--flat')}><Icon size={14} aria-hidden="true" />{Math.abs(value)}%<span className="atr-sr">{dir === 'up' ? ui.up : dir === 'down' ? ui.down : ui.flat}</span></span>;
 }
 
 export function Sparkline({values, width = 120, height = 32, label}: {values: number[]; width?: number; height?: number; label: string}) {
@@ -222,7 +251,7 @@ export function Sparkline({values, width = 120, height = 32, label}: {values: nu
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label={label}>
       <polyline points={pts.join(' ')} fill="none" stroke="var(--data-1)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx={pts.at(-1)!.split(',')[0]} cy={pts.at(-1)!.split(',')[1]} r="3" fill="var(--amber-500)" />
+      <circle cx={pts.at(-1)!.split(',')[0]} cy={pts.at(-1)!.split(',')[1]} r="3" fill="var(--clay-500)" />
     </svg>
   );
 }
@@ -231,7 +260,7 @@ export function Stat({label, value, unit, delta, note, goodWhen, spark}: {label:
   const ui = UI[useLang()];
   return (
     <div className="atr-stat">
-      <span className="atr-stat__label">{label}</span>
+      <span className="atr-caps">{label}</span>
       <span className="atr-stat__value">{value}{unit ? <span className="atr-stat__unit">{unit}</span> : null}{delta !== undefined ? <Delta value={delta} goodWhen={goodWhen ?? 'up'} /> : null}</span>
       {spark ? <Sparkline values={spark} label={`${label} ${ui.trend}`} /> : null}
       {note ? <span className="atr-stat__note">{note}</span> : null}
@@ -264,8 +293,8 @@ export function ScoreRing({value, size = 120, label}: {value: number; size?: num
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label={`${label}: ${value} of 100`}>
       <circle className="atr-ring-track" cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth="10" />
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--teal-800)" strokeWidth="10" strokeLinecap="round" strokeDasharray={`${(value / 100) * c} ${c}`} transform={`rotate(-90 ${size / 2} ${size / 2})`} />
-      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="central" fontFamily="var(--font-serif)" fontSize={size * 0.34} fill="var(--text-strong)">{value}</text>
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--charcoal-800)" strokeWidth="10" strokeLinecap="butt" strokeDasharray={`${(value / 100) * c} ${c}`} transform={`rotate(-90 ${size / 2} ${size / 2})`} />
+      <text x="50%" y="50%" textAnchor="middle" dominantBaseline="central" fontFamily="var(--font-serif)" fontSize={size * 0.38} fill="var(--text-strong)">{value}</text>
     </svg>
   );
 }
@@ -340,7 +369,7 @@ export const Skeleton = ({width = '100%', height = 14}: {width?: number | string
   <span className="atr-skel" style={{width, height}} aria-hidden="true" />
 );
 
-export const Progress = ({value, tone, label}: {value: number; tone?: 'mint' | 'amber'; label: string}) => (
+export const Progress = ({value, tone, label}: {value: number; tone?: 'lime' | 'clay'; label: string}) => (
   <div className={cx('atr-progress', tone && `atr-progress--${tone}`)} role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={value}>
     <span style={{width: `${value}%`}} />
   </div>

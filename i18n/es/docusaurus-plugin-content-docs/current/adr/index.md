@@ -28,6 +28,6 @@ Cada decisión técnica importante queda escrita en un ADR corto: contexto, deci
 | [0016](./0016-three-surfaces-and-package-access) | Tres superficies y acceso por paquete | Aceptada |
 | [0017](./0017-twilio-email-and-sms) | Twilio para email y SMS | Aceptada |
 | [0018](./0018-no-review-gating) | El pedido de reseña nunca se filtra por calificación | Aceptada |
-| [0019](./0019-one-token-set) | Un solo conjunto de tokens, tematizado por superficie | Propuesta |
+| [0019](./0019-one-token-set) | El sistema de diseño ATRIUM AD es el sistema visual | Aceptada |
 
 Para escribir uno nuevo, ver [Cómo escribir un ADR](../guides/write-an-adr).

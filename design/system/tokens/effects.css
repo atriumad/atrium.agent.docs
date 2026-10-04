@@ -1,0 +1,37 @@
+/* ============================================================
+   ATRIUM AD — Effects: shadow, motion, marker
+   The system is printed, not glassy. Depth comes from 1px ink
+   rules and flat color blocks. Shadow is reserved for genuinely
+   floating UI (menus, dialogs).
+   ============================================================ */
+:root {
+  --shadow-none: none;
+  --shadow-card: 0 1px 0 rgba(36, 39, 38, 0.06);
+  --shadow-raised: 0 2px 0 var(--charcoal-800);      /* the "printed offset" */
+  --shadow-pop: 0 10px 30px rgba(36, 39, 38, 0.12);
+  --shadow-dark: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1); /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --dur-fast: 110ms;  /* @kind other */
+  --dur-base: 200ms;  /* @kind other */
+  --dur-slow: 380ms;  /* @kind other */
+  --press-shift: 1px; /* @kind other */
+}
+
+/* Inline marker — a flat lime block behind an emphasised word */
+.art-marker {
+  background-image: linear-gradient(var(--lime-500), var(--lime-500));
+  background-repeat: no-repeat;
+  background-size: 100% 0.5em;
+  background-position: left bottom 0.14em;
+  padding: 0 0.1em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.art-marker--clay { background-image: linear-gradient(var(--clay-200), var(--clay-200)); }
+
+/* Section rule — the recurring heavy divider */
+.art-rule { border: 0; border-top: var(--border-width-rule) solid var(--rule); margin: 0; }
+.art-rule--hair { border-top-width: var(--border-width); border-top-color: var(--border-light); }

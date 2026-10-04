@@ -1,0 +1,63 @@
+/* ============================================================
+   Atrium AD — Color tokens
+   Charcoal on cream. There is NO black in this system: the dark
+   anchor is a warm, slightly green-cast charcoal sampled from the
+   brand's charcoal/sage texture, and the light anchor is cream,
+   never white.
+   ============================================================ */
+:root {
+  /* ---- Raw palette ---- */
+  --charcoal-900: #1c1f1d;  /* deepest charcoal — reserved for large fields */
+  --charcoal-800: #242726;  /* CHARCOAL — primary dark anchor */
+  --charcoal-700: #333734;  /* raised dark surface */
+  --charcoal-500: #5a605b;  /* sage-cast mid grey, secondary text */
+  --charcoal-400: #8c918c;  /* hairlines on dark, tertiary text */
+
+  --sage-500: #546054;      /* the sage the charcoal texture resolves to */
+  --sage-300: #8a968a;      /* muted sage */
+
+  --lime-600: #aedc33;      /* pressed lime */
+  --lime-500: #c6f24e;      /* LIME — the signal accent */
+  --lime-300: #dff89c;      /* lime wash */
+  --lime-100: #f1fcd4;      /* faintest lime tint */
+
+  --clay-600: #b8421f;      /* pressed clay */
+  --clay-500: #d9542b;      /* CLAY — warm secondary */
+  --clay-300: #eda58c;      /* clay wash */
+  --clay-200: #f6d8cc;      /* clay tint */
+
+  --cream-100: #fbf8f1;     /* lightest cream — card surfaces */
+  --cream-200: #f4eee2;     /* CREAM — page paper */
+  --cream-300: #e9e1d1;     /* sunken cream */
+  --cream-400: #d4cab6;     /* hairline on light */
+
+  /* ---- Semantic — surfaces ---- */
+  --surface-page: var(--cream-200);
+  --surface-card: var(--cream-100);
+  --surface-sunken: var(--cream-300);
+  --surface-dark: var(--charcoal-800);
+  --surface-dark-raised: var(--charcoal-700);
+  --surface-lime: var(--lime-500);
+  --surface-clay: var(--clay-500);
+
+  /* ---- Semantic — text ---- */
+  --text-strong: var(--charcoal-900);
+  --text-body: var(--charcoal-800);
+  --text-muted: var(--charcoal-500);
+  --text-on-dark: var(--cream-300);
+  --text-on-dark-strong: var(--lime-500);
+  --text-on-lime: var(--charcoal-900);
+  --text-on-clay: var(--cream-100);
+
+  /* ---- Semantic — lines & accents ---- */
+  --border-light: var(--cream-400);
+  --border-strong: var(--charcoal-800);
+  --border-on-dark: var(--charcoal-500);
+  --rule: var(--charcoal-800);
+  --accent: var(--lime-500);
+  --accent-warm: var(--clay-500);
+  --highlight: var(--lime-500);
+
+  /* ---- Focus ---- */
+  --focus-ring: var(--clay-500);
+}

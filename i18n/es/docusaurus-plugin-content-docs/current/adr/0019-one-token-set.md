@@ -1,41 +1,43 @@
 ---
 id: 0019-one-token-set
 sidebar_position: 20
-title: "0019 · Un solo conjunto de tokens, tematizado por superficie"
-sidebar_label: "0019 · Un solo conjunto de tokens, tematizado por superficie"
-description: "Un solo conjunto de tokens, tematizado por superficie"
+title: "0019 · El sistema de diseño ATRIUM AD es el sistema visual"
+sidebar_label: "0019 · El sistema de diseño ATRIUM AD es el sistema visual"
+description: "El sistema de diseño ATRIUM AD es el sistema visual"
 ---
 
-# ADR 0019: Un solo conjunto de tokens, tematizado por superficie
+# ADR 0019: El sistema de diseño ATRIUM AD es el sistema visual
 
 | Estado | Fecha | Decisores |
 | --- | --- | --- |
-| **Propuesta** | 2026-10-04 | Atrium · producto y tecnología |
+| **Aceptada** | 2026-10-04 | Atrium · producto y tecnología |
 
 ## Contexto
 
-Existían dos sistemas visuales en paralelo. El sistema de marca (teal profundo, menta, cloud, ámbar, un wordmark en minúscula, Inter Tight e Instrument Serif) se dibujó para identidad y marketing. Las pantallas de producto usaban un tema provisional (tinta, lima, crema, ámbar) escrito antes de encontrar los archivos de la marca, y el prototipo de la Platform usaba una tercera fuente, Geist. La marca no tiene rojo ni verde, pero un dashboard tiene que decir "bien" y "mal". La [decisión 15](../plan/open-decisions) pidió reconciliarlos.
+Había tres direcciones visuales en juego: un tema de producto provisional en `packages/ui` (tinta, lima, crema, ámbar), un sistema de marca teal y menta, y los prototipos, que usaban una tercera fuente (Geist). La [decisión 15](../plan/open-decisions) pidió reconciliarlos. El dueño del producto ahora nombró un sistema a usar: el **sistema de diseño ATRIUM AD** (carbón sobre papel crema, una señal lima, una arcilla, esquinas rectas, una regla de 3 px, Inter Tight e Instrument Serif).
 
 ## Decisión
 
-Hay **un solo conjunto de tokens**, escrito una vez en `src/design/tokens.ts` y generado a CSS y a un tema de Tailwind v4.
+El sistema de diseño ATRIUM AD es el sistema visual de la Platform, el Manager, el Hub, la app móvil y esta documentación.
 
-- La **paleta cruda, la tipografía, el espaciado, los radios y el movimiento** son los del sistema de marca.
-- La **capa de producto** añade lo que los prototipos usan pero nunca nombraron: cinco colores de estado (positivo, aviso, peligro, info, neutro), una paleta de datos de seis, las identidades de los agentes y un tema oscuro para el chrome del Manager.
-- Los componentes leen **roles** (`surface-card`, `text-strong`, `status-danger-fg`), nunca colores crudos. Una superficie se tematiza redefiniendo roles.
+- Una **copia** del sistema vive en `design/system`, con un `SOURCE.md` que dice de dónde vino y qué se dejó fuera. Es la referencia; no se edita para cambiar el producto.
+- Los tokens se escriben una vez en `src/design/tokens.ts` y se generan a CSS y a un tema de Tailwind v4. Los componentes leen **roles**, nunca colores crudos.
+- La **paleta cruda, la tipografía, el espaciado, los radios, los bordes, las sombras y el movimiento del sistema se usan tal cual.**
+- El sistema no dice nada sobre estado, gráficos, un tema oscuro ni componentes de producto. Esa **capa de producto** se construye aquí con la propia paleta del sistema: estado distinguido por relleno, una regla izquierda y una marca; una paleta de datos de seis; un tema oscuro; y los componentes que el producto necesita más allá de los trece que trae el sistema.
 - **Inter Tight** es la fuente del producto. Geist fue un artefacto del prototipo.
-- Dos desvíos de los archivos de la marca, ambos por accesibilidad: el anillo de foco es teal con un halo ámbar, porque el ámbar solo es 1.9:1 sobre blanco; y los estados de error usan el estado de peligro, porque el borde amber-600 de la marca era 2.4:1.
+- Se hacen seis excepciones por contraste, cada una mueve un color un paso: el botón arcilla se rellena con clay-600, el chip arcilla usa un nuevo texto clay-700, los bordes de campo usan charcoal-500, la arcilla nunca es texto sobre crema, el eyebrow lima solo aparece sobre carbón, y el texto sobre una tarjeta arcilla es de 24 px o más. [Tokens](../design/tokens#qué-es-nuestro) las lista con sus ratios.
 - Una guarda de contraste corre al generar los tokens y rompe el build cuando una combinación baja de 4.5:1 en texto o de 3:1 en partes de interfaz.
 
 ## Consecuencias
 
-- La Platform, el Manager, el Hub, la app móvil y esta documentación comparten un aspecto y un vocabulario.
-- `packages/ui` debe adoptar los tokens; el tema provisional que tiene se reemplaza. Los pasos están en [Tokens](../design/tokens#adoptar-los-tokens-en-packagesui).
-- Un cambio de color de marca es un acto deliberado: necesita una decisión, no un comentario en un pull request.
+- Un solo aspecto y un solo vocabulario en todas las superficies.
+- `packages/ui` debe adoptar los tokens. Su tema provisional ya usa crema, tinta y lima, así que la mayor parte del cambio es renombrar. Los pasos están en [Tokens](../design/tokens#adoptar-los-tokens-en-packagesui).
+- Los archivos de la marca teal anterior, el favicon y las imágenes sociales son de otra identidad y hay que reemplazarlos cuando exista el arte. Los seis agentes conservan sus colores hasta que decida el dueño de la identidad.
+- Los pendientes del sistema siguen abiertos: **lima y arcilla son provisionales** hasta que se puedan leer los tableros de marca, **no hay logo** (el wordmark es tipográfico) y **no hay set de iconos**. Lucide se usa como sustituto en algunos lugares del producto y necesita aprobación.
 - Los restaurantes del Hub pueden fijar un color de acento. Reemplaza solo a `--accent` y se verifica el contraste al configurar.
 
 ## Alternativas descartadas
 
-- Mantener dos temas (marca para marketing, producto para pantallas): se separan y un guest ve dos empresas.
+- Mantener dos temas (uno de marca para marketing y uno de producto para pantallas): se separan y un guest ve dos empresas.
 - Adoptar una paleta de estado de un sistema de diseño público: añadiría una segunda identidad visual para un solo trabajo.
-- Usar Geist en el producto: no está en el sistema de marca, e Inter Tight tiene métricas cercanas.
+- Usar las combinaciones del sistema sin cambios: seis de ellas quedan por debajo del contraste que necesita una persona con baja visión.

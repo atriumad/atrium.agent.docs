@@ -1,31 +1,31 @@
 ---
 sidebar_position: 4
 title: "Foundations"
-description: "Spacing, layout, radius, elevation, texture, motion and focus."
+description: "Spacing, layout, radius, borders, elevation, motion and focus."
 ---
 
-import {SpaceScale, RadiusScale, ShadowScale, MotionScale, Breakpoints, Layers, Demo, Card, Button, DoDont, DoDontRow} from '@site/src/components/design';
+import {SpaceScale, RadiusScale, BordersTable, ShadowScale, MotionScale, Breakpoints, Layers, Demo, Card, Button, Rule, DoDont, DoDontRow, Chip} from '@site/src/components/design';
 
-# *Foundations*: the shapes behind every screen
+# *Foundations*: drawn, not shaded
 
 ## Spacing
 
-An **8 px grid** with a 4 px half step. Space between related things is small, space between groups is large. The brand breathes: when in doubt, add space.
+A **4 px grid**. Space between related things is small, space between groups is large; sections breathe with 64 to 88 px.
 
 <SpaceScale />
 
 | Where | Gap |
 | --- | --- |
 | Icon to label | 4 to 8 px |
-| Label to field | 6 to 8 px |
+| Label to field | 8 px |
 | Between fields | 16 px |
-| Card padding | 20 px in product, 28 px in marketing |
+| Card padding | 24 px by default, 16 px for a list row |
 | Between cards | 16 px |
-| Between page sections | 48 to 64 px |
+| Between page sections | 64 to 88 px, with a 3 px rule |
 
 ## Layout
 
-Content stops at **1200 px** (1360 for wide dashboards). The side gutter is `clamp(1.25rem, 4vw, 4rem)`. The Manager and the Platform show a side navigation from `lg` upward; below it the navigation moves into a menu.
+A **12-column grid**, content at most **1240 px** (1440 for wide dashboards), a gutter of `clamp(1.25rem, 4vw, 3.5rem)`. Text stays under **68 characters** a line. The Manager and the Platform show a side navigation from `lg` upward.
 
 <Breakpoints />
 
@@ -33,59 +33,66 @@ Design mobile first. A table that cannot fit becomes a list of cards, never a ho
 
 ## Radius
 
-Pills for what you press, soft cards for what you read, 4 to 8 px for fields.
+Squared off. The radii are small and deliberate, and only chips are round.
 
 <RadiusScale />
 
-## Borders
+<Demo surface="white">
+  <Button>A button is never a pill</Button>
+  <Chip>A chip is</Chip>
+</Demo>
 
-Pills and outlines are drawn with a **1.5 px** stroke, never a heavier one. Hairlines on cards and tables are 1 px in `border-light`. On dark, hairlines are `border-on-dark`.
+## Borders and the rule
+
+The system is drawn, not shaded. Borders do the work shadows would do elsewhere.
+
+<BordersTable />
+
+The **3 px rule** is structural: it appears on nearly every section boundary and above every table. The 1 px hairline separates rows inside a block.
+
+<Demo surface="white" column>
+  <Rule label="02 — Results" />
+  <Rule weight="hair" />
+</Demo>
 
 ## Elevation
 
-The identity is flat. Elevation is **color**: a mint or amber field, a white card on a cloud page. Shadows exist only for things that float.
+Elevation is **adjacency and rules**, not blur. A default card is cream-100 with a 6 px radius, a 1 px hairline and no shadow. The one card that matters gets a 1 px ink border and the **2 px printed offset**. A diffuse shadow belongs only to floating UI.
 
 <ShadowScale />
 
-| Use a shadow for | Do not use one for |
-| --- | --- |
-| Menus and popovers (`shadow-pop`) | Cards in a grid |
-| Dialogs, hover lift (`shadow-float`) | Buttons |
-| Bento tiles on an aurora field (`shadow-soft`) | Table rows, inputs |
-
-### Aurora and grain
-
-Marketing and the Hub may use the **aurora**: a pale mint and amber wash from the corners, with dark type on top. It is secondary and low contrast. The product screens do not use it.
-
-<Demo surface="white">
-  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, width: '100%'}}>
-    <Card tone="aurora" bento elevation="soft" title="Aurora">Balanced: mint with a warm corner.</Card>
-    <Card tone="aurora-cool" bento elevation="soft" title="Cool">Calm and editorial.</Card>
-    <Card tone="aurora-deep" bento elevation="float" title="Deep">For a dark tile.</Card>
+<Demo surface="light">
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, width: '100%'}}>
+    <Card title="Paper">Hairline, flat.</Card>
+    <Card tone="ruled" elevation="offset" title="Ruled, offset">The printed drop.</Card>
+    <Card elevation="pop" title="Pop">Menus and dialogs only.</Card>
   </div>
 </Demo>
 
+There are **no gradients, no mesh, no glass and no grain overlay**. Imagery sits inside a card with a hairline; text over an image sits in a solid charcoal capsule, never a protection gradient.
+
 ## Motion
 
-Things **settle**. A confident ease-out, around 220 ms, no bounce and no spin. Hover deepens the field by one step or lifts to mint. Press scales to 0.97 with no color flash.
+Quiet and quick. A confident ease-out, three durations, **fades and 1 to 2 px moves only**. No bounce, no spring, no scale-in.
 
 <MotionScale />
 
-| Event | Duration | Notes |
-| --- | --- | --- |
-| Press | `dur-fast` 120 ms | Scale 0.97 |
-| Hover, color, small moves | `dur-base` 220 ms | |
-| Panels, dialogs, entrances | `dur-slow` 420 ms | Fade and a short rise |
+| State | Behavior |
+| --- | --- |
+| Hover | The fill deepens one step; an outline button inverts to solid; a card lifts 2 px and its border goes to ink; a link turns clay and thickens its underline to 2 px |
+| Press | `translateY(1px)`. Never a scale, never a color flash |
+| Focus | A 2 px clay outline at 2 px offset, on everything focusable |
+| Disabled | Opacity 0.4, no color change |
 
-With `prefers-reduced-motion: reduce` every duration drops to 0 and the press scale to 1. Never carry meaning in motion alone.
+With `prefers-reduced-motion: reduce` every duration drops to 0 and the press shift to 0. Motion never carries the only signal.
 
 ## Focus
 
-Focus is a **teal ring with an amber halo** (mint on dark). The amber alone is 1.9:1 on white and fails; the teal ring clears 3:1 on every surface, and the halo keeps the brand.
+Clay on cream is 3.5:1 and on charcoal 3.8:1, so the 2 px clay ring clears the 3:1 an interface part needs on both.
 
 <Demo surface="white">
-  <Button>Tab to me</Button>
-  <Button variant="outline">Then to me</Button>
+  <Button>Press Tab</Button>
+  <Button variant="outline">to move focus</Button>
 </Demo>
 
 ## Layers
@@ -93,6 +100,6 @@ Focus is a **teal ring with an amber halo** (mint on dark). The amber alone is 1
 <Layers />
 
 <DoDontRow>
-  <DoDont kind="do">Use the spacing and radius tokens. Round to the grid.</DoDont>
-  <DoDont kind="dont">Invent a 10 px gap, a 12 px radius or a shadow that is not in the list.</DoDont>
+  <DoDont kind="do">Use the spacing and radius tokens, and the 3 px rule between sections.</DoDont>
+  <DoDont kind="dont">Add a soft shadow to a card, round a button, or put a gradient behind text.</DoDont>
 </DoDontRow>

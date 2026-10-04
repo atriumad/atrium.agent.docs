@@ -1,7 +1,7 @@
 ---
 sidebar_position: 11
 title: "Navegación"
-description: "Tabs, control segmentado, migas de pan, paginación, navegación lateral y barra superior."
+description: "Tabs, tabs subrayadas, control segmentado, migas de pan, paginación, navegación lateral y barra superior."
 ---
 
 import {useState} from 'react';
@@ -11,7 +11,7 @@ import {Demo, Tabs, UnderlineTabs, Segmented, Breadcrumbs, Pager, ShellPattern, 
 
 ## Tabs
 
-Las **tabs** en píldora filtran o cambian vistas de la **misma** lista, con un conteo cuando ayuda. La tab seleccionada va rellena de teal. Son un `tablist`: las flechas se mueven, y la tab seleccionada es la que está en el orden de tabulación.
+Las tabs de filtro son **chips**, la única píldora: cambian vistas de la **misma** lista, con un conteo cuando ayuda. La tab seleccionada va rellena de carbón. Son un `tablist`.
 
 export const TabsDemo = () => {
   const [v, setV] = useState('active');
@@ -25,7 +25,7 @@ export const TabsDemo = () => {
 
 ## Tabs subrayadas
 
-Para **secciones de una página** (Resumen, Reseñas, Ajustes). Más discretas que las píldoras, descansan sobre una línea fina.
+Para **secciones de una página** (Resumen, Reseñas, Ajustes). Etiquetas en mayúsculas espaciadas sobre una línea fina; la actual lleva la regla de 3 px debajo.
 
 export const UnderlineDemo = () => {
   const [v, setV] = useState('overview');
@@ -36,7 +36,7 @@ export const UnderlineDemo = () => {
 
 ## Control segmentado
 
-Un interruptor pequeño entre **dos y cuatro opciones** que cambian cómo se muestran los mismos datos (un rango, una vista). Es un grupo de botones con `aria-pressed`, no tabs.
+Un interruptor pequeño entre **dos y cuatro opciones** que cambian cómo se muestran los mismos datos (un rango, una vista). Un grupo recto de tinta de 1 px con `aria-pressed`, no tabs.
 
 export const SegDemo = () => {
   const [v, setV] = useState('30d');
@@ -47,13 +47,13 @@ export const SegDemo = () => {
 
 ## Migas de pan
 
-Muestran la ruta en una zona profunda (Manager: Clientes, Casa Olivo, Reseñas). El último elemento es la página actual, no un enlace.
+La ruta en una zona profunda, como etiquetas en mayúsculas espaciadas. El último elemento es la página actual, no un enlace.
 
 <Demo surface="white"><Breadcrumbs items={['Clientes', 'Casa Olivo', 'Reseñas']} /></Demo>
 
 ## Paginación
 
-Para listas largas donde la persona busca una fila. Prefiere primero filtros y búsqueda; usa scroll infinito solo para feeds.
+Para listas largas donde la persona busca una fila. Prefiere primero filtros y búsqueda.
 
 export const PagerDemo = () => {
   const [p, setP] = useState(2);
@@ -64,16 +64,16 @@ export const PagerDemo = () => {
 
 ## Navegación lateral y barra superior
 
-El chrome del Manager: una navegación lateral **teal profundo** con la página actual en menta, títulos de grupo en mayúsculas espaciadas y un **conteo** ámbar para lo que espera a una persona. La barra superior lleva la búsqueda y a la persona. Por debajo de `lg`, la navegación lateral pasa a un botón de menú.
+El chrome del Manager: una navegación lateral **carbón** con el wordmark tipográfico, la página actual en lima con un borde lima de 3 px, títulos de grupo como etiquetas en mayúsculas espaciadas y un **conteo arcilla** para el trabajo que espera a una persona. La barra superior lleva la búsqueda y a la persona. Por debajo de `lg`, la navegación lateral pasa a un botón de menú.
 
-<Demo surface="white">
+<Demo surface="light">
   <ShellPattern />
 </Demo>
 
 | Parte | Regla |
 | --- | --- |
-| Página actual | `aria-current="page"`, texto menta y un borde de 3 px menta |
-| Insignia de conteo | Ámbar, solo para trabajo que espera a una persona, oculta en cero |
+| Página actual | `aria-current="page"`, texto lima y un borde lima de 3 px |
+| Insignia de conteo | Arcilla, solo para trabajo que espera a una persona, oculta en cero |
 | Grupos | Como máximo cuatro, con un título en mayúsculas espaciadas |
 | Etiquetas | Una o dos palabras, sustantivos: "Casos", "Aprobaciones" |
 

@@ -1,41 +1,42 @@
 ---
 sidebar_position: 7
 title: "Actions"
-description: "Button, icon button, link and chip."
+description: "Button and chip."
 ---
 
-import {Demo, Button, Chip, DoDont, DoDontRow, Atr} from '@site/src/components/design';
-import {Plus, ArrowRight, Download, Trash2, Search, X} from 'lucide-react';
+import {Demo, Button, Chip, DoDont, DoDontRow} from '@site/src/components/design';
+import {Plus, ArrowRight, Search} from 'lucide-react';
 import {useState} from 'react';
 
 # *Actions*: what you press
 
-Everything you can press is a pill. One primary action per view; the rest are quieter.
+A button is squared, with flat fills and 1 px strokes. A chip is the only pill. One primary action per view.
 
 ## Button
 
 <Demo switcher code={`<Button>Primary</Button>
-<Button variant="mint">Mint</Button>
-<Button variant="amber">Amber</Button>
+<Button variant="lime">Lime</Button>
+<Button variant="clay">Clay</Button>
 <Button variant="outline">Outline</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="danger">Danger</Button>`}>
+<Button variant="ghost">Ghost</Button>`}>
   <Button>Primary</Button>
-  <Button variant="mint">Mint</Button>
-  <Button variant="amber">Amber</Button>
+  <Button variant="lime">Lime</Button>
+  <Button variant="clay">Clay</Button>
   <Button variant="outline">Outline</Button>
   <Button variant="ghost">Ghost</Button>
-  <Button variant="danger">Danger</Button>
 </Demo>
 
 | Variant | Use |
 | --- | --- |
-| `primary` | The one main action of a view. Teal with mint text (mint with teal text on dark) |
-| `mint` | The main action on a teal field, or a friendly secondary on light |
-| `amber` | A campaign call to action in marketing. Not for product actions |
-| `outline` | A secondary action next to a primary |
+| `primary` | The default call to action. Charcoal fill, cream text. On a dark field it turns lime |
+| `lime` | The loud signal. One per view |
+| `clay` | The warm secondary, and a destructive action after a confirmation. It is **never** the main call to action |
+| `outline` | A secondary action. On hover it inverts to a solid charcoal fill |
 | `ghost` | A tertiary action, and actions inside dense toolbars |
-| `danger` | A destructive action, only after a confirmation (see Dialog) |
+
+:::note The clay button is clay-600
+The system fills the clay button with clay-500. Cream on clay-500 is 3.8:1, which fails for a 15 px label. The fill here is **clay-600** (5.2:1) and the pressed state is **clay-700**.
+:::
 
 ### Sizes, icons, loading, disabled
 
@@ -50,9 +51,9 @@ Everything you can press is a pill. One primary action per view; the rest are qu
   <Button size="sm">Small</Button>
   <Button>Medium</Button>
   <Button size="lg">Large</Button>
-  <Button icon={<Plus size={16} strokeWidth={1.75} />}>Add client</Button>
-  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.75} />}>Continue</Button>
-  <Button iconOnly variant="ghost" aria-label="Search"><Search size={18} strokeWidth={1.75} /></Button>
+  <Button icon={<Plus size={16} strokeWidth={1.5} />}>Add client</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.5} />}>Continue</Button>
+  <Button iconOnly variant="ghost" aria-label="Search"><Search size={18} strokeWidth={1.5} /></Button>
   <Button loading>Saving</Button>
   <Button disabled>Disabled</Button>
 </Demo>
@@ -61,58 +62,55 @@ Everything you can press is a pill. One primary action per view; the rest are qu
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `variant` | `primary` \| `mint` \| `amber` \| `outline` \| `ghost` \| `danger` | `primary` | |
-| `size` | `sm` \| `md` \| `lg` | `md` | `sm` 13 px, `md` 15 px, `lg` 17 px |
-| `icon` / `iconRight` | `ReactNode` | none | Lucide at 16 px (`sm`, `md`) or 20 px (`lg`) |
-| `iconOnly` | `boolean` | `false` | Needs `aria-label`. Square, 44 px on mobile |
-| `loading` | `boolean` | `false` | Shows a spinner, sets `aria-busy`, disables the button, keeps its width |
-| `block` | `boolean` | `false` | Full width. Use in dialogs and on mobile |
-| `disabled` | `boolean` | `false` | 45% opacity. Explain why next to it; do not rely on the look |
+| `variant` | `primary` \| `lime` \| `clay` \| `outline` \| `ghost` | `primary` | |
+| `size` | `sm` \| `md` \| `lg` | `md` | Padding 7/14, 11/22, 15/30; text 13, 15, 17 px |
+| `icon` / `iconRight` | `ReactNode` | none | 16 px, stroke 1.5, `currentColor` |
+| `iconOnly` | `boolean` | `false` | Needs `aria-label`. 44 px on touch |
+| `loading` | `boolean` | `false` | A spinner, `aria-busy`, disabled, keeps its width |
+| `block` | `boolean` | `false` | Full width: dialogs and mobile |
+| `disabled` | `boolean` | `false` | Opacity 0.4 and no color change. Say why nearby |
 
-### Anatomy and states
+### States
 
-Label is 15 px, weight 600, `0.01em`, never wrapped. Padding is 12 by 24 px. **Hover** deepens the field one step. **Press** scales to 0.97. **Focus** shows the teal ring with the amber halo. **Loading** replaces the icon with a spinner and keeps the label.
+Text is 500 at `0.01em`. **Hover** deepens the fill one step (an outline button inverts to solid). **Press** moves it down 1 px. **Focus** is a 2 px clay outline at 2 px offset. **Loading** shows a spinner and keeps the label.
 
 <DoDontRow>
-  <DoDont kind="do">Start the label with a verb: "Save client", "Resolve", "Send reply".</DoDont>
-  <DoDont kind="dont">Use "OK", "Submit" or "Click here", or put two primary buttons side by side.</DoDont>
-  <DoDont kind="do">Put the primary action last (right) in a group, and keep one per view.</DoDont>
-  <DoDont kind="dont">Use `danger` for an action that is reversible. Use `outline` instead.</DoDont>
+  <DoDont kind="do">Start with a verb: "Save client", "Resolve", "See the work".</DoDont>
+  <DoDont kind="dont">Round a button into a pill, use "OK" or "Submit", or put two lime buttons in one view.</DoDont>
 </DoDontRow>
-
-## Link
-
-A link in running text is deep teal (teal-500 is for secondary text only), underlined with a 3 px offset. On hover the underline darkens. A link that leaves the app says so.
 
 ## Chip
 
-The stadium pill for filters, tags and choices. **Outlined** by default, a **filled** field when selected.
+The only pill: service tags and filters. **Outlined** by default; **ink** when selected. Caps, 0.06em, 11 or 13 px.
 
 export const ChipDemo = () => {
   const [on, setOn] = useState('SEO');
   return (
     <>
-      {['SEO', 'Marketing', 'Photography', 'Design'].map((c) => (
-        <Chip key={c} onClick={() => setOn(c)} selected={on === c}>{c}</Chip>
+      {['SEO', 'Media', 'Content', 'Brand'].map((c) => (
+        <Chip key={c} onClick={() => setOn(c)} active={on === c}>{c}</Chip>
       ))}
     </>
   );
 };
 
-<Demo surface="white" code={`<Chip onClick={...} selected={on === 'SEO'}>SEO</Chip>   // a filter
-<Chip variant="mint-soft">Reviews</Chip>                  // a tag
-<Chip onRemove={...}>Houston</Chip>                       // removable`}>
+<Demo surface="white" code={`<Chip onClick={...} active={on === 'SEO'}>SEO</Chip>   // a filter
+<Chip variant="lime">New</Chip>                          // a tag
+<Chip onRemove={...}>Houston</Chip>                      // removable`}>
   <ChipDemo />
 </Demo>
 
 <Demo surface="light">
-  <Chip variant="soft">Soft</Chip>
-  <Chip variant="mint">Mint</Chip>
-  <Chip variant="mint-soft">Mint soft</Chip>
-  <Chip variant="teal">Teal</Chip>
-  <Chip variant="amber">Amber</Chip>
+  <Chip>Outline</Chip>
+  <Chip variant="ink">Ink</Chip>
+  <Chip variant="lime">Lime</Chip>
+  <Chip variant="clay">Clay</Chip>
   <Chip size="sm">Small</Chip>
+  <Chip count={3}>With count</Chip>
   <Chip onRemove={() => undefined}>Removable</Chip>
 </Demo>
+<Demo surface="dark">
+  <Chip variant="dark">On dark</Chip>
+</Demo>
 
-A chip with `onClick` is a toggle button (`aria-pressed`). Without it, a chip is a label and is not focusable. A removable chip's close button is named "Remove".
+A chip with `onClick` is a toggle button (`aria-pressed`). Without it, a chip is a label and is not focusable. The clay chip uses **clay-700** text on clay-200 (the system's clay-600 gave 4.1:1).

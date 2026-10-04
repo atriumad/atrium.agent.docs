@@ -18,8 +18,8 @@ const config: Config = {
   favicon: 'img/favicon.svg',
   headTags: [
     {tagName: 'link', attributes: {rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png'}},
-    {tagName: 'meta', attributes: {name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#ffffff'}},
-    {tagName: 'meta', attributes: {name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#0c1a1f'}},
+    {tagName: 'meta', attributes: {name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#f4eee2'}},
+    {tagName: 'meta', attributes: {name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#1c1f1d'}},
     {tagName: 'meta', attributes: {name: 'application-name', content: 'Atrium Docs'}},
   ],
   url: 'https://docs.atriumad.com',
@@ -39,8 +39,9 @@ const config: Config = {
       es: {label: 'Español', htmlLang: 'es'},
     },
   },
+  // Inter Tight and Instrument Serif are bundled (static/fonts, declared in custom.css).
   stylesheets: [
-    'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Nothing+You+Could+Do&display=swap',
+    'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap',
   ],
   themes: [
     '@docusaurus/theme-mermaid',
@@ -80,7 +81,6 @@ const config: Config = {
     colorMode: {defaultMode: 'light', respectPrefersColorScheme: true},
     navbar: {
       title: 'Atrium',
-      logo: {alt: 'Atrium', src: 'img/logo.svg', srcDark: 'img/logo-dark.svg'},
       items: [
         {type: 'docSidebar', sidebarId: 'system', label: 'System', position: 'left'},
         {type: 'docSidebar', sidebarId: 'agents', label: 'Agents', position: 'left'},

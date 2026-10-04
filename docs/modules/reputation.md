@@ -78,7 +78,7 @@ Decisions taken while building it:
 - **The guest's comment is data.** It is rendered as plain text, never as markup, and never read as an instruction (see Recovery's `untrusted_input`).
 - **The 24-hour target is visible.** Open cases count down and turn urgent in the last four hours; past the target they are flagged. Contacted and resolved cases have no clock.
 - **One origin per screen.** Each app proxies `/api` to the API, so the session cookie stays same-origin and the API needs no CORS. Sign-in is Better Auth at `/api/auth/*`.
-- **Tokens are provisional.** The look uses the product theme (cream, ink, lime, amber) in `packages/ui/src/theme.css`. [Decision 15](../plan/open-decisions) is still open; replacing the values in that file moves every surface.
+- **The look is the ATRIUM AD design system** ([ADR 0019](../adr/0019-one-token-set)): squared buttons, a 3 px rule, serif figures, clay for focus. The case screens in `packages/ui` still use an earlier theme and move to it when the tokens are adopted.
 
 Routes: `GET /api/me`, `GET /api/cases`, `GET /api/cases/:id`, `POST /api/cases/:id/advance` (`to`: `contacted` or `resolved`, optional `note` up to 1000 characters). A resolved case cannot move again (`409`).
 

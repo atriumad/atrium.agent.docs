@@ -1,7 +1,7 @@
 import {useState, type CSSProperties, type ReactNode} from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import {
-  agentIdentity, brand, breakpoints, contrast, dataPalette, fonts, motion, radii, resolve, semantic,
+  agentIdentity, borders, brand, breakpoints, contrast, dataPalette, fonts, motion, radii, resolve, semantic,
   shadows, space, status, tracking, typeRamp, zIndex, luminance, type Lang, type Swatch,
 } from '../../design/tokens';
 import {useLang} from './lang';
@@ -14,16 +14,16 @@ const pick = (l: Lang, lang: 'en' | 'es') => l[lang];
 
 const T = {
   en: {copy: 'Copy', copied: 'Copied', token: 'Token', value: 'Value', role: 'Role', fg: 'Text', bg: 'Background', ratio: 'Ratio', result: 'Result', use: 'Use',
-    surface: {light: 'Light', white: 'White', dark: 'Dark', mint: 'Mint'}, size: 'Size', lead: 'Leading', do: 'Do', dont: 'Don’t',
-    pass: {aaa: 'AAA', aa: 'AA', ui: 'UI 3:1', fail: 'Fails'}, name: 'Name', hover: 'Hover to preview', series: 'Series'},
+    surface: {light: 'Paper', white: 'Card', dark: 'Dark', lime: 'Lime'}, size: 'Size', lead: 'Leading', do: 'Do', dont: 'Don’t',
+    pass: {aaa: 'AAA', aa: 'AA', ui: 'UI 3:1', fail: 'Fails'}, avoid: 'not used', name: 'Name', hover: 'Hover to preview', series: 'Series'},
   es: {copy: 'Copiar', copied: 'Copiado', token: 'Token', value: 'Valor', role: 'Rol', fg: 'Texto', bg: 'Fondo', ratio: 'Ratio', result: 'Resultado', use: 'Uso',
-    surface: {light: 'Claro', white: 'Blanco', dark: 'Oscuro', mint: 'Menta'}, size: 'Tamaño', lead: 'Interlínea', do: 'Haz', dont: 'No hagas',
-    pass: {aaa: 'AAA', aa: 'AA', ui: 'UI 3:1', fail: 'No cumple'}, name: 'Nombre', hover: 'Pasa el cursor para ver', series: 'Serie'},
+    surface: {light: 'Papel', white: 'Tarjeta', dark: 'Oscuro', lime: 'Lima'}, size: 'Tamaño', lead: 'Interlínea', do: 'Haz', dont: 'No hagas',
+    pass: {aaa: 'AAA', aa: 'AA', ui: 'UI 3:1', fail: 'No cumple'}, avoid: 'no se usa', name: 'Nombre', hover: 'Pasa el cursor para ver', series: 'Serie'},
 };
 
 /* ------------------------------------------------------------------------- demo frame */
 
-type Surface = 'light' | 'white' | 'dark' | 'mint';
+type Surface = 'light' | 'white' | 'dark' | 'lime';
 
 /**
  * A live example on a stage, with the source under it. `dark` flips the tokens, so what you see
@@ -37,12 +37,12 @@ export function Demo({children, code, surface = 'light', switcher = false, colum
   return (
     <div className="atr-demo">
       <div className={`atr-demo__stage atr-demo__stage--${s}${column ? ' atr-demo__stage--col' : ''}`}>
-        <Atr dark={s === 'dark'} className={column ? undefined : 'atr-row'} style={column ? undefined : {display: 'contents'}}>{children}</Atr>
+        <Atr dark={s === 'dark'} style={column ? {display: 'grid', gap: 16} : {display: 'contents'}}>{children}</Atr>
       </div>
       {switcher ? (
         <div className="atr-demo__bar">
           <span className="atr-demo__surfaces" role="group" aria-label="Surface">
-            {(['light', 'white', 'dark', 'mint'] as Surface[]).map((k) => (
+            {(['light', 'white', 'dark', 'lime'] as Surface[]).map((k) => (
               <button key={k} type="button" aria-pressed={s === k} onClick={() => setS(k)}>{T[lang].surface[k]}</button>
             ))}
           </span>
@@ -55,7 +55,7 @@ export function Demo({children, code, surface = 'light', switcher = false, colum
 
 /* ------------------------------------------------------------------------- palette */
 
-const ink = (hex: string) => (luminance(resolve(hex)) > 0.38 ? '#072f34' : '#ffffff');
+const ink = (hex: string) => (luminance(resolve(hex)) > 0.3 ? '#1c1f1d' : '#fbf8f1');
 
 export function Chipboard({text, label}: {text: string; label: string}) {
   const lang = useLang();
@@ -159,25 +159,33 @@ export function AgentIdentities() {
 
 /* -------------------------------------------------------------------------- contrast */
 
-type Pair = {label: string; fg: string; bg: string; kind?: 'text' | 'ui'};
+type Pair = {label: Lang; fg: string; bg: string; kind?: 'text' | 'ui' | 'avoid'};
 
+/** `avoid` pairs are the system's own combinations that fall short. No component uses them. */
 export const defaultPairs: Pair[] = [
-  {label: 'text-strong on surface-page', fg: 'var(--teal-800)', bg: 'var(--cloud-200)'},
-  {label: 'text-body on surface-card', fg: 'var(--ink-700)', bg: 'var(--cloud-100)'},
-  {label: 'text-muted on surface-card', fg: 'var(--teal-500)', bg: 'var(--cloud-100)'},
-  {label: 'text-muted on surface-sunken', fg: 'var(--teal-500)', bg: 'var(--cloud-300)'},
-  {label: 'text-on-dark on surface-dark', fg: 'var(--cloud-300)', bg: 'var(--teal-800)'},
-  {label: 'text-on-dark-muted on surface-dark', fg: 'var(--teal-300)', bg: 'var(--teal-800)'},
-  {label: 'mint on surface-dark (primary button)', fg: 'var(--mint-400)', bg: 'var(--teal-800)'},
-  {label: 'teal on mint (mint button, chip)', fg: 'var(--teal-800)', bg: 'var(--mint-400)'},
-  {label: 'teal on amber (amber button, badge)', fg: 'var(--teal-800)', bg: 'var(--amber-500)'},
-  {label: 'teal on highlighter', fg: 'var(--teal-800)', bg: 'var(--amber-400)'},
-  {label: 'white on danger (danger button)', fg: '#ffffff', bg: '#b5462b'},
-  {label: 'focus ring (teal) on surface-page', fg: 'var(--teal-800)', bg: 'var(--cloud-200)', kind: 'ui'},
-  {label: 'focus ring (mint) on surface-dark', fg: 'var(--mint-400)', bg: 'var(--teal-800)', kind: 'ui'},
-  {label: 'input border on surface-card', fg: 'var(--teal-500)', bg: 'var(--cloud-100)', kind: 'ui'},
-  {label: 'hairline on surface-card (decorative)', fg: 'var(--cloud-400)', bg: 'var(--cloud-100)', kind: 'ui'},
-  ...status.map((s): Pair => ({label: `status-${s.key}: text on tint`, fg: s.fg, bg: s.bg})),
+  {label: {en: 'text-strong on surface-page', es: 'text-strong sobre surface-page'}, fg: 'var(--charcoal-900)', bg: 'var(--cream-200)'},
+  {label: {en: 'text-body on surface-card', es: 'text-body sobre surface-card'}, fg: 'var(--charcoal-800)', bg: 'var(--cream-100)'},
+  {label: {en: 'text-muted on surface-page', es: 'text-muted sobre surface-page'}, fg: 'var(--charcoal-500)', bg: 'var(--cream-200)'},
+  {label: {en: 'text-muted on surface-sunken', es: 'text-muted sobre surface-sunken'}, fg: 'var(--charcoal-500)', bg: 'var(--cream-300)'},
+  {label: {en: 'text-on-dark on surface-dark', es: 'text-on-dark sobre surface-dark'}, fg: 'var(--cream-300)', bg: 'var(--charcoal-800)'},
+  {label: {en: 'lime on surface-dark (figures, headlines)', es: 'lima sobre surface-dark (cifras, titulares)'}, fg: 'var(--lime-500)', bg: 'var(--charcoal-800)'},
+  {label: {en: 'hint on dark: charcoal-400 on charcoal-800', es: 'ayuda sobre oscuro: charcoal-400 sobre charcoal-800'}, fg: 'var(--charcoal-400)', bg: 'var(--charcoal-800)'},
+  {label: {en: 'primary button: cream on charcoal', es: 'botón primario: crema sobre carbón'}, fg: 'var(--cream-200)', bg: 'var(--charcoal-800)'},
+  {label: {en: 'lime button and card: charcoal on lime', es: 'botón y tarjeta lima: carbón sobre lima'}, fg: 'var(--charcoal-900)', bg: 'var(--lime-500)'},
+  {label: {en: 'clay button: cream on clay-600', es: 'botón arcilla: crema sobre clay-600'}, fg: 'var(--cream-100)', bg: 'var(--clay-600)'},
+  {label: {en: 'clay button pressed: cream on clay-700', es: 'botón arcilla presionado: crema sobre clay-700'}, fg: 'var(--cream-100)', bg: 'var(--clay-700)'},
+  {label: {en: 'clay chip: clay-700 on clay-200', es: 'chip arcilla: clay-700 sobre clay-200'}, fg: 'var(--clay-700)', bg: 'var(--clay-200)'},
+  {label: {en: 'error text: clay-600 on cream-100', es: 'texto de error: clay-600 sobre cream-100'}, fg: 'var(--clay-600)', bg: 'var(--cream-100)'},
+  {label: {en: 'focus ring: clay-500 on cream-200', es: 'anillo de foco: clay-500 sobre cream-200'}, fg: 'var(--clay-500)', bg: 'var(--cream-200)', kind: 'ui'},
+  {label: {en: 'focus ring: clay-500 on charcoal-800', es: 'anillo de foco: clay-500 sobre charcoal-800'}, fg: 'var(--clay-500)', bg: 'var(--charcoal-800)', kind: 'ui'},
+  {label: {en: 'field edge: charcoal-500 on cream-100', es: 'borde de campo: charcoal-500 sobre cream-100'}, fg: 'var(--charcoal-500)', bg: 'var(--cream-100)', kind: 'ui'},
+  {label: {en: 'field edge on dark: charcoal-400 on charcoal-800', es: 'borde de campo sobre oscuro: charcoal-400 sobre charcoal-800'}, fg: 'var(--charcoal-400)', bg: 'var(--charcoal-800)', kind: 'ui'},
+  ...status.map((s): Pair => ({label: {en: `status-${s.key}: text on its fill`, es: `status-${s.key}: texto sobre su relleno`}, fg: s.fg, bg: s.bg})),
+  {label: {en: 'cream on clay-500 (the system\'s clay button and card)', es: 'crema sobre clay-500 (el botón y la tarjeta arcilla del sistema)'}, fg: 'var(--cream-100)', bg: 'var(--clay-500)', kind: 'avoid'},
+  {label: {en: 'clay-500 as text on cream-200', es: 'clay-500 como texto sobre cream-200'}, fg: 'var(--clay-500)', bg: 'var(--cream-200)', kind: 'avoid'},
+  {label: {en: 'lime-600 as text on cream-200 (lime eyebrow)', es: 'lime-600 como texto sobre cream-200 (eyebrow lima)'}, fg: 'var(--lime-600)', bg: 'var(--cream-200)', kind: 'avoid'},
+  {label: {en: 'hairline cream-400 as a field edge', es: 'línea fina cream-400 como borde de campo'}, fg: 'var(--cream-400)', bg: 'var(--cream-100)', kind: 'avoid'},
+  {label: {en: 'charcoal-500 hairline on dark as a field edge', es: 'línea fina charcoal-500 sobre oscuro como borde de campo'}, fg: 'var(--charcoal-500)', bg: 'var(--charcoal-800)', kind: 'avoid'},
 ];
 
 export function ContrastTable({pairs = defaultPairs}: {pairs?: Pair[]}) {
@@ -193,13 +201,14 @@ export function ContrastTable({pairs = defaultPairs}: {pairs?: Pair[]}) {
           const need = p.kind === 'ui' ? 3 : 4.5;
           const grade = p.kind === 'ui' ? (r >= 3 ? t.pass.ui : t.pass.fail) : r >= 7 ? t.pass.aaa : r >= 4.5 ? t.pass.aa : t.pass.fail;
           const ok = r >= need;
+          const avoid = p.kind === 'avoid';
           return (
-            <tr key={p.label}>
-              <td>{p.label}</td>
+            <tr key={p.label.en}>
+              <td>{pick(p.label, lang)}</td>
               <td><span className="design-dot" style={{background: fg, outline: '1px solid var(--atrium-line)'}} /> <code>{fg}</code></td>
               <td><span className="design-dot" style={{background: bg, outline: '1px solid var(--atrium-line)'}} /> <code>{bg}</code></td>
               <td>{r.toFixed(2)}:1</td>
-              <td><Atr><Badge tone={ok ? 'mint' : 'amber'}>{grade}</Badge></Atr></td>
+              <td><Atr><Badge variant={ok ? 'lime' : 'clay'}>{avoid ? `${grade} · ${t.avoid}` : grade}</Badge></Atr></td>
             </tr>
           );
         })}
@@ -308,7 +317,7 @@ export function MotionScale() {
       {motion.map((m) => (
         <div key={m.name} className="design-motion__row">
           <code>--{m.name}</code><span>{m.value}</span><small>{pick(m.use, lang)}</small>
-          <div className="design-motion__track"><i style={{transform: on ? 'translateX(calc(100cqw - 24px))' : 'none', transition: `transform ${m.value} cubic-bezier(0.16, 1, 0.3, 1)`}} /></div>
+          <div className="design-motion__track"><i style={{transform: on ? 'translateX(calc(100cqw - 24px))' : 'none', transition: `transform ${m.value} cubic-bezier(0.2, 0.8, 0.2, 1)`}} /></div>
         </div>
       ))}
       <button type="button" className="design-copy" onClick={() => setOn((v) => !v)}>{lang === 'es' ? 'Reproducir' : 'Play'}</button>
@@ -322,6 +331,19 @@ export function Breakpoints() {
     <table className="design-table">
       <thead><tr><th>{T[lang].name}</th><th>min-width</th><th>{T[lang].use}</th></tr></thead>
       <tbody>{breakpoints.map((b) => <tr key={b.name}><td><code>{b.name}</code></td><td>{b.px}px</td><td>{pick(b.use, lang)}</td></tr>)}</tbody>
+    </table>
+  );
+}
+
+export function BordersTable() {
+  const lang = useLang();
+  return (
+    <table className="design-table">
+      <thead><tr><th>{T[lang].token}</th><th>{T[lang].value}</th><th>{T[lang].use}</th><th>Preview</th></tr></thead>
+      <tbody>{borders.map((b) => (
+        <tr key={b.name}><td><code>--{b.name}</code></td><td>{b.value}</td><td>{pick(b.use, lang)}</td>
+          <td><span style={{display: 'block', width: 120, borderTop: `${b.value} solid var(--charcoal-800)`}} /></td></tr>
+      ))}</tbody>
     </table>
   );
 }
@@ -366,7 +388,7 @@ export function TokenCode({kind}: {kind: 'css' | 'tailwind' | 'infima' | 'dark'}
       '@import "tailwindcss";',
       '',
       '@theme {',
-      '  /* Brand palette: bg-teal-800, text-mint-400, border-cloud-400 ... */',
+      '  /* Raw palette: bg-charcoal-800, text-lime-500, border-cream-400 ... */',
       ...rawAll().map((s) => `  --color-${s.name}: ${s.value};`),
       '',
       '  /* Status: bg-status-danger-bg, text-status-danger-fg ... */',
@@ -377,21 +399,20 @@ export function TokenCode({kind}: {kind: 'css' | 'tailwind' | 'infima' | 'dark'}
       '',
       '  --font-sans: "Inter Tight", system-ui, sans-serif;',
       '  --font-serif: "Instrument Serif", Georgia, serif;',
-      '  --font-script: "Nothing You Could Do", cursive;',
       '',
-      '  /* Radius: rounded-md is the card, rounded-full the pill */',
-      ...radii.filter((r) => r.px !== 999).map((r) => `  --radius-${r.name.replace('radius-', '')}: ${r.px}px;`),
+      '  /* Radius: rounded-sm is the button and the field, rounded-md the card, rounded-full the chip */',
+      ...radii.filter((r) => r.px !== 999 && r.px !== 0).map((r) => `  --radius-${r.name.replace('radius-', '')}: ${r.px}px;`),
       '',
-      '  --shadow-card: ' + shadows[0]!.value + ';',
-      '  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);',
+      '  --shadow-raised: ' + shadows[1]!.value + ';',
+      '  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);',
       '}',
     ];
     return <CodeBlock language="css" title="theme.css (Tailwind v4)">{lines.join('\n')}</CodeBlock>;
   }
   if (kind === 'dark') {
     return (
-      <CodeBlock language="css" title="dark theme">{`<section data-atr-theme="dark">
-  <!-- every role below this point is redefined: surface-page, text-body, status-*, focus-ring -->
+      <CodeBlock language="html" title="dark theme">{`<section data-atr-theme="dark">
+  <!-- surface-page, surface-card, text-*, border-light, field-border and status-* are redefined -->
 </section>`}</CodeBlock>
     );
   }
@@ -401,17 +422,19 @@ export function TokenCode({kind}: {kind: 'css' | 'tailwind' | 'infima' | 'dark'}
 @import './atrium-ui.css';
 
 :root {
-  --ifm-color-primary: var(--teal-500);
-  --ifm-background-surface-color: var(--cloud-200);
+  --ifm-background-color: var(--surface-page);
+  --ifm-font-color-base: var(--text-body);
+  --ifm-heading-color: var(--text-strong);
   --ifm-font-family-base: var(--font-sans);
+  --ifm-global-radius: var(--radius-md);
 }`}</CodeBlock>
     );
   }
   const lines = [
     ':root {',
-    '  /* Brand */',
-    ...rawAll().slice(0, 6).map((s) => `  --${s.name}: ${s.value};`),
-    '  /* ...every step of teal, mint, amber and cloud */',
+    '  /* Raw palette */',
+    ...rawAll().slice(0, 5).map((s) => `  --${s.name}: ${s.value};`),
+    '  /* ...every step of charcoal, sage, lime, clay and cream */',
     '',
     '  /* Roles: what components read */',
     ...Object.values(semantic).flat().slice(0, 8).map((s) => `  --${s.name}: ${s.value};`),

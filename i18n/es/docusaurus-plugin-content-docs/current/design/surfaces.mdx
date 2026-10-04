@@ -4,73 +4,71 @@ title: "Superficies"
 description: "Cómo la Platform, el Manager, el Hub, la app móvil y la documentación tematizan las mismas piezas."
 ---
 
-import {Demo, Card, Button, Badge, StatusBadge, Eyebrow, Emph, Stat, DoDont, DoDontRow, AgentIdentities, Atr} from '@site/src/components/design';
+import {Atr, Demo, Card, Button, Eyebrow, Emphasis, Stat, DoDont, DoDontRow} from '@site/src/components/design';
 
-# *Superficies*: un sistema, cuatro habitaciones
+# *Superficies*: un sistema, cinco habitaciones
 
 Un solo conjunto de tokens y componentes, tematizado por habitación. Una superficie cambia **roles** (qué es la página, qué es la tarjeta, cuál es el acento), nunca los componentes.
 
 | | Platform | Manager | Hub | Mobile |
 | --- | --- | --- | --- | --- |
 | **Para** | El dueño del restaurante | El equipo de la agencia | El guest del restaurante | El dueño en movimiento |
-| **Tema** | Claro | Chrome oscuro, área de trabajo clara | Claro, por restaurante | Claro |
+| **Tema** | Claro | Chrome carbón, área de trabajo crema | Claro, por restaurante | Claro |
 | **Densidad** | Calmada: cuerpo de 16 px, tarjetas amplias | Densa: 14 px, tablas | Espaciosa, una tarea | Objetivos grandes, una decisión |
-| **Página** | `surface-page` cloud | `surface-page` cloud, navegación lateral teal | El campo de marca del restaurante | `surface-page` cloud |
-| **Acento** | Menta y ámbar | Menta, insignia ámbar de conteo | El color del restaurante | Menta |
-| **Números** | Serif | Sans con numerales tabulares | Serif para la cifra grande | Serif |
+| **Página** | `surface-page` crema | `surface-page` crema, navegación lateral carbón | El campo del restaurante | `surface-page` crema |
+| **Acento** | Lima, una vez | Lima para la página actual, arcilla para conteos | El color del restaurante | Lima, una vez |
+| **Cifras** | Serif | Sans con numerales tabulares en tablas, serif en teselas | Serif | Serif |
 
 ## Platform
 
-Calmada y personal. El saludo va en la serif, el score lidera, y cada tesela es una tarjeta con espacio para respirar. La única tarjeta rellena es la llamada "Lo siguiente".
+Calmada y personal. Un saludo con una frase en cursiva, el score al frente, tarjetas con espacio para respirar. La única tarjeta rellena es la llamada "Lo siguiente", en lima.
 
 <Demo surface="light">
-  <div style={{display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', width: '100%'}}>
+  <div style={{display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', width: '100%'}}>
     <Stat label="Reseñas nuevas" value="38" delta={12} />
-    <Card tone="mint" title="Lo siguiente">Aprueba la respuesta a la reseña de 2 estrellas.</Card>
+    <Card tone="lime" title="Lo siguiente">Aprueba la respuesta a la reseña de 2 estrellas.</Card>
   </div>
 </Demo>
 
 ## Manager
 
-Densa y rápida. Una navegación lateral teal, tablas con un estado en cada fila, y un **conteo ámbar** para el trabajo que espera a una persona. Ver el [patrón de cartera](./patterns#tabla-de-cartera).
+Densa y rápida. Una navegación lateral carbón, tablas bajo una regla de 3 px con un estado en cada fila, y un **conteo arcilla** para el trabajo que espera a una persona. Ver el [patrón de cartera](./patterns#tabla-de-cartera).
 
-## Hub: los colores propios de un restaurante
+## Hub: el color propio de un restaurante
 
 El Hub, la encuesta y las páginas públicas toman el **color de acento y el logo** de cada restaurante sobre los mismos componentes. Dos guardas lo mantienen seguro:
 
-1. **El acento reemplaza solo a `--accent`.** El texto sigue siendo teal o tinta; el acento nunca se vuelve texto sobre blanco.
-2. **Una verificación de contraste al configurar.** El acento debe dar 4.5:1 con el color de su etiqueta (el sistema elige teal o blanco, el que pase) y 3:1 contra la página. Si falla, el sistema lo oscurece hasta que pase y avisa al account manager.
+1. **El acento reemplaza solo a `--accent`.** El texto sigue siendo carbón o crema; el acento nunca se vuelve texto sobre crema.
+2. **Una verificación de contraste al configurar.** El acento debe dar 4.5:1 con el color de su etiqueta (el sistema elige carbón o crema, el que pase) y 3:1 contra la página. Si falla, el sistema lo oscurece hasta que pase y avisa al account manager.
 
 <Demo surface="light">
-  <div style={{display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', width: '100%'}}>
-    <Card bordered>
-      <div style={{display: 'grid', gap: 10}}>
+  <div style={{display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', width: '100%'}}>
+    <Card>
+      <div style={{display: 'grid', gap: 12}}>
         <Eyebrow>¿Cómo fue tu visita?</Eyebrow>
-        <div style={{fontSize: 24, lineHeight: 1.15, color: 'var(--teal-800)'}}>Gracias por visitar <Emph>Casa Olivo</Emph></div>
-        <Button block>Dejar una reseña</Button>
+        <div style={{fontSize: 28, lineHeight: 1.05, letterSpacing: 'var(--tracking-tight)', color: 'var(--charcoal-900)'}}>Gracias por visitar <Emphasis>Casa Olivo</Emphasis></div>
+        <Button variant="lime" block>Dejar una reseña</Button>
       </div>
     </Card>
-    <div style={{padding: 20, borderRadius: 14, background: '#8b1e2d', color: '#fff', display: 'grid', gap: 10}}>
+    <Atr dark style={{padding: 24, borderRadius: 6, background: '#7a1f2b', color: '#fbf8f1', display: 'grid', gap: 12}}>
       <Eyebrow tone="on-dark">¿Cómo fue tu visita?</Eyebrow>
-      <div style={{fontSize: 24, lineHeight: 1.15}}>Gracias por visitar <Emph>Brasa Norte</Emph></div>
-      <Button variant="mint" block>Dejar una reseña</Button>
-    </div>
+      <div style={{fontSize: 28, lineHeight: 1.05, letterSpacing: 'var(--tracking-tight)', color: '#fbf8f1'}}>Gracias por visitar <Emphasis>Brasa Norte</Emphasis></div>
+      <Button variant="outline" block>Dejar una reseña</Button>
+    </Atr>
   </div>
 </Demo>
 
 ## Mobile
 
-El dueño entra por un minuto. Una decisión por pantalla, **objetivos de 44 px**, la cifra que importa en la serif, push para lo que lo necesita. Los mismos tokens, tipografía más grande (base 16, titulares un paso arriba) y más espacio.
+El dueño entra por un minuto. Una decisión por pantalla, **objetivos de 44 px**, la cifra que importa en la serif, push para lo que lo necesita. Los mismos tokens, tipografía base de 16 y más espacio.
 
 ## Agentes
 
-Un agente aparece dondequiera que actúa o habla: una cara (Blobatar), un nombre y un color de tarjeta. Los colores son su **identidad**, así que nunca toma un color de estado, y un estado nunca toma el de un agente.
-
-<AgentIdentities />
+Un agente aparece dondequiera que actúa o habla: una cara (Blobatar) y un nombre. Sus colores son anteriores a este sistema y son su propia identidad, así que los conservan por ahora. Un agente nunca toma un color de estado, y un estado nunca toma el de un agente.
 
 ## Documentación
 
-Este sitio es la sexta habitación: claro y oscuro, los mismos tokens, con Infima mapeado sobre ellos (ver [Tokens](./tokens#en-este-sitio)). Los bloques de código usan JetBrains Mono.
+Este sitio es la quinta habitación: crema y carbón, un tema oscuro, los mismos tokens mapeados sobre Infima (ver [Tokens](./tokens#en-este-sitio)). Los titulares llevan la regla de 3 px, las tablas van bajo ella, el código usa JetBrains Mono.
 
 <DoDontRow>
   <DoDont kind="do">Cambia un rol (el color de la página, el acento) para tematizar una superficie.</DoDont>

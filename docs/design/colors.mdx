@@ -1,50 +1,57 @@
 ---
 sidebar_position: 2
 title: "Colors"
-description: "The brand palette, the semantic roles, the status and data colors, and the dark theme."
+description: "The palette, the semantic roles, the status and data colors, and the dark theme."
 ---
 
-import {Swatches, SemanticTable, StatusTable, DataPalette, AgentIdentities, Demo, Card, Button, Chip, Badge, StatusBadge, Banner, DoDont, DoDontRow, Highlight, Eyebrow} from '@site/src/components/design';
+import {Swatches, SemanticTable, StatusTable, DataPalette, Demo, Card, Button, Chip, Badge, StatusBadge, Banner, DoDont, DoDontRow, Highlight, Eyebrow} from '@site/src/components/design';
 
-# *Colors*: three anchors and a warm accent
+# *Colors*: four values carry the brand
 
-The brand is deep teal, mint, cloud and amber. The product adds a small set of **status** colors, because a dashboard has to say "good" and "wrong" and the brand palette has no red or green. Every value below lives in `src/design/tokens.ts`, and the CSS custom properties are generated from it.
+**Charcoal**, **cream**, **lime** and **clay**. Sage is carried for texture-adjacent surfaces. There is no black and no pure white. Every value below lives in `src/design/tokens.ts`, and the CSS custom properties are generated from it.
 
-## The brand palette
+## The palette
 
-Four families. Use the **bold** step of each as the color, and the others as steps around it.
+Use the named step of each family as the color, and the others as steps around it.
 
-### Deep teal: the dark anchor
-<Swatches group="teal" />
+### Charcoal: the dark anchor
+<Swatches group="charcoal" />
 
-### Mint: the light accent
-<Swatches group="mint" />
+### Cream: the paper
+<Swatches group="cream" />
 
-### Amber: the campaign color
-<Swatches group="amber" />
+### Lime: the signal
+<Swatches group="lime" />
 
-### Cloud: the cool white
-<Swatches group="cloud" />
+### Clay: the warm secondary
+<Swatches group="clay" />
+
+### Sage
+<Swatches group="sage" />
+
+:::note Placeholders and an addition
+Lime and clay are placeholders in the source system until the brand boards can be read. `clay-700` is the one color added here, for clay text on a clay tint and the pressed clay button. See [Tokens](./tokens#what-is-ours).
+:::
 
 ## Using them
 
-The default pairing is **two-tone**: mint on teal, or teal on mint. Amber is a third, rarer voice.
+The default pairing is **charcoal on cream**. The inverse, **cream on charcoal**, carries proof bands, footers and deck openers. Lime and clay are punctuation.
 
 <Demo surface="white" column>
   <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12}}>
-    <Card tone="teal" title="Mint on teal">The default on dark. Headlines in mint, body in cloud.</Card>
-    <Card tone="mint" title="Teal on mint">The default on a light field.</Card>
-    <Card tone="amber" title="Teal on amber">A campaign field. One per view.</Card>
-    <Card tone="cloud" title="Teal on cloud">A sunken area inside a page.</Card>
+    <Card title="Charcoal on cream">The default. Paper with a hairline.</Card>
+    <Card tone="dark" title="Cream on charcoal">Proof bands and footers.</Card>
+    <Card tone="lime" title="Charcoal on lime">The one lime card of a view.</Card>
+    <Card tone="sunken" title="On sunken cream">A well inside a page.</Card>
   </div>
 </Demo>
 
 | Color | Share of a screen | Used for |
 | --- | --- | --- |
-| Cloud and white | About 70% | Page, cards, fields, tables |
-| Deep teal | About 20% | Text, the dark chrome, the primary button |
-| Mint | About 8% | Accent on dark, soft fills, selected rows |
-| Amber | 2% or less | One highlight, one campaign field, the count badge |
+| Cream | About 75% | The page, cards, fields, tables |
+| Charcoal | About 20% | Text, rules, the primary button, dark fields |
+| Lime | 4% or less | One call to action, one marker, one card |
+| Clay | 1% or less | Focus, errors, a quote, a count that needs a person |
 
 ## Semantic roles
 
@@ -61,7 +68,7 @@ Components never read a raw color. They read a role, so a dark surface only has 
 
 ## Status colors
 
-The brand has no red and no green. These five are the **product layer**, taken from the Platform, Manager and Mobile prototypes. They are the only colors that carry a meaning.
+The system has one signal and one warm color, and no green, amber or blue. A dashboard still has to say "done" and "late", so status is told apart by **fill, a 3 px left rule and a mark**, never by hue alone. This is the product layer, built only from the palette.
 
 <StatusTable />
 
@@ -74,10 +81,8 @@ The brand has no red and no green. These five are the **product layer**, taken f
 </Demo>
 
 :::caution Color never speaks alone
-A status always has a word and a mark (an icon or a dot). A person who cannot tell terracotta from green must still read "Overdue" and see a cross. Text on a status tint always passes 4.5:1; see [Accessibility](./accessibility).
+Every status has a word and a mark. Lime reads as positive and clay as late, but a person who cannot tell them apart still reads "Overdue" and sees the left rule and the icon. Text on a status fill always passes 4.5:1; see [Accessibility](./accessibility).
 :::
-
-Amber is **campaign**, not **warning**. A warning uses `status-warning` (an amber-ink on a pale amber tint), never an amber field.
 
 ## Data colors
 
@@ -85,46 +90,32 @@ For charts, in the order series are used. Six is the limit: beyond that, group o
 
 <DataPalette />
 
-## Agent identities
-
-Each agent has a face color and a card color, shared with the home page and the footer.
-
-<AgentIdentities />
-
 ## The dark theme
 
-Dark is not an inversion. It is the Manager's chrome and any deep-teal surface: the roles are redefined, and the status colors lighten so they hold contrast on teal.
+Dark is a charcoal field, not an inversion. The roles are redefined: the page is `charcoal-900`, cards are `charcoal-800`, figures and the primary action turn lime, and status colors lighten to hold contrast.
 
 <Demo surface="dark" column>
   <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12}}>
-    <Card bordered title="Cards on dark" description="surface-card is teal-800 over a teal-900 page." />
+    <Card title="Cards on dark" description="surface-card is charcoal-800 over a charcoal-900 page." />
     <div style={{display: 'grid', gap: 8}}>
       <Banner status="danger" title="Overdue by 6h" />
       <Banner status="positive" title="Reply published" />
     </div>
   </div>
   <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>
-    <Button>Primary becomes mint</Button>
+    <Button>Primary becomes lime</Button>
     <Button variant="outline">Outline</Button>
     <StatusBadge status="warning">Due soon</StatusBadge>
   </div>
 </Demo>
 
-Set `data-atr-theme="dark"` on any ancestor to switch.
+Set `data-atr-theme="dark"` on any ancestor to switch. Agents keep their own face colors for now; their identity is not part of this system.
 
 ## Do and don't
 
 <DoDontRow>
-  <DoDont kind="do">
-    Use teal-800 for text and mint-400 on teal. Both clear 7:1.
-  </DoDont>
-  <DoDont kind="dont">
-    Use mint text on white, or amber text on anything. They fail contrast.
-  </DoDont>
-  <DoDont kind="do">
-    Use <Highlight>one</Highlight> amber marker swipe behind the word that matters.
-  </DoDont>
-  <DoDont kind="dont">
-    Use an amber field as an error. Amber is campaign; errors use the danger status.
-  </DoDont>
+  <DoDont kind="do">Use charcoal on cream, and cream on charcoal. Both clear 11:1.</DoDont>
+  <DoDont kind="dont">Use clay-500 or lime-600 as text on cream. They fail contrast.</DoDont>
+  <DoDont kind="do">Put <Highlight>one</Highlight> lime marker behind the word that matters.</DoDont>
+  <DoDont kind="dont">Use clay as the main button, or put two lime fields in one view.</DoDont>
 </DoDontRow>

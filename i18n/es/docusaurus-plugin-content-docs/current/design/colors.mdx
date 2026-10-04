@@ -1,50 +1,57 @@
 ---
 sidebar_position: 2
 title: "Colores"
-description: "La paleta de la marca, los roles semánticos, los colores de estado y de datos, y el tema oscuro."
+description: "La paleta, los roles semánticos, los colores de estado y de datos, y el tema oscuro."
 ---
 
-import {Swatches, SemanticTable, StatusTable, DataPalette, AgentIdentities, Demo, Card, Button, Chip, Badge, StatusBadge, Banner, DoDont, DoDontRow, Highlight, Eyebrow} from '@site/src/components/design';
+import {Swatches, SemanticTable, StatusTable, DataPalette, Demo, Card, Button, Chip, Badge, StatusBadge, Banner, DoDont, DoDontRow, Highlight, Eyebrow} from '@site/src/components/design';
 
-# *Colores*: tres anclas y un acento cálido
+# *Colores*: cuatro valores cargan la marca
 
-La marca es teal profundo, menta, cloud y ámbar. El producto añade un conjunto pequeño de colores de **estado**, porque un dashboard tiene que decir "bien" y "mal" y la paleta de la marca no tiene rojo ni verde. Cada valor de abajo vive en `src/design/tokens.ts`, y las propiedades CSS se generan desde ahí.
+**Carbón**, **crema**, **lima** y **arcilla**. El salvia se lleva para superficies cercanas a la textura. No hay negro ni blanco puro. Cada valor de abajo vive en `src/design/tokens.ts`, y las propiedades CSS se generan desde ahí.
 
-## La paleta de la marca
+## La paleta
 
-Cuatro familias. Usa el paso marcado como el color, y los demás como escalones a su alrededor.
+Usa el paso con nombre de cada familia como el color, y los demás como escalones a su alrededor.
 
-### Teal profundo: el ancla oscura
-<Swatches group="teal" />
+### Carbón: el ancla oscura
+<Swatches group="charcoal" />
 
-### Menta: el acento claro
-<Swatches group="mint" />
+### Crema: el papel
+<Swatches group="cream" />
 
-### Ámbar: el color de campaña
-<Swatches group="amber" />
+### Lima: la señal
+<Swatches group="lime" />
 
-### Cloud: el blanco frío
-<Swatches group="cloud" />
+### Arcilla: el secundario cálido
+<Swatches group="clay" />
+
+### Salvia
+<Swatches group="sage" />
+
+:::note Provisionales y una adición
+Lima y arcilla son provisionales en el sistema de origen hasta que se puedan leer los tableros de marca. `clay-700` es el único color añadido aquí, para texto arcilla sobre un tinte arcilla y el botón arcilla presionado. Ver [Tokens](./tokens#qué-es-nuestro).
+:::
 
 ## Cómo usarlos
 
-La combinación por defecto es **de dos tonos**: menta sobre teal, o teal sobre menta. El ámbar es una tercera voz, más rara.
+La combinación por defecto es **carbón sobre crema**. Lo inverso, **crema sobre carbón**, lleva bandas de pruebas, pies y aperturas de presentación. La lima y la arcilla son puntuación.
 
 <Demo surface="white" column>
   <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12}}>
-    <Card tone="teal" title="Menta sobre teal">Lo normal sobre oscuro. Titulares en menta, cuerpo en cloud.</Card>
-    <Card tone="mint" title="Teal sobre menta">Lo normal sobre un campo claro.</Card>
-    <Card tone="amber" title="Teal sobre ámbar">Un campo de campaña. Uno por vista.</Card>
-    <Card tone="cloud" title="Teal sobre cloud">Un área hundida dentro de una página.</Card>
+    <Card title="Carbón sobre crema">Lo normal. Papel con una línea fina.</Card>
+    <Card tone="dark" title="Crema sobre carbón">Bandas de pruebas y pies.</Card>
+    <Card tone="lime" title="Carbón sobre lima">La única tarjeta lima de una vista.</Card>
+    <Card tone="sunken" title="Sobre crema hundido">Un hueco dentro de una página.</Card>
   </div>
 </Demo>
 
 | Color | Parte de una pantalla | Se usa para |
 | --- | --- | --- |
-| Cloud y blanco | Cerca del 70% | Página, tarjetas, campos, tablas |
-| Teal profundo | Cerca del 20% | Texto, el chrome oscuro, el botón primario |
-| Menta | Cerca del 8% | Acento sobre oscuro, rellenos suaves, filas seleccionadas |
-| Ámbar | 2% o menos | Un resaltado, un campo de campaña, la insignia de conteo |
+| Crema | Cerca del 75% | La página, tarjetas, campos, tablas |
+| Carbón | Cerca del 20% | Texto, reglas, el botón primario, campos oscuros |
+| Lima | 4% o menos | Una llamada a la acción, un marcador, una tarjeta |
+| Arcilla | 1% o menos | Foco, errores, una cita, un conteo que necesita a una persona |
 
 ## Roles semánticos
 
@@ -61,7 +68,7 @@ Los componentes nunca leen un color crudo. Leen un rol, así una superficie oscu
 
 ## Colores de estado
 
-La marca no tiene rojo ni verde. Estos cinco son la **capa de producto**, tomados de los prototipos de Platform, Manager y Mobile. Son los únicos colores que llevan un significado.
+El sistema tiene una señal y un color cálido, y ningún verde, ámbar ni azul. Un dashboard igual tiene que decir "hecho" y "tarde", así que el estado se distingue por **relleno, una regla izquierda de 3 px y una marca**, nunca solo por el tono. Esta es la capa de producto, construida solo con la paleta.
 
 <StatusTable />
 
@@ -74,10 +81,8 @@ La marca no tiene rojo ni verde. Estos cinco son la **capa de producto**, tomado
 </Demo>
 
 :::caution El color nunca habla solo
-Un estado siempre tiene una palabra y una marca (un icono o un punto). Quien no distingue terracota de verde debe poder leer "Vencido" y ver una cruz. El texto sobre un tinte de estado siempre pasa 4.5:1; ver [Accesibilidad](./accessibility).
+Todo estado tiene una palabra y una marca. La lima se lee como positivo y la arcilla como tarde, pero quien no los distingue igual lee "Vencido" y ve la regla izquierda y el icono. El texto sobre un relleno de estado siempre pasa 4.5:1; ver [Accesibilidad](./accessibility).
 :::
-
-El ámbar es **campaña**, no **aviso**. Un aviso usa `status-warning` (una tinta ámbar sobre un tinte ámbar pálido), nunca un campo ámbar.
 
 ## Colores de datos
 
@@ -85,46 +90,32 @@ Para gráficos, en el orden en que se usan las series. Seis es el límite: más 
 
 <DataPalette />
 
-## Identidades de los agentes
-
-Cada agente tiene un color de cara y un color de tarjeta, compartidos con la home y el footer.
-
-<AgentIdentities />
-
 ## El tema oscuro
 
-Oscuro no es una inversión. Es el chrome del Manager y cualquier superficie teal profundo: se redefinen los roles y los colores de estado se aclaran para mantener el contraste sobre teal.
+Oscuro es un campo carbón, no una inversión. Se redefinen los roles: la página es `charcoal-900`, las tarjetas son `charcoal-800`, las cifras y la acción primaria pasan a lima, y los colores de estado se aclaran para mantener el contraste.
 
 <Demo surface="dark" column>
   <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12}}>
-    <Card bordered title="Tarjetas sobre oscuro" description="surface-card es teal-800 sobre una página teal-900." />
+    <Card title="Tarjetas sobre oscuro" description="surface-card es charcoal-800 sobre una página charcoal-900." />
     <div style={{display: 'grid', gap: 8}}>
       <Banner status="danger" title="Vencido hace 6h" />
       <Banner status="positive" title="Respuesta publicada" />
     </div>
   </div>
   <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>
-    <Button>El primario pasa a menta</Button>
+    <Button>El primario pasa a lima</Button>
     <Button variant="outline">Contorno</Button>
     <StatusBadge status="warning">Vence pronto</StatusBadge>
   </div>
 </Demo>
 
-Pon `data-atr-theme="dark"` en cualquier ancestro para cambiar.
+Pon `data-atr-theme="dark"` en cualquier ancestro para cambiar. Los agentes conservan por ahora los colores de su cara; su identidad no es parte de este sistema.
 
 ## Haz y no hagas
 
 <DoDontRow>
-  <DoDont kind="do">
-    Usa teal-800 para el texto y mint-400 sobre teal. Los dos superan 7:1.
-  </DoDont>
-  <DoDont kind="dont">
-    Usar texto menta sobre blanco, o texto ámbar sobre cualquier cosa. No cumplen el contraste.
-  </DoDont>
-  <DoDont kind="do">
-    Usa <Highlight>un</Highlight> trazo de marcador ámbar detrás de la palabra que importa.
-  </DoDont>
-  <DoDont kind="dont">
-    Usar un campo ámbar como error. El ámbar es campaña; los errores usan el estado de peligro.
-  </DoDont>
+  <DoDont kind="do">Usa carbón sobre crema, y crema sobre carbón. Ambos superan 11:1.</DoDont>
+  <DoDont kind="dont">Usar clay-500 o lime-600 como texto sobre crema. No cumplen el contraste.</DoDont>
+  <DoDont kind="do">Pon <Highlight>un</Highlight> marcador lima detrás de la palabra que importa.</DoDont>
+  <DoDont kind="dont">Usar la arcilla como botón principal, o poner dos campos lima en una vista.</DoDont>
 </DoDontRow>

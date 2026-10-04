@@ -1,7 +1,7 @@
 ---
 sidebar_position: 11
 title: "Navigation"
-description: "Tabs, segmented control, breadcrumbs, pagination, side navigation and top bar."
+description: "Tabs, underline tabs, segmented control, breadcrumbs, pagination, side navigation and top bar."
 ---
 
 import {useState} from 'react';
@@ -11,7 +11,7 @@ import {Demo, Tabs, UnderlineTabs, Segmented, Breadcrumbs, Pager, ShellPattern, 
 
 ## Tabs
 
-Pill **tabs** filter or switch views of the **same** list, with a count when it helps. The selected tab is filled teal. They are a `tablist`: arrow keys move, and the selected tab is the one in the tab order.
+Filter tabs are **chips**, the only pill: they switch views of the **same** list, with a count when it helps. The selected tab is filled charcoal. They are a `tablist`.
 
 export const TabsDemo = () => {
   const [v, setV] = useState('active');
@@ -25,7 +25,7 @@ export const TabsDemo = () => {
 
 ## Underline tabs
 
-For **sections of a page** (Overview, Reviews, Settings). Quieter than pills, they sit on a hairline.
+For **sections of a page** (Overview, Reviews, Settings). Wide-caps labels on a hairline; the current one has the 3 px rule under it.
 
 export const UnderlineDemo = () => {
   const [v, setV] = useState('overview');
@@ -36,7 +36,7 @@ export const UnderlineDemo = () => {
 
 ## Segmented control
 
-A small switch between **two to four options** that change how the same data is shown (a range, a view). It is a button group with `aria-pressed`, not tabs.
+A small switch between **two to four options** that change how the same data is shown (a range, a view). A squared 1 px ink group with `aria-pressed`, not tabs.
 
 export const SegDemo = () => {
   const [v, setV] = useState('30d');
@@ -47,13 +47,13 @@ export const SegDemo = () => {
 
 ## Breadcrumbs
 
-Show the path in a deep area (Manager: Clients, Casa Olivo, Reviews). The last item is the current page, not a link.
+The path in a deep area, as wide-caps labels. The last item is the current page, not a link.
 
 <Demo surface="white"><Breadcrumbs items={['Clients', 'Casa Olivo', 'Reviews']} /></Demo>
 
 ## Pagination
 
-For long lists where a person looks for a row. Prefer filters and search first; use infinite scroll only for feeds.
+For long lists where a person looks for a row. Prefer filters and search first.
 
 export const PagerDemo = () => {
   const [p, setP] = useState(2);
@@ -64,17 +64,17 @@ export const PagerDemo = () => {
 
 ## Side navigation and top bar
 
-The Manager's chrome: a **deep teal** side navigation with the current page in mint, group titles in spread caps, and an amber **count** for what needs a person. The top bar holds search and the person. Below `lg` the side navigation moves into a menu button.
+The Manager's chrome: a **charcoal** side navigation with the typographic wordmark, the current page in lime with a 3 px lime edge, group titles as wide-caps labels, and a **clay count** for the work waiting on a person. The top bar holds search and the person. Below `lg` the side navigation moves into a menu button.
 
-<Demo surface="white">
+<Demo surface="light">
   <ShellPattern />
 </Demo>
 
 | Part | Rule |
 | --- | --- |
-| Current page | `aria-current="page"`, mint text and a 3 px mint edge |
-| Count badge | Amber, only for work waiting on a person, hidden at zero |
-| Groups | At most four, with a title in spread caps |
+| Current page | `aria-current="page"`, lime text and a 3 px lime edge |
+| Count badge | Clay, only for work waiting on a person, hidden at zero |
+| Groups | At most four, with a wide-caps title |
 | Labels | One or two words, nouns: "Cases", "Approvals" |
 
 <DoDontRow>

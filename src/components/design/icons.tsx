@@ -7,7 +7,7 @@ import {
 import {Atr} from './ui';
 import {useLang} from './docs';
 
-/** The icons the product uses, by job. Lucide, stroke 1.75, rounded caps. Add here before using one. */
+/** The icons the product uses, by job. Lucide, stroke 1.5, currentColor. Add here before using one. */
 const groups: {title: {en: string; es: string}; icons: [string, LucideIcon][]}[] = [
   {title: {en: 'Navigation', es: 'Navegación'}, icons: [['Home', Home], ['LayoutDashboard', LayoutDashboard], ['Building2', Building2], ['Users', Users], ['MapPin', MapPin], ['Menu', Menu], ['ChevronRight', ChevronRight], ['ArrowRight', ArrowRight], ['Search', Search], ['Settings', Settings]]},
   {title: {en: 'Actions', es: 'Acciones'}, icons: [['Plus', Plus], ['Pencil', Pencil], ['Trash2', Trash2], ['Copy', Copy], ['Download', Download], ['Upload', Upload], ['Send', Send], ['Check', Check], ['X', X], ['RefreshCw', RefreshCw], ['Filter', Filter]]},
@@ -25,7 +25,7 @@ export default function IconGrid() {
           <div className="design-icons__grid">
             {g.icons.map(([name, Icon]) => (
               <Atr key={name} className="design-icon">
-                <Icon size={24} strokeWidth={1.75} aria-hidden="true" />
+                <Icon size={24} strokeWidth={1.5} aria-hidden="true" />
                 <code>{name}</code>
               </Atr>
             ))}

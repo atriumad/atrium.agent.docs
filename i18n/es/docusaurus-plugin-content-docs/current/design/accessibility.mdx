@@ -1,31 +1,37 @@
 ---
 sidebar_position: 14
 title: "Accesibilidad"
-description: "El objetivo (WCAG 2.2 AA), el contraste medido de cada combinación y las reglas de foco, objetivos, movimiento y significado."
+description: "El objetivo (WCAG 2.2 AA), el contraste medido de cada combinación, dónde se queda corto el sistema y las reglas de foco, objetivos, movimiento y significado."
 ---
 
 import {ContrastTable, Demo, Button, Input, StatusBadge, DoDont, DoDontRow} from '@site/src/components/design';
 
 # *Accesibilidad*: incorporada y medida
 
-El objetivo es **WCAG 2.2 nivel AA** en cada superficie. Es más fácil de cumplir cuando forma parte de los tokens, así que la mayor parte ya está decidida aquí.
+El objetivo es **WCAG 2.2 nivel AA** en cada superficie. La mayor parte está decidida en los tokens, y medida.
 
 ## Contraste
 
-Calculado desde los valores reales de los tokens en cada generación: `bun scripts/build-tokens.ts` falla si una combinación de la lista de guarda baja de su mínimo. El texto necesita **4.5:1** (7:1 es AAA); las partes de interfaz como bordes y anillos de foco necesitan **3:1**.
+Calculado desde los valores reales de los tokens: `bun run tokens:check` falla si una combinación de la que depende el producto baja de su mínimo. El texto necesita **4.5:1** (7:1 es AAA); las partes de interfaz como bordes de campo y anillos de foco necesitan **3:1**. Las últimas filas son combinaciones del propio sistema que se quedan cortas. Ningún componente las usa.
 
 <ContrastTable />
 
-Lo que decide la tabla:
+## Dónde se queda corto el sistema, y qué hacemos
 
-- **La menta y el ámbar nunca son texto sobre un fondo claro.** La menta sobre blanco es de cerca de 1.2:1; el ámbar sobre blanco, cerca de 1.9:1. Son rellenos, con texto teal encima.
-- **`text-muted` (teal-500) es solo para texto secundario**, sobre blanco, cloud-200 y cloud-300. Pasa en las tres; no lo uses sobre menta ni ámbar.
-- **La línea fina decorativa no pasa 3:1, a propósito.** Una línea fina no es lo que identifica un control. El borde de un campo usa `teal-500`.
-- **Los colores de estado pasan sobre su propio tinte**, y se aclaran sobre oscuro para seguir pasando.
+| La combinación del sistema | Ratio | Qué hace el producto |
+| --- | --- | --- |
+| Crema sobre clay-500: el botón y la tarjeta arcilla | 3.8:1 | El botón se rellena con **clay-600** (5.2:1). El texto de una tarjeta arcilla es de **24 px o más**, o la tarjeta usa el tinte clay-200 |
+| Clay-600 sobre clay-200: el chip arcilla | 4.1:1 | El texto del chip es **clay-700** (5.3:1) |
+| Clay-500 como texto sobre crema | 3.5:1 | La arcilla es un relleno, una regla, un anillo y un borde de error. El **texto** de error es clay-600 (5.2:1) |
+| Lime-600 como texto sobre crema: el eyebrow lima | 1.4:1 | El eyebrow lima solo aparece sobre un campo carbón, donde lime-500 es 11.6:1 |
+| La línea fina crema como borde de campo | 1.5:1 | Los campos usan `--field-border`, charcoal-500 (6.1:1). Las tarjetas y las reglas conservan la línea fina |
+| Línea fina charcoal-500 como borde de campo sobre oscuro | 2.3:1 | Los campos oscuros usan charcoal-400 (4.7:1) |
+
+Nada de esto cambia el aspecto del sistema: mueve un color de texto o un relleno un paso.
 
 ## Foco
 
-Toda parte interactiva muestra un indicador de foco visible: un **anillo teal de 2 px, separado 2 px, con un halo ámbar** (anillo menta sobre oscuro). Nunca quites el contorno sin reemplazarlo. El orden del foco sigue el orden de lectura, y un diálogo atrapa el foco, lo devuelve y se cierra con Escape.
+Toda parte interactiva muestra un indicador de foco visible: un **contorno arcilla de 2 px, a 2 px de distancia**. La arcilla es 3.5:1 sobre crema y 3.8:1 sobre carbón, suficiente para una parte de interfaz. Nunca quites el contorno sin reemplazarlo. El orden del foco sigue el orden de lectura, y un diálogo atrapa el foco, lo devuelve y se cierra con Escape.
 
 <Demo surface="white">
   <Button>Pulsa Tab</Button>
@@ -50,22 +56,21 @@ Toda parte interactiva muestra un indicador de foco visible: un **anillo teal de
 
 ## El significado nunca va solo en el color
 
-Un estado lleva una **palabra y una marca**. Una tendencia lleva una **flecha y un signo**. Un gráfico tiene **etiquetas o anotación directa**, y una alternativa de texto que lista sus valores. Los estados seleccionado y actual también cambian de forma o de peso (una píldora rellena, un borde, `aria-current`).
+Un estado lleva una **palabra, un relleno, una regla izquierda de 3 px y una marca**. Una tendencia lleva una **flecha y un signo**. Un gráfico tiene **etiquetas o anotación directa**, y una alternativa de texto que lista sus valores. Los estados seleccionado y actual también cambian de forma o de relleno (un chip relleno, un borde lima, `aria-current`).
 
 ## Movimiento
 
-Las duraciones son tokens. Con `prefers-reduced-motion: reduce` pasan a `0ms`, la escala al pulsar pasa a `1`, el brillo del skeleton se detiene y nada entra deslizándose. Nunca hay destellos por encima de tres veces por segundo. El movimiento nunca lleva la única señal.
+Las duraciones son tokens. Con `prefers-reduced-motion: reduce` pasan a `0ms`, el desplazamiento al pulsar pasa a `0`, el brillo del skeleton se detiene y nada entra moviéndose. Nunca hay destellos por encima de tres veces por segundo.
 
 ## Formularios
 
-Una **etiqueta visible** en cada control, nunca solo un placeholder. El **texto de error** se liga con `aria-describedby`, se anuncia con `role="alert"` y se escribe como una solución. Obligatorio es lo normal; lo opcional se marca. Usa el `type`, el `inputmode` y el `autocomplete` correctos. No cierres un formulario por tiempo sin avisar.
+Una **etiqueta visible** en cada control, nunca solo un placeholder. El **texto de error** se liga con `aria-describedby`, se anuncia con `role="alert"` y se escribe como una solución. Obligatorio es lo normal; lo opcional se marca. Usa el `type`, el `inputmode` y el `autocomplete` correctos.
 
 ## Contenido
 
 - Minúscula de oración, palabras sencillas, una idea por frase.
 - El texto de un enlace tiene sentido solo ("Leer el caso", no "Haz clic aquí").
-- Las imágenes que llevan significado tienen texto alternativo; las decorativas llevan `alt=""`. La marca y las caras de los agentes tienen nombre.
-- Pon `lang` en la página, y en una frase en otro idioma.
+- Las imágenes que llevan significado tienen texto alternativo; las decorativas llevan `alt=""`.
 - Los números conservan unidades y contexto: "4.6 de 5", no "4.6".
 
 ## Revisar un componente
@@ -75,9 +80,9 @@ Una **etiqueta visible** en cada control, nunca solo un placeholder. El **texto 
 3. Activa el movimiento reducido: nada se mueve.
 4. Léelo con un lector de pantalla: nombre, rol, estado y valor se pronuncian.
 5. Míralo en escala de grises: cada estado sigue claro.
-6. Revisa las combinaciones de la tabla de arriba si añades una nueva de color.
+6. Si añades una combinación de color, añádela a la lista de guarda de <code>scripts/build-tokens.ts</code>.
 
 <DoDontRow>
-  <DoDont kind="do">Añade una nueva combinación de texto y fondo a la lista de guarda de <code>scripts/build-tokens.ts</code>.</DoDont>
-  <DoDont kind="dont">Publicar una combinación "casi 4.5:1". Cambia el color.</DoDont>
+  <DoDont kind="do">Combina un relleno nuevo con un color de texto que supere 4.5:1, y añádelo a la guarda.</DoDont>
+  <DoDont kind="dont">Publicar una combinación "casi suficiente". Mueve el color un paso.</DoDont>
 </DoDontRow>

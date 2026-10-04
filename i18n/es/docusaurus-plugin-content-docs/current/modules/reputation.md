@@ -78,7 +78,7 @@ Decisiones tomadas al construirlo:
 - **El comentario del guest es dato.** Se dibuja como texto plano, nunca como marcado, y nunca se lee como instrucción (ver `untrusted_input` de Recovery).
 - **El objetivo de 24 horas es visible.** Los casos abiertos cuentan hacia atrás y se marcan urgentes en las últimas cuatro horas; pasado el objetivo se señalan. Los casos contactados y resueltos no tienen reloj.
 - **Un origen por pantalla.** Cada app hace proxy de `/api` hacia la API, así la cookie de sesión es del mismo origen y la API no necesita CORS. El inicio de sesión es Better Auth en `/api/auth/*`.
-- **Los tokens son provisionales.** El aspecto usa el tema del producto (crema, tinta, lima, ámbar) en `packages/ui/src/theme.css`. La [decisión 15](../plan/open-decisions) sigue abierta; cambiar los valores de ese archivo mueve todas las superficies.
+- **El aspecto es el del sistema de diseño ATRIUM AD** ([ADR 0019](../adr/0019-one-token-set)): botones rectos, una regla de 3 px, cifras en serif, arcilla para el foco. Las pantallas de casos de `packages/ui` todavía usan un tema anterior y pasan a este cuando se adopten los tokens.
 
 Rutas: `GET /api/me`, `GET /api/cases`, `GET /api/cases/:id`, `POST /api/cases/:id/advance` (`to`: `contacted` o `resolved`, `note` opcional de hasta 1000 caracteres). Un caso resuelto no puede volver a moverse (`409`).
 

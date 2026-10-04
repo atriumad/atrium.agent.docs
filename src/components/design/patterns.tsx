@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import {useLang} from './docs';
 import {
-  Atr, Avatar, Badge, Banner, Button, Card, Chip, DataTable, Delta, EmptyState, Input, Progress,
+  Atr, Avatar, Badge, Banner, Button, Card, Chip, DataTable, Emphasis, Wordmark, Delta, EmptyState, Input, Progress,
   ScoreRing, Segmented, SideNav, Skeleton, Stat, StatusBadge, Tabs, Textarea, Select, Check, Switch, Bars,
 } from './ui';
 
@@ -43,12 +43,12 @@ export function CasesPattern({state = 'ready'}: {state?: 'ready' | 'empty' | 'lo
   const [sel, setSel] = useState<string | null>('a');
   const shown = state === 'ready' ? rows.filter((r) => tab === 'active' ? r.status !== 'resolved' : r.status === tab) : [];
   const current = rows.find((r) => r.id === sel);
-  const sevBadge = (r: Row) => <Badge tone={r.sev === 'high' ? 'teal' : r.sev === 'medium' ? 'amber' : 'cloud'}>{t[r.sev]}</Badge>;
+  const sevBadge = (r: Row) => <Badge variant={r.sev === 'high' ? 'clay' : r.sev === 'medium' ? 'ink' : 'quiet'}>{t[r.sev]}</Badge>;
   return (
     <Atr style={{width: '100%'}}>
       <div style={{display: 'flex', flexDirection: 'column', gap: 16}}>
         <div>
-          <h3 style={{margin: 0, fontFamily: 'var(--font-serif)', fontWeight: 400, fontSize: '2rem', letterSpacing: '-0.01em', color: 'var(--text-strong)'}}>{t.cases}</h3>
+          <h3 style={{margin: 0, fontWeight: 400, fontSize: '2rem', lineHeight: 1.05, letterSpacing: 'var(--tracking-tight)', color: 'var(--text-strong)'}}>{t.cases}</h3>
           <p style={{margin: '2px 0 0', fontSize: 14, color: 'var(--text-muted)'}}>{t.casesLead}</p>
         </div>
         {state === 'ready' ? <Banner status="warning" title={lang === 'es' ? '1 caso pasó el objetivo de 24 horas' : '1 case is past the 24-hour target'} /> : null}
@@ -59,7 +59,7 @@ export function CasesPattern({state = 'ready'}: {state?: 'ready' | 'empty' | 'lo
         <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, alignItems: 'start'}}>
           <ul style={{listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 8}} aria-label={t.cases} aria-busy={state === 'loading' || undefined}>
             {state === 'loading' ? [0, 1, 2].map((i) => (
-              <li key={i}><Card pad="md" bordered><div style={{display: 'grid', gap: 10}}><Skeleton width={60} height={18} /><Skeleton width="70%" /><Skeleton width="45%" /></div></Card></li>
+              <li key={i}><Card padding="sm"><div style={{display: 'grid', gap: 10}}><Skeleton width={60} height={18} /><Skeleton width="70%" /><Skeleton width="45%" /></div></Card></li>
             )) : null}
             {state === 'empty' || (state === 'ready' && shown.length === 0) ? (
               <li><EmptyState icon={<CheckCircle2 size={22} />} title={t.empty}>{t.emptyBody}</EmptyState></li>
@@ -67,10 +67,10 @@ export function CasesPattern({state = 'ready'}: {state?: 'ready' | 'empty' | 'lo
             {shown.map((r) => (
               <li key={r.id}>
                 <button type="button" onClick={() => setSel(r.id)} aria-current={sel === r.id} style={{all: 'unset', display: 'block', width: '100%', cursor: 'pointer', boxSizing: 'border-box'}}>
-                  <Card pad="md" bordered={sel !== r.id} elevation={sel === r.id ? 'soft' : undefined}>
+                  <Card padding="sm" tone={sel === r.id ? 'ruled' : 'paper'} elevation={sel === r.id ? 'offset' : 'flat'}>
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                       {sevBadge(r)}
-                      <span aria-label={`${r.stars} / 5`} style={{display: 'inline-flex', gap: 2, color: 'var(--teal-800)'}}>
+                      <span aria-label={`${r.stars} / 5`} style={{display: 'inline-flex', gap: 2, color: 'var(--charcoal-800)'}}>
                         {[1, 2, 3, 4, 5].map((n) => <Star key={n} size={14} fill={n <= r.stars ? 'currentColor' : 'none'} strokeWidth={1.75} style={{opacity: n <= r.stars ? 1 : 0.3}} />)}
                       </span>
                     </div>
@@ -85,8 +85,8 @@ export function CasesPattern({state = 'ready'}: {state?: 'ready' | 'empty' | 'lo
             ))}
           </ul>
           {state === 'ready' && current ? (
-            <Card bordered>
-              <h4 className="atr-card__title" style={{fontFamily: 'var(--font-serif)', fontWeight: 400, fontSize: '1.5rem'}}>{current.place}</h4>
+            <Card>
+              <h4 className="atr-card__title">{current.place}</h4>
               <p className="atr-card__desc">{t[current.status]} · {t.opened} {current.age}</p>
               <p className="atr-eyebrow" style={{margin: '16px 0 6px'}}>{t.guestWrote}</p>
               <blockquote style={{margin: 0, padding: '10px 14px', borderRadius: 8, background: 'var(--surface-sunken)', borderLeft: '3px solid var(--border-light)', fontSize: 14}}>{current.text}</blockquote>
@@ -114,16 +114,16 @@ export function DashboardPattern() {
       <div style={{display: 'grid', gap: 16}}>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 12}}>
           <div>
-            <div className="atr-eyebrow">Casa Olivo · Bellaire</div>
-            <h3 style={{margin: '4px 0 0', fontFamily: 'var(--font-serif)', fontWeight: 400, fontSize: '2.25rem', color: 'var(--text-strong)'}}>{es ? 'Buenos días, ' : 'Good morning, '}<em>Marco</em></h3>
+            <span className="atr-eyebrow">Casa Olivo · Bellaire</span>
+            <h3 style={{margin: '8px 0 0', fontWeight: 400, fontSize: '2.75rem', lineHeight: 1.05, letterSpacing: 'var(--tracking-tight)', color: 'var(--text-strong)'}}>{es ? 'Buenos días, ' : 'Good morning, '}<Emphasis>Marco</Emphasis></h3>
           </div>
           <Segmented label="Range" value="30d" onChange={() => undefined} items={[{id: '7d', label: es ? '7 días' : '7 days'}, {id: '30d', label: es ? '30 días' : '30 days'}, {id: '90d', label: es ? '90 días' : '90 days'}]} />
         </div>
         <div style={{display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))'}}>
-          <Card bordered>
+          <Card>
             <div style={{display: 'flex', alignItems: 'center', gap: 16}}>
               <ScoreRing value={72} label="Growth Score" />
-              <div><div className="atr-eyebrow">Growth Score</div><p style={{margin: '4px 0 0', fontSize: 13, color: 'var(--text-muted)'}}>{es ? '+4 este mes' : '+4 this month'}</p></div>
+              <div><span className="atr-eyebrow atr-eyebrow--norule">Growth Score</span><p style={{margin: '4px 0 0', fontSize: 13, color: 'var(--text-muted)'}}>{es ? '+4 este mes' : '+4 this month'}</p></div>
             </div>
           </Card>
           <Stat label={es ? 'Reseñas nuevas' : 'New reviews'} value="38" delta={12} spark={[4, 6, 5, 8, 7, 11, 13]} />
@@ -131,10 +131,10 @@ export function DashboardPattern() {
           <Stat label={es ? 'Casos abiertos' : 'Open cases'} value="3" delta={-25} goodWhen="down" note={es ? '1 vencido' : '1 overdue'} />
         </div>
         <div style={{display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'}}>
-          <Card bordered title={es ? 'Pedidos por semana' : 'Orders per week'} description={es ? 'De Toast, últimas 6 semanas' : 'From Toast, last 6 weeks'}>
+          <Card title={es ? 'Pedidos por semana' : 'Orders per week'} description={es ? 'De Toast, últimas 6 semanas' : 'From Toast, last 6 weeks'}>
             <div style={{marginTop: 12, overflowX: 'auto'}}><Bars data={[{label: 'W1', value: 412}, {label: 'W2', value: 438}, {label: 'W3', value: 401}, {label: 'W4', value: 466}, {label: 'W5', value: 490}, {label: 'W6', value: 512}]} /></div>
           </Card>
-          <Card tone="mint" title={es ? 'Lo siguiente' : 'Up next'}>
+          <Card tone="lime" title={es ? 'Lo siguiente' : 'Up next'}>
             <ul style={{margin: '10px 0 0', paddingLeft: 18, fontSize: 14, display: 'grid', gap: 6}}>
               <li>{es ? 'Aprueba la respuesta a la reseña de 2 estrellas' : 'Approve the reply to the 2-star review'}</li>
               <li>{es ? 'Revisa el post del jueves' : 'Review Thursday’s post'}</li>
@@ -207,7 +207,7 @@ export function ShellPattern() {
     <Atr style={{width: '100%'}}>
       <div style={{display: 'grid', gridTemplateColumns: '240px 1fr', gap: 16, alignItems: 'stretch'}}>
         <SideNav
-          brand={<><span style={{fontFamily: 'var(--font-sans)'}}>atrium</span><Badge tone="amber">Manager</Badge></>}
+          brand={<><Wordmark size="sm" tone="cream" /><Badge variant="quiet">Manager</Badge></>}
           current="portfolio"
           groups={[
             {items: [{id: 'portfolio', label: es ? 'Cartera' : 'Portfolio', icon: <LayoutDashboard size={18} />}, {id: 'clients', label: es ? 'Clientes' : 'Clients', icon: <Users size={18} />}, {id: 'cases', label: es ? 'Casos' : 'Cases', icon: <MessageSquare size={18} />, count: 3}]},
@@ -220,8 +220,8 @@ export function ShellPattern() {
             <div className="atr-topbar__search"><Input small label="Search" placeholder={es ? 'Buscar…' : 'Search…'} /></div>
             <span style={{marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 10}}><Button iconOnly variant="ghost" size="sm" icon={<Search size={16} />}>Search</Button><Avatar name="Dana Ruiz" /></span>
           </div>
-          <Card bordered title={es ? 'Cartera' : 'Portfolio'} description={es ? 'Los clientes que necesitan a una persona primero.' : 'The clients that need a person first.'}>
-            <div style={{marginTop: 12, display: 'grid', gap: 10}}><Progress value={72} label="Score" /><Progress value={46} tone="amber" label="Tasks" /></div>
+          <Card title={es ? 'Cartera' : 'Portfolio'} description={es ? 'Los clientes que necesitan a una persona primero.' : 'The clients that need a person first.'}>
+            <div style={{marginTop: 12, display: 'grid', gap: 10}}><Progress value={72} label="Score" /><Progress value={46} tone="clay" label="Tasks" /></div>
           </Card>
         </div>
       </div>
