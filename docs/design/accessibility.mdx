@@ -1,0 +1,83 @@
+---
+sidebar_position: 14
+title: "Accessibility"
+description: "The target (WCAG 2.2 AA), the measured contrast of every pairing, and the rules for focus, targets, motion and meaning."
+---
+
+import {ContrastTable, Demo, Button, Input, StatusBadge, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Accessibility*: built in, measured
+
+The target is **WCAG 2.2 level AA** on every surface. It is easier to meet when it is part of the tokens, so most of it is already decided here.
+
+## Contrast
+
+Computed from the real token values on every build of the tokens: `bun scripts/build-tokens.ts` fails if a pairing in the guard list drops below its minimum. Text needs **4.5:1** (7:1 is AAA); interface parts such as borders and focus rings need **3:1**.
+
+<ContrastTable />
+
+What the table decides:
+
+- **Mint and amber are never text on a light background.** Mint on white is about 1.2:1; amber on white about 1.9:1. They are fills, with teal text on top.
+- **`text-muted` (teal-500) is for secondary text only**, on white, cloud-200 and cloud-300. It passes on all three; do not use it on mint or amber.
+- **The decorative hairline fails 3:1 on purpose.** A hairline is not what identifies a control. A field's border uses `teal-500` instead.
+- **Status colors pass on their own tint**, and lighten on dark so they still pass.
+
+## Focus
+
+Every interactive part shows a visible focus indicator: a **2 px teal ring, offset 2 px, with an amber halo** (mint ring on dark). Never remove the outline without replacing it. Focus order follows reading order, and a dialog traps focus, returns it, and closes on Escape.
+
+<Demo surface="white">
+  <Button>Press Tab</Button>
+  <Button variant="outline">to move focus</Button>
+  <Input small label="Search" placeholder="Then type" />
+</Demo>
+
+## Keyboard
+
+| Component | Keys |
+| --- | --- |
+| Button, chip, link | Enter, Space |
+| Tabs | Arrow keys move, Home and End jump |
+| Menu | Arrows move, Enter chooses, Escape closes |
+| Dialog | Tab cycles inside, Escape closes |
+| Switch, checkbox | Space |
+| Radio group | Arrows move and select |
+
+## Target size
+
+**44 by 44 px** on touch surfaces (the Hub, the survey, mobile). **24 by 24 px at minimum** on desktop (WCAG 2.5.8), with spacing so neighbors do not overlap. Small visuals get a larger hit area.
+
+## Meaning is never in color alone
+
+A status has a **word and a mark**. A trend has an **arrow and a sign**. A chart has **labels or direct annotation**, and a text alternative that lists its values. Selected and current states change shape or weight too (a filled pill, an edge, `aria-current`).
+
+## Motion
+
+Durations are tokens. With `prefers-reduced-motion: reduce` they become `0ms`, the press scale becomes `1`, skeleton shimmer stops and nothing slides in. No flashing above three times a second, ever. Motion never carries the only signal.
+
+## Forms
+
+A **visible label** on every control, never only a placeholder. **Error text** is linked with `aria-describedby`, announced with `role="alert"`, and written as a fix. Required is the default; optional is marked. Use the right `type`, `inputmode` and `autocomplete`. Do not time out a form without warning.
+
+## Content
+
+- Sentence case, plain words, one idea per sentence.
+- Link text makes sense alone ("Read the case", not "Click here").
+- Images that carry meaning have alt text; decorative ones have `alt=""`. The mark and agent faces have names.
+- Set `lang` on the page, and on a phrase in another language.
+- Numbers keep units and context: "4.6 out of 5", not "4.6".
+
+## Checking a component
+
+1. Tab to it and use it with the keyboard only.
+2. Zoom to 200% and to a 320 px width: nothing is lost or overlaps.
+3. Turn on reduced motion: nothing moves.
+4. Read it with a screen reader: name, role, state and value are all spoken.
+5. Look at it in grayscale: every state is still clear.
+6. Check the pairings in the table above if you add a new color combination.
+
+<DoDontRow>
+  <DoDont kind="do">Add a new text and background pairing to the guard list in <code>scripts/build-tokens.ts</code>.</DoDont>
+  <DoDont kind="dont">Ship a pairing that is "close enough" to 4.5:1. Change the color.</DoDont>
+</DoDontRow>

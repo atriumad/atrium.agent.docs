@@ -1,0 +1,122 @@
+---
+sidebar_position: 9
+title: "Visualización de datos"
+description: "Tarjeta, stat, delta, sparkline, barras, anillo de score, tabla, avatar y progreso."
+---
+
+import {Demo, Card, Stat, Delta, Sparkline, Bars, ScoreRing, DataTable, Avatar, Progress, StatusBadge, Skeleton, DoDont, DoDontRow, Atr} from '@site/src/components/design';
+
+# *Visualización de datos*: muestra lo que importa
+
+La Platform y el Manager son sobre todo números. Muestra el que importa, grande y en la serif; muestra el resto en voz baja.
+
+## Tarjeta
+
+El contenedor suave del contenido: radio de **14 px**, plana, guiada por el color. La elevación viene del color del campo, y de una línea fina cuando una tarjeta blanca está sobre una página blanca.
+
+<Demo surface="light" column code={`<Card title="Título" description="Línea de apoyo">...</Card>
+<Card tone="mint" title="Sobre menta" />
+<Card tone="teal" title="Sobre teal" />
+<Card bordered elevation="soft" />      // flota un poco
+<Card hover />                          // sube al pasar el cursor (solo tesela clicable)`}>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12}}>
+    <Card bordered title="Claro" description="Blanco con una línea fina." />
+    <Card tone="cloud" title="Cloud" description="Un hueco hundido." />
+    <Card tone="mint" title="Menta" description="Un campo menta." />
+    <Card tone="teal" title="Teal" description="Un campo oscuro." />
+    <Card tone="amber" title="Ámbar" description="Un campo de campaña." />
+    <Card bordered hover title="Pasa el cursor" description="Una tesela clicable sube 5 px." />
+  </div>
+</Demo>
+
+| Prop | Valores | Notas |
+| --- | --- | --- |
+| `tone` | `light` `cloud` `mint` `amber` `teal` `aurora` `aurora-cool` `aurora-deep` | La aurora es para marketing y el Hub |
+| `pad` | `sm` 16 \| `md` 20 \| por defecto 28 | Las tarjetas de producto usan `md` |
+| `bordered` | boolean | Una línea de 1 px `border-light` |
+| `elevation` | `soft` \| `float` | Solo para teselas que flotan |
+| `hover` | boolean | Solo si toda la tarjeta es un enlace |
+
+## Stat
+
+Una etiqueta, una **cifra grande en serif**, una unidad opcional, un delta y una tendencia. Una stat responde una pregunta.
+
+<Demo surface="light" code={`<Stat label="Reseñas nuevas" value="38" delta={12} spark={[4,6,5,8,7,11,13]} />
+<Stat label="Casos abiertos" value="3" delta={-25} goodWhen="down" note="1 vencido" />`}>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16, width: '100%'}}>
+    <Stat label="Reseñas nuevas" value="38" delta={12} spark={[4, 6, 5, 8, 7, 11, 13]} />
+    <Stat label="Nota media" value="4.6" unit="/ 5" delta={2} spark={[4.2, 4.3, 4.3, 4.4, 4.5, 4.5, 4.6]} />
+    <Stat label="Casos abiertos" value="3" delta={-25} goodWhen="down" note="1 vencido" />
+    <Stat label="Tiempo de respuesta" value="2.4" unit="h" delta={0} />
+  </div>
+</Demo>
+
+### Delta
+
+La flecha muestra la **dirección**; el color muestra **si es bueno**. Menos casos abiertos es hacia abajo y bueno, así que va en verde con una flecha hacia abajo. Quien no ve el color igual lee la flecha, el signo y las palabras (ocultas a la vista) "up" o "down".
+
+<Demo surface="white">
+  <Delta value={12} /><Delta value={-4} /><Delta value={-25} goodWhen="down" /><Delta value={0} />
+</Demo>
+
+## Gráficos
+
+Las barras y las sparklines se dibujan en SVG con la paleta de datos, con el último punto en ámbar. Todo gráfico tiene una **etiqueta de texto** (`aria-label`) con sus valores, para que se pueda leer sin vista.
+
+<Demo surface="white">
+  <Card bordered title="Pedidos por semana" description="De Toast, últimas 6 semanas">
+    <div style={{marginTop: 12, overflowX: 'auto'}}><Bars data={[{label: 'S1', value: 412}, {label: 'S2', value: 438}, {label: 'S3', value: 401}, {label: 'S4', value: 466}, {label: 'S5', value: 490}, {label: 'S6', value: 512}]} /></div>
+  </Card>
+  <Sparkline label="Tendencia de reseñas" values={[4, 6, 5, 8, 7, 11, 13]} width={160} height={40} />
+</Demo>
+
+Reglas: empieza el eje en cero en las barras; etiqueta directamente en lugar de una leyenda cuando hay dos series o menos; usa como máximo seis series (ver [Colores](./colors#colores-de-datos)).
+
+## Anillo de score
+
+El Growth Score como un anillo con la cifra en la serif. El riel es cloud; el arco es teal profundo.
+
+<Demo surface="white">
+  <ScoreRing value={72} label="Growth Score" />
+  <ScoreRing value={48} label="Reputación" size={88} />
+</Demo>
+
+## Tabla
+
+Una tabla sirve para comparar filas. Las celdas de cabecera son mayúsculas de 12 px sobre una banda cloud, las filas llevan una línea fina, **los números alineados a la derecha con numerales tabulares**. Ordenar es un botón en la cabecera con `aria-sort`.
+
+<Demo surface="white" column>
+  <DataTable label="Locales" columns={[{key: 'name', label: 'Local', sortable: true}, {key: 'reviews', label: 'Reseñas', numeric: true, sortable: true}, {key: 'rating', label: 'Nota', numeric: true, sortable: true}, {key: 'state', label: 'Estado'}]} rows={[
+    {name: 'Casa Olivo · Bellaire', reviews: '312', rating: '4.6', state: <StatusBadge status="positive">Sano</StatusBadge>},
+    {name: 'Brasa Norte', reviews: '198', rating: '4.3', state: <StatusBadge status="warning">Atención</StatusBadge>},
+    {name: 'La Mesa', reviews: '74', rating: '3.9', state: <StatusBadge status="danger">En riesgo</StatusBadge>},
+  ]} />
+</Demo>
+
+En pantallas estrechas una tabla se vuelve una lista de tarjetas, una por fila, con las mismas etiquetas. Ver [Patrones](./patterns).
+
+## Avatar y progreso
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 12, alignItems: 'center'}}><Avatar name="Dana Ruiz" size="sm" /><Avatar name="Leo Park" /><Avatar name="Marco Vidal" size="lg" /></div>
+  <div style={{display: 'grid', gap: 12, maxWidth: 360}}>
+    <Progress value={72} label="Configuración" />
+    <Progress value={46} tone="mint" label="Tareas" />
+    <Progress value={20} tone="amber" label="Presupuesto usado" />
+  </div>
+</Demo>
+
+Un avatar muestra iniciales sobre un lavado menta; una foto lo reemplaza. El **progreso** siempre tiene una etiqueta y el número cerca, nunca solo la barra.
+
+## Carga
+
+Muestra la **forma** de lo que viene, no un spinner, para todo lo que sea más grande que un botón.
+
+<Demo surface="white">
+  <Card bordered pad="md"><div style={{display: 'grid', gap: 10, width: 240}}><Skeleton width={70} height={16} /><Skeleton height={34} /><Skeleton width="60%" /></div></Card>
+</Demo>
+
+<DoDontRow>
+  <DoDont kind="do">Abre con un número grande y dale a cada otro número una etiqueta y una unidad.</DoDont>
+  <DoDont kind="dont">Llenar una pantalla con 12 teselas iguales, o usar una dona para más de tres partes.</DoDont>
+</DoDontRow>

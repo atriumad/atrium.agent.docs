@@ -1,0 +1,118 @@
+---
+sidebar_position: 7
+title: "Acciones"
+description: "Botón, botón de icono, enlace y chip."
+---
+
+import {Demo, Button, Chip, DoDont, DoDontRow, Atr} from '@site/src/components/design';
+import {Plus, ArrowRight, Download, Trash2, Search, X} from 'lucide-react';
+import {useState} from 'react';
+
+# *Acciones*: lo que se pulsa
+
+Todo lo que se puede pulsar es una píldora. Una acción primaria por vista; las demás son más discretas.
+
+## Botón
+
+<Demo switcher code={`<Button>Primario</Button>
+<Button variant="mint">Menta</Button>
+<Button variant="amber">Ámbar</Button>
+<Button variant="outline">Contorno</Button>
+<Button variant="ghost">Fantasma</Button>
+<Button variant="danger">Peligro</Button>`}>
+  <Button>Primario</Button>
+  <Button variant="mint">Menta</Button>
+  <Button variant="amber">Ámbar</Button>
+  <Button variant="outline">Contorno</Button>
+  <Button variant="ghost">Fantasma</Button>
+  <Button variant="danger">Peligro</Button>
+</Demo>
+
+| Variante | Uso |
+| --- | --- |
+| `primary` | La acción principal de una vista. Teal con texto menta (menta con texto teal sobre oscuro) |
+| `mint` | La acción principal sobre un campo teal, o una secundaria amable sobre claro |
+| `amber` | Una llamada a la acción de campaña en marketing. No para acciones del producto |
+| `outline` | Una acción secundaria junto a una primaria |
+| `ghost` | Una acción terciaria, y acciones dentro de barras de herramientas densas |
+| `danger` | Una acción destructiva, solo después de una confirmación (ver Diálogo) |
+
+### Tamaños, iconos, carga, deshabilitado
+
+<Demo surface="white" code={`<Button size="sm">Pequeño</Button>
+<Button>Mediano</Button>
+<Button size="lg">Grande</Button>
+<Button icon={<Plus size={16} />}>Añadir cliente</Button>
+<Button variant="outline" iconRight={<ArrowRight size={16} />}>Continuar</Button>
+<Button iconOnly variant="ghost" aria-label="Buscar"><Search size={18} /></Button>
+<Button loading>Guardando</Button>
+<Button disabled>Deshabilitado</Button>`}>
+  <Button size="sm">Pequeño</Button>
+  <Button>Mediano</Button>
+  <Button size="lg">Grande</Button>
+  <Button icon={<Plus size={16} strokeWidth={1.75} />}>Añadir cliente</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.75} />}>Continuar</Button>
+  <Button iconOnly variant="ghost" aria-label="Buscar"><Search size={18} strokeWidth={1.75} /></Button>
+  <Button loading>Guardando</Button>
+  <Button disabled>Deshabilitado</Button>
+</Demo>
+
+### API
+
+| Prop | Tipo | Por defecto | Notas |
+| --- | --- | --- | --- |
+| `variant` | `primary` \| `mint` \| `amber` \| `outline` \| `ghost` \| `danger` | `primary` | |
+| `size` | `sm` \| `md` \| `lg` | `md` | `sm` 13 px, `md` 15 px, `lg` 17 px |
+| `icon` / `iconRight` | `ReactNode` | ninguno | Lucide a 16 px (`sm`, `md`) o 20 px (`lg`) |
+| `iconOnly` | `boolean` | `false` | Necesita `aria-label`. Cuadrado, 44 px en móvil |
+| `loading` | `boolean` | `false` | Muestra un spinner, pone `aria-busy`, deshabilita el botón, conserva su ancho |
+| `block` | `boolean` | `false` | Ancho completo. Úsalo en diálogos y en móvil |
+| `disabled` | `boolean` | `false` | 45% de opacidad. Explica el porqué al lado; no dependas del aspecto |
+
+### Anatomía y estados
+
+La etiqueta es de 15 px, peso 600, `0.01em`, sin saltos de línea. El padding es de 12 por 24 px. El **hover** profundiza el campo un paso. Al **pulsar** escala a 0.97. El **foco** muestra el anillo teal con el halo ámbar. **Cargando** reemplaza el icono por un spinner y conserva la etiqueta.
+
+<DoDontRow>
+  <DoDont kind="do">Empieza la etiqueta con un verbo: "Guardar cliente", "Resolver", "Enviar respuesta".</DoDont>
+  <DoDont kind="dont">Usar "OK", "Enviar" o "Haz clic aquí", o poner dos botones primarios lado a lado.</DoDont>
+  <DoDont kind="do">Pon la acción primaria al final (a la derecha) en un grupo, y deja una por vista.</DoDont>
+  <DoDont kind="dont">Usar `danger` para una acción reversible. Usa `outline`.</DoDont>
+</DoDontRow>
+
+## Enlace
+
+Un enlace en texto corrido es teal profundo (teal-500 es solo para texto secundario), subrayado con 3 px de separación. Al pasar el cursor el subrayado se oscurece. Un enlace que sale de la app lo dice.
+
+## Chip
+
+La píldora estadio para filtros, etiquetas y opciones. **Con contorno** por defecto, un campo **relleno** cuando está seleccionado.
+
+export const ChipDemo = () => {
+  const [on, setOn] = useState('SEO');
+  return (
+    <>
+      {['SEO', 'Marketing', 'Fotografía', 'Diseño'].map((c) => (
+        <Chip key={c} onClick={() => setOn(c)} selected={on === c}>{c}</Chip>
+      ))}
+    </>
+  );
+};
+
+<Demo surface="white" code={`<Chip onClick={...} selected={on === 'SEO'}>SEO</Chip>   // un filtro
+<Chip variant="mint-soft">Reseñas</Chip>                  // una etiqueta
+<Chip onRemove={...}>Houston</Chip>                       // removible`}>
+  <ChipDemo />
+</Demo>
+
+<Demo surface="light">
+  <Chip variant="soft">Suave</Chip>
+  <Chip variant="mint">Menta</Chip>
+  <Chip variant="mint-soft">Menta suave</Chip>
+  <Chip variant="teal">Teal</Chip>
+  <Chip variant="amber">Ámbar</Chip>
+  <Chip size="sm">Pequeño</Chip>
+  <Chip onRemove={() => undefined}>Removible</Chip>
+</Demo>
+
+Un chip con `onClick` es un botón de alternancia (`aria-pressed`). Sin él, un chip es una etiqueta y no recibe foco. El botón de cerrar de un chip removible se llama "Remove".

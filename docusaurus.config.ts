@@ -40,7 +40,7 @@ const config: Config = {
     },
   },
   stylesheets: [
-    'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap',
+    'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Nothing+You+Could+Do&display=swap',
   ],
   themes: [
     '@docusaurus/theme-mermaid',
@@ -86,6 +86,7 @@ const config: Config = {
         {type: 'docSidebar', sidebarId: 'agents', label: 'Agents', position: 'left'},
         {type: 'docSidebar', sidebarId: 'data', label: 'Data', position: 'left'},
         {type: 'docSidebar', sidebarId: 'product', label: 'Product', position: 'left'},
+        {type: 'docSidebar', sidebarId: 'design', label: 'Design', position: 'left'},
         {type: 'docSidebar', sidebarId: 'architecture', label: 'Architecture', position: 'left'},
         {type: 'docSidebar', sidebarId: 'modules', label: 'Modules', position: 'left'},
         {type: 'docSidebar', sidebarId: 'plan', label: 'Plan', position: 'left'},

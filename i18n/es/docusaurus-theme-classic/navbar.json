@@ -42,5 +42,9 @@
   "item.label.Product": {
     "message": "Producto",
     "description": "Navbar item with label Product"
+  },
+  "item.label.Design": {
+    "message": "Diseño",
+    "description": "Navbar item with label Design"
   }
 }

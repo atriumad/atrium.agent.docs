@@ -1,0 +1,75 @@
+---
+sidebar_position: 15
+title: "Tokens"
+description: "Los tokens como código: propiedades CSS, el tema de Tailwind v4, el tema oscuro y cómo los adopta packages/ui."
+---
+
+import {TokenCode, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Tokens*: el código para copiar
+
+Cada color, tamaño y duración de estas páginas es un token de diseño. Se escriben una sola vez, en `src/design/tokens.ts`, y un script genera el CSS desde ahí. Los componentes leen tokens, nunca valores crudos.
+
+```bash
+bun scripts/build-tokens.ts           # escribe src/css/atrium-tokens.css
+bun scripts/build-tokens.ts --check   # falla si el CSS está desactualizado o una guarda de contraste falla
+```
+
+## Nombres
+
+| Capa | Ejemplos | Regla |
+| --- | --- | --- |
+| **Paleta cruda** | `--teal-800`, `--mint-400`, `--amber-500`, `--cloud-300` | Un color y un paso. Solo los usan los roles de abajo |
+| **Roles** | `--surface-card`, `--text-strong`, `--border-light`, `--status-danger-fg` | Para qué sirve algo. Los componentes leen estos |
+| **Escala** | `--text-sm`, `--space-4`, `--radius-md`, `--dur-base` | Un paso de una rampa |
+| **Componente** | `.atr-btn`, `.atr-card` | Una clase que lee solo roles y escalas |
+
+Un cambio en la capa cruda cambia la marca. Un cambio en la capa de roles retematiza una superficie. Un componente nunca cambia.
+
+## Propiedades CSS
+
+<TokenCode kind="css" />
+
+## Tema oscuro
+
+Oscuro redefine roles, no componentes.
+
+<TokenCode kind="dark" />
+
+## Tailwind v4
+
+`packages/ui` es Tailwind v4 con Base UI ([ADR 0004](../adr/0004-base-ui-and-tailwind)). Este es el bloque del tema, generado desde los mismos tokens.
+
+:::caution No añadas tokens `--spacing-N`
+En Tailwind v4, un token `--spacing-4` redefine `p-4`, `gap-4` y compañía. La escala de espaciado ya es de base 4 px (`--spacing: 0.25rem`) y coincide con la nuestra, así que se deja tal cual.
+:::
+
+<TokenCode kind="tailwind" />
+
+## En este sitio
+
+La documentación mapea su tema sobre los mismos tokens.
+
+<TokenCode kind="infima" />
+
+## Adoptar los tokens en `packages/ui`
+
+La [decisión 15](../plan/open-decisions) pidió reconciliar el sistema de marca con el tema del producto. Esta sección es esa reconciliación: la paleta de la marca es la capa cruda, y la capa de producto añade estado, datos y los roles oscuros. `packages/ui/src/theme.css` tiene un tema provisional anterior (tinta, lima, crema, ámbar). Para adoptar:
+
+1. Copia `src/css/atrium-tokens.css` a `packages/ui/src/` e impórtalo desde `theme.css`.
+2. Reemplaza los colores provisionales de `@theme` por el bloque de Tailwind de arriba.
+3. Porta las clases de los componentes como componentes React, uno a uno, empezando por Button, Badge, Card y Field. Las props de estas páginas son la API.
+4. Mueve las pantallas de casos del Manager y la Platform a ellos. Ya usan roles (`bg-paper`, `text-ink`), así que el cambio es sobre todo renombrar.
+5. Corre `--check` en CI para que el CSS y la guarda de contraste no se desincronicen.
+
+## Cambiar un token
+
+1. Edita `src/design/tokens.ts`. Los colores crudos cambian la marca, así que necesitan una decisión registrada; los roles y las escalas son un cambio normal.
+2. Corre `bun scripts/build-tokens.ts`. Una guarda de contraste que falle se detiene aquí.
+3. Mira las páginas afectadas en [Colores](./colors) y los [componentes](./components).
+4. Haz commit del código fuente y del CSS generado juntos.
+
+<DoDontRow>
+  <DoDont kind="do">Referencia un rol: <code>var(--surface-card)</code>.</DoDont>
+  <DoDont kind="dont">Escribir <code>#ffffff</code> o <code>#072f34</code> en un componente.</DoDont>
+</DoDontRow>

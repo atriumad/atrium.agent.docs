@@ -20,6 +20,7 @@ English is the default language and lives in `docs/`. The Spanish translation li
 | `docs/agents` | Agents, subagents, autonomy, interaction, scenarios, rules |
 | `docs/data` | Signals, sources, metrics and scoring, storage and the pipeline, the manual worksheet |
 | `docs/product` | Platform, Manager, Mobile, packages and access |
+| `docs/design` | The visual reference: colors, type, foundations, components, patterns, tokens. Its examples are live code in `src/components/design` |
 | `docs/architecture` | Principles, stack, repository, events, integrations, agents and MCP, security |
 | `docs/modules` | Specification of each module |
 | `docs/plan` | Phases, gates, tests, mandala and open decisions |

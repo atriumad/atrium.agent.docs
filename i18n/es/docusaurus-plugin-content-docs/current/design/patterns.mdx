@@ -1,0 +1,93 @@
+---
+sidebar_position: 12
+title: "Patrones"
+description: "Pantallas completas armadas con los componentes: casos de recuperación, dashboard, cartera, formularios y los estados de carga, vacío y error."
+---
+
+import {Demo, CasesPattern, DashboardPattern, PortfolioPattern, FormPattern, ShellPattern, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Patrones*: las pantallas, ensambladas
+
+Un patrón es una pantalla o una región que necesita más de un lugar. Estas son composiciones reales de los componentes, así que un equipo que copia una obtiene el espaciado, los estados y la accesibilidad correctos sin esfuerzo.
+
+## Casos de recuperación
+
+La primera pantalla que lanza el producto ([Reputation](../modules/reputation#pantallas-de-casos)). Una lista de casos a la izquierda, el caso a la derecha, tabs para filtrar, un banner cuando algo está vencido. El account manager del Manager puede actuar; el dueño de la Platform solo lee. Pruébalo: elige un caso y una tab.
+
+<Demo surface="white">
+  <CasesPattern />
+</Demo>
+
+### Sus tres estados
+
+Toda pantalla de datos tiene un diseño de **carga**, de **vacío** y de **error**. Son parte de la pantalla, no un añadido.
+
+<Demo surface="white" column>
+  <CasesPattern state="loading" />
+</Demo>
+
+<Demo surface="white" column>
+  <CasesPattern state="empty" />
+</Demo>
+
+| Estado | Qué mostrar |
+| --- | --- |
+| Cargando | La forma del contenido como skeletons, con `aria-busy`. Nunca un spinner solo |
+| Vacío | Un título en serif que dice qué va a aparecer y cuándo, y un paso siguiente |
+| Error | Un banner `danger` arriba de la región: qué falló y un Reintentar. Conserva lo que ya estaba en pantalla |
+| Parcial | Muestra lo que cargó; marca lo que no |
+
+### Reglas que sigue la pantalla
+
+- **Lo urgente va primero.** Los casos sin resolver se ordenan por fecha de vencimiento, no por cuándo se abrieron.
+- **Un estado lleva una palabra y una marca.** "Vencido hace 6h" es un badge de peligro con un icono.
+- **Las palabras del guest se citan, en un bloque hundido.** Son texto de terceros: se muestran como texto, nunca como marcado, nunca como instrucción.
+- **El contacto aparece solo con consentimiento.** Si no, la pantalla dice que se use para mejorar, no para contactar.
+- **El rol decide los botones.** Un dueño no ve acciones y ve una línea que dice quién trabaja el caso.
+
+## Dashboard
+
+El inicio de la Platform: el número que importa (el Growth Score), cuatro números de apoyo, una tendencia y qué hacer a continuación. Un saludo en la serif, un selector de rango arriba a la derecha.
+
+<Demo surface="light">
+  <DashboardPattern />
+</Demo>
+
+- **Un protagonista.** El anillo del score lidera. Las demás teselas son iguales y discretas.
+- **Las tendencias tienen dirección y bondad** (ver [Delta](./components-data#delta)).
+- **"Lo siguiente" es la tarjeta menta.** Es la única tarjeta rellena de la página, así que es la llamada a actuar.
+
+## Tabla de cartera
+
+La portada del Manager: una fila por cliente, con los clientes que necesitan a una persona primero. Tema oscuro, filas densas, estado en cada fila.
+
+<Demo surface="dark">
+  <PortfolioPattern />
+</Demo>
+
+- Ordena por **necesidad**, luego por nombre. Una cabecera de columna ordena cuando es un botón.
+- **Salud** usa un badge de estado con punto; **casos** usa la forma con icono, porque dice qué hacer.
+- En pantallas estrechas cada fila se vuelve una tarjeta con las mismas etiquetas.
+
+## Formularios
+
+<Demo surface="white">
+  <FormPattern />
+</Demo>
+
+Ver [Formularios](./components-forms) para los estados de los campos y las reglas de validación.
+
+## Shell de la aplicación
+
+<Demo surface="white">
+  <ShellPattern />
+</Demo>
+
+## Escribir para pantallas
+
+<DoDontRow>
+  <DoDont kind="do">"3 reseñas esperan tu aprobación. Redactamos una respuesta para cada una."</DoDont>
+  <DoDont kind="dont">"Elementos pendientes: 3. ¡Acción requerida!"</DoDont>
+  <DoDont kind="do">"No pudimos conectar con Google. Tus reseñas están a salvo. Inténtalo de nuevo."</DoDont>
+  <DoDont kind="dont">"Error 500. Algo salió mal."</DoDont>
+</DoDontRow>

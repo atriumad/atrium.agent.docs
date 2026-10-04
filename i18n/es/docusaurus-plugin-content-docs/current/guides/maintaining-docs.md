@@ -20,6 +20,7 @@ El inglés es el idioma por defecto y vive en `docs/`. La traducción al españo
 | `docs/agents` | Agentes, subagentes, autonomía, interacción, escenarios, reglas |
 | `docs/data` | Signals, fuentes, métricas y scoring, almacenamiento y pipeline, la hoja manual |
 | `docs/product` | Platform, Manager, Mobile, paquetes y acceso |
+| `docs/design` | La referencia visual: colores, tipografía, fundamentos, componentes, patrones, tokens. Sus ejemplos son código vivo en `src/components/design` |
 | `docs/architecture` | Principios, stack, repositorio, eventos, integraciones, agentes y MCP, seguridad |
 | `docs/modules` | Especificación de cada módulo |
 | `docs/plan` | Fases, puertas, pruebas, mandala y decisiones abiertas |

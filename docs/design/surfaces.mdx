@@ -1,0 +1,78 @@
+---
+sidebar_position: 13
+title: "Surfaces"
+description: "How the Platform, Manager, Hub, mobile app and documentation theme the same parts."
+---
+
+import {Demo, Card, Button, Badge, StatusBadge, Eyebrow, Emph, Stat, DoDont, DoDontRow, AgentIdentities, Atr} from '@site/src/components/design';
+
+# *Surfaces*: one system, four rooms
+
+One set of tokens and components, themed per room. A surface changes **roles** (what is the page, what is the card, what is the accent), never the components.
+
+| | Platform | Manager | Hub | Mobile |
+| --- | --- | --- | --- | --- |
+| **For** | The restaurant owner | The agency team | The restaurant's guest | The owner on the go |
+| **Theme** | Light | Dark chrome, light work area | Light, per restaurant | Light |
+| **Density** | Calm: 16 px body, roomy cards | Dense: 14 px, tables | Spacious, one task | Large targets, one decision |
+| **Page** | `surface-page` cloud | `surface-page` cloud, side nav teal | The restaurant's brand field | `surface-page` cloud |
+| **Accent** | Mint and amber | Mint, amber count badge | The restaurant's color | Mint |
+| **Numbers** | Serif | Sans with tabular numerals | Serif for the big figure | Serif |
+
+## Platform
+
+Calm and personal. The greeting is in the serif, the score leads, and every tile is a card with room to breathe. The only filled card is the "Up next" call.
+
+<Demo surface="light">
+  <div style={{display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', width: '100%'}}>
+    <Stat label="New reviews" value="38" delta={12} />
+    <Card tone="mint" title="Up next">Approve the reply to the 2-star review.</Card>
+  </div>
+</Demo>
+
+## Manager
+
+Dense and fast. A teal side navigation, tables with a status in every row, and an **amber count** for the work waiting on a person. See the [portfolio pattern](./patterns#portfolio-table).
+
+## Hub: a restaurant's own colors
+
+The Hub, the survey and public pages take each restaurant's **accent color and logo** on top of the same components. Two guards keep that safe:
+
+1. **The accent replaces `--accent` only.** Text stays teal or ink; the accent never becomes text on white.
+2. **A contrast check at setup.** The accent must give 4.5:1 for its label color (the system picks teal or white, whichever passes) and 3:1 against the page. If it fails, the system darkens it until it does and tells the account manager.
+
+<Demo surface="light">
+  <div style={{display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', width: '100%'}}>
+    <Card bordered>
+      <div style={{display: 'grid', gap: 10}}>
+        <Eyebrow>How was your visit?</Eyebrow>
+        <div style={{fontSize: 24, lineHeight: 1.15, color: 'var(--teal-800)'}}>Thanks for visiting <Emph>Casa Olivo</Emph></div>
+        <Button block>Leave a review</Button>
+      </div>
+    </Card>
+    <div style={{padding: 20, borderRadius: 14, background: '#8b1e2d', color: '#fff', display: 'grid', gap: 10}}>
+      <Eyebrow tone="on-dark">How was your visit?</Eyebrow>
+      <div style={{fontSize: 24, lineHeight: 1.15}}>Thanks for visiting <Emph>Brasa Norte</Emph></div>
+      <Button variant="mint" block>Leave a review</Button>
+    </div>
+  </div>
+</Demo>
+
+## Mobile
+
+The owner checks in for a minute. One decision per screen, **44 px targets**, the figure that matters in the serif, push for what needs them. Same tokens, larger type (base 16, headings one step up) and more space.
+
+## Agents
+
+An agent appears wherever it acts or speaks: a face (Blobatar), a name and a card color. The colors are its **identity**, so it never takes a status color, and a status never takes an agent's.
+
+<AgentIdentities />
+
+## Documentation
+
+This site is the sixth room: light and dark, the same tokens, with Infima mapped onto them (see [Tokens](./tokens#in-this-site)). Code blocks use JetBrains Mono.
+
+<DoDontRow>
+  <DoDont kind="do">Change a role (the page color, the accent) to theme a surface.</DoDont>
+  <DoDont kind="dont">Fork a component to give one surface its own button.</DoDont>
+</DoDontRow>

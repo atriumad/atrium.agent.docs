@@ -1,0 +1,106 @@
+---
+sidebar_position: 10
+title: "Feedback"
+description: "Badge, status badge, banner, toast, empty state, tooltip, dialog and menu."
+---
+
+import {Demo, Badge, StatusBadge, Banner, Toast, EmptyState, Tooltip, Dialog, Menu, Scrim, Button, DoDont, DoDontRow, Chip} from '@site/src/components/design';
+import {Inbox, Info, Pencil, Copy, Trash2, Check} from 'lucide-react';
+
+# *Feedback*: say what happened
+
+Tell people what is going on, where they are, and what to do next. Use the quietest component that does the job.
+
+| Need | Use |
+| --- | --- |
+| A label or a category | Badge |
+| A state of a thing | Status badge |
+| Something about the whole page, persistent | Banner |
+| A result of an action, passing | Toast |
+| A list or a page with nothing in it | Empty state |
+| A hint on an icon | Tooltip |
+| A decision that blocks | Dialog |
+| A list of actions on one item | Menu |
+
+## Badge and status
+
+A **badge** is a small flat label, not interactive. A **status badge** adds a mark and uses the status colors; it always has a word.
+
+<Demo surface="white">
+  <Badge>Mint</Badge><Badge tone="teal">Teal</Badge><Badge tone="amber">Amber</Badge><Badge tone="cloud">Cloud</Badge><Badge tone="outline">Outline</Badge>
+</Demo>
+
+<Demo surface="white" code={`<StatusBadge status="positive">Resolved</StatusBadge>
+<StatusBadge status="warning" dot>Watch</StatusBadge>`}>
+  <StatusBadge status="positive">Resolved</StatusBadge>
+  <StatusBadge status="warning">Due in 3h</StatusBadge>
+  <StatusBadge status="danger">Overdue by 6h</StatusBadge>
+  <StatusBadge status="info">Draft</StatusBadge>
+  <StatusBadge status="neutral">Paused</StatusBadge>
+  <StatusBadge status="positive" dot>Healthy</StatusBadge>
+  <StatusBadge status="danger" dot>At risk</StatusBadge>
+</Demo>
+
+Use the **icon** form for a state that changes what to do ("Overdue"), and the **dot** form for a steady health in a dense table.
+
+## Banner
+
+A banner speaks for the page or a section: 4 px colored edge, an icon, a title and one sentence, and at most one action. It stays until the situation changes. A `danger` banner is announced as an alert; the others as a status.
+
+<Demo surface="white" column>
+  <Banner title="Toast export is delayed">We will backfill tonight's orders when it arrives.</Banner>
+  <Banner status="positive" title="Reply published">It is live on Google now.</Banner>
+  <Banner status="warning" title="Due in 3 hours" action={<Button size="sm" variant="outline">Review</Button>}>Reach out before the 24-hour target.</Banner>
+  <Banner status="danger" title="Google disconnected" action={<Button size="sm">Reconnect</Button>}>New reviews are not arriving. Reconnect to resume.</Banner>
+</Demo>
+
+## Toast
+
+A toast confirms something that **already happened** and goes away after about 5 seconds, or sooner on dismiss. It may carry one undo action. Never put an error that needs action in a toast: use a banner.
+
+<Demo surface="light">
+  <Toast>Case marked as contacted</Toast>
+  <Toast action="Undo">Reply deleted</Toast>
+</Demo>
+
+## Empty state
+
+An empty state says **what will appear and when**, and offers the one next step. Use the serif for the title. An empty state is never a dead end.
+
+<Demo surface="white" column>
+  <EmptyState icon={<Inbox size={22} />} title="Nothing needs follow-up right now." action={<Button size="sm" variant="outline">See resolved cases</Button>}>New cases appear here the moment a guest leaves a low rating.</EmptyState>
+</Demo>
+
+## Tooltip
+
+A tooltip names an icon-only control or explains a term in one short line. It opens on hover and on focus, and never holds anything you must click.
+
+<Demo surface="white">
+  <Tooltip label="Copy link"><Button iconOnly variant="ghost" size="sm" aria-label="Copy link"><Copy size={16} /></Button></Tooltip>
+  <Tooltip label="Sent by Host"><Badge tone="cloud">Auto</Badge></Tooltip>
+</Demo>
+
+## Dialog
+
+A dialog interrupts, so it is for a decision that cannot wait: a destructive confirmation or a short required input. It traps focus, closes with Escape, returns focus to the trigger, and names its **action** on the button ("Delete reply"), never "OK".
+
+<Demo surface="light">
+  <Scrim>
+    <Dialog title="Delete this reply?" actions={<><Button variant="ghost">Keep it</Button><Button variant="danger">Delete reply</Button></>}>
+      The reply is removed from your queue. It has not been published, so nothing changes on Google.
+    </Dialog>
+  </Scrim>
+</Demo>
+
+## Menu
+
+A menu lists actions for **one item**. Destructive actions sit last, after a separator, in the danger color with an icon.
+
+<Demo surface="light">
+  <Menu items={[{label: 'Edit reply', icon: <Pencil size={16} />}, {label: 'Copy text', icon: <Copy size={16} />}, {label: 'Mark as handled', icon: <Check size={16} />}, 'sep', {label: 'Delete', icon: <Trash2 size={16} />, danger: true}]} />
+</Demo>
+
+<DoDontRow>
+  <DoDont kind="do">Say what happened and what to do next, in one sentence.</DoDont>
+  <DoDont kind="dont">Stack three banners, or use a toast for something the person must act on.</DoDont>
+</DoDontRow>

@@ -1,0 +1,60 @@
+---
+sidebar_position: 6
+title: "Componentes"
+description: "El catálogo de componentes, su estado y el contrato que cumple cada uno."
+---
+
+import {Demo, Button, Chip, Badge, StatusBadge, Card, Input, Tabs, Banner} from '@site/src/components/design';
+
+# *Componentes*: las piezas que comparten todas las superficies
+
+Estos son los componentes que el producto necesita, en el orden en que se construyen. Cada página muestra el componente en vivo, en sus estados, con su anatomía, su API y sus reglas. El código de estas páginas es el que adopta `packages/ui`.
+
+## Catálogo
+
+| Componente | Página | Superficies | Estado |
+| --- | --- | --- | --- |
+| Botón, botón de icono, enlace | [Acciones](./components-actions) | Todas | Especificado y construido aquí |
+| Chip | [Acciones](./components-actions) | Todas | Especificado y construido aquí |
+| Campo, input, textarea, select | [Formularios](./components-forms) | Todas | Especificado y construido aquí |
+| Checkbox, radio, interruptor | [Formularios](./components-forms) | Todas | Especificado y construido aquí |
+| Tarjeta | [Datos](./components-data) | Todas | Especificado y construido aquí |
+| Stat, delta, sparkline, barras, anillo de score | [Datos](./components-data) | Platform, Manager, Mobile | Especificado y construido aquí |
+| Tabla de datos | [Datos](./components-data) | Manager, Platform | Especificado y construido aquí |
+| Avatar, progreso | [Datos](./components-data) | Todas | Especificado y construido aquí |
+| Badge, badge de estado | [Feedback](./components-feedback) | Todas | Especificado y construido aquí |
+| Banner, toast | [Feedback](./components-feedback) | Todas | Especificado y construido aquí |
+| Estado vacío, skeleton | [Feedback](./components-feedback) | Todas | Especificado y construido aquí |
+| Tooltip, diálogo, menú | [Feedback](./components-feedback) | Manager, Platform | Especificado y construido aquí |
+| Tabs, control segmentado, tabs subrayadas | [Navegación](./components-navigation) | Todas | Especificado y construido aquí |
+| Migas de pan, paginación | [Navegación](./components-navigation) | Manager, Platform | Especificado y construido aquí |
+| Navegación lateral, barra superior | [Navegación](./components-navigation) | Manager, Platform | Especificado y construido aquí |
+| Rango de fechas, combobox, zona de archivos | todavía no | Manager | Por especificar cuando la primera pantalla lo necesite |
+| Gráficos más allá de barras y sparkline | todavía no | Platform | Por especificar con las pantallas del Growth Score |
+
+## El contrato
+
+Todo componente cumple las mismas reglas. Un componente que no puede no está terminado.
+
+1. **Lee roles, no colores.** Solo los tokens de [Colores](./colors), para que una superficie lo pueda retematizar.
+2. **Tiene todos los estados.** Reposo, hover, foco, activo, deshabilitado y, donde aplique, cargando, error y seleccionado.
+3. **Se usa completo con teclado.** Alcanzable con Tab, operable con Enter y Espacio (y flechas en tabs y menús), con el anillo de foco de [Fundamentos](./foundations#foco).
+4. **Tiene nombre para la tecnología de apoyo.** Una etiqueta visible, o un `aria-label` en las partes solo de icono. Los errores se anuncian (`role="alert"`) y se ligan al campo.
+5. **Nunca depende solo del color.** El estado lleva una palabra y una marca.
+6. **Respeta el movimiento reducido.** Las duraciones son tokens que bajan a cero.
+7. **Los objetivos son suficientemente grandes.** 44 px en móvil, 24 px como mínimo en escritorio.
+8. **Tiene un diseño de carga, de vacío y de error** donde sea que contenga datos.
+
+## Una muestra
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center'}}>
+    <Button>Primario</Button><Button variant="mint">Menta</Button><Button variant="outline">Contorno</Button>
+    <Chip variant="mint-soft">Chip</Chip><Badge tone="teal">Badge</Badge><StatusBadge status="positive">Resuelto</StatusBadge>
+  </div>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12}}>
+    <Card bordered title="Tarjeta" description="Una tarjeta suave de 14 px sobre una página cloud." />
+    <Input label="Campo" placeholder="Un campo con etiqueta" hint="El texto de ayuda va debajo." />
+  </div>
+  <Banner status="warning" title="Vence en 3 horas" action={<Button size="sm" variant="outline">Revisar</Button>}>Contacta antes del objetivo de 24 horas.</Banner>
+</Demo>

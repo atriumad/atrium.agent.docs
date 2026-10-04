@@ -1,0 +1,106 @@
+---
+sidebar_position: 10
+title: "Feedback"
+description: "Badge, badge de estado, banner, toast, estado vacío, tooltip, diálogo y menú."
+---
+
+import {Demo, Badge, StatusBadge, Banner, Toast, EmptyState, Tooltip, Dialog, Menu, Scrim, Button, DoDont, DoDontRow, Chip} from '@site/src/components/design';
+import {Inbox, Info, Pencil, Copy, Trash2, Check} from 'lucide-react';
+
+# *Feedback*: di qué pasó
+
+Dile a la gente qué está pasando, dónde está y qué hacer a continuación. Usa el componente más discreto que cumpla.
+
+| Necesidad | Usa |
+| --- | --- |
+| Una etiqueta o una categoría | Badge |
+| El estado de una cosa | Badge de estado |
+| Algo sobre toda la página, persistente | Banner |
+| El resultado de una acción, pasajero | Toast |
+| Una lista o una página sin nada | Estado vacío |
+| Una pista sobre un icono | Tooltip |
+| Una decisión que bloquea | Diálogo |
+| Una lista de acciones sobre un elemento | Menú |
+
+## Badge y estado
+
+Un **badge** es una etiqueta pequeña y plana, no interactiva. Un **badge de estado** añade una marca y usa los colores de estado; siempre lleva una palabra.
+
+<Demo surface="white">
+  <Badge>Menta</Badge><Badge tone="teal">Teal</Badge><Badge tone="amber">Ámbar</Badge><Badge tone="cloud">Cloud</Badge><Badge tone="outline">Contorno</Badge>
+</Demo>
+
+<Demo surface="white" code={`<StatusBadge status="positive">Resuelto</StatusBadge>
+<StatusBadge status="warning" dot>Atención</StatusBadge>`}>
+  <StatusBadge status="positive">Resuelto</StatusBadge>
+  <StatusBadge status="warning">Vence en 3h</StatusBadge>
+  <StatusBadge status="danger">Vencido hace 6h</StatusBadge>
+  <StatusBadge status="info">Borrador</StatusBadge>
+  <StatusBadge status="neutral">Pausado</StatusBadge>
+  <StatusBadge status="positive" dot>Sano</StatusBadge>
+  <StatusBadge status="danger" dot>En riesgo</StatusBadge>
+</Demo>
+
+Usa la forma con **icono** para un estado que cambia qué hacer ("Vencido"), y la forma con **punto** para una salud estable en una tabla densa.
+
+## Banner
+
+Un banner habla por la página o por una sección: borde de 4 px de color, un icono, un título y una frase, y como máximo una acción. Se queda hasta que la situación cambia. Un banner `danger` se anuncia como alerta; los demás, como estado.
+
+<Demo surface="white" column>
+  <Banner title="La exportación de Toast se retrasó">Cargaremos los pedidos de esta noche cuando llegue.</Banner>
+  <Banner status="positive" title="Respuesta publicada">Ya está visible en Google.</Banner>
+  <Banner status="warning" title="Vence en 3 horas" action={<Button size="sm" variant="outline">Revisar</Button>}>Contacta antes del objetivo de 24 horas.</Banner>
+  <Banner status="danger" title="Google desconectado" action={<Button size="sm">Reconectar</Button>}>No están llegando reseñas nuevas. Reconecta para continuar.</Banner>
+</Demo>
+
+## Toast
+
+Un toast confirma algo que **ya pasó** y desaparece a los 5 segundos aproximadamente, o antes si se cierra. Puede llevar una acción de deshacer. Nunca pongas en un toast un error que pide acción: usa un banner.
+
+<Demo surface="light">
+  <Toast>Caso marcado como contactado</Toast>
+  <Toast action="Deshacer">Respuesta eliminada</Toast>
+</Demo>
+
+## Estado vacío
+
+Un estado vacío dice **qué va a aparecer y cuándo**, y ofrece el único paso siguiente. Usa la serif para el título. Un estado vacío nunca es un callejón sin salida.
+
+<Demo surface="white" column>
+  <EmptyState icon={<Inbox size={22} />} title="Nada requiere seguimiento ahora." action={<Button size="sm" variant="outline">Ver casos resueltos</Button>}>Los casos nuevos aparecen aquí en cuanto un guest deja una nota baja.</EmptyState>
+</Demo>
+
+## Tooltip
+
+Un tooltip nombra un control solo de icono o explica un término en una línea corta. Se abre al pasar el cursor y al recibir foco, y nunca contiene algo en lo que haya que hacer clic.
+
+<Demo surface="white">
+  <Tooltip label="Copiar enlace"><Button iconOnly variant="ghost" size="sm" aria-label="Copiar enlace"><Copy size={16} /></Button></Tooltip>
+  <Tooltip label="Enviado por Host"><Badge tone="cloud">Auto</Badge></Tooltip>
+</Demo>
+
+## Diálogo
+
+Un diálogo interrumpe, así que es para una decisión que no puede esperar: una confirmación destructiva o un dato corto obligatorio. Atrapa el foco, se cierra con Escape, devuelve el foco al disparador, y nombra su **acción** en el botón ("Eliminar respuesta"), nunca "OK".
+
+<Demo surface="light">
+  <Scrim>
+    <Dialog title="¿Eliminar esta respuesta?" actions={<><Button variant="ghost">Conservarla</Button><Button variant="danger">Eliminar respuesta</Button></>}>
+      La respuesta se quita de tu cola. No se ha publicado, así que nada cambia en Google.
+    </Dialog>
+  </Scrim>
+</Demo>
+
+## Menú
+
+Un menú lista acciones sobre **un elemento**. Las destructivas van al final, tras un separador, en el color de peligro y con un icono.
+
+<Demo surface="light">
+  <Menu items={[{label: 'Editar respuesta', icon: <Pencil size={16} />}, {label: 'Copiar texto', icon: <Copy size={16} />}, {label: 'Marcar como atendida', icon: <Check size={16} />}, 'sep', {label: 'Eliminar', icon: <Trash2 size={16} />, danger: true}]} />
+</Demo>
+
+<DoDontRow>
+  <DoDont kind="do">Di qué pasó y qué hacer a continuación, en una frase.</DoDont>
+  <DoDont kind="dont">Apilar tres banners, o usar un toast para algo en lo que la persona debe actuar.</DoDont>
+</DoDontRow>

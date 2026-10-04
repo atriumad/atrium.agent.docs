@@ -1,0 +1,89 @@
+---
+sidebar_position: 8
+title: "Formularios"
+description: "Campo, input, textarea, select, checkbox, radio e interruptor."
+---
+
+import {Demo, Input, Textarea, Select, Check, Switch, Field, DoDont, DoDontRow, FormPattern} from '@site/src/components/design';
+
+# *Formularios*: etiqueta, control, ayuda, error
+
+Un formulario es una conversación. Pide lo que necesitas, di por qué cuando no sea obvio, y cuando algo está mal di qué hacer.
+
+## Campo
+
+El **campo** une las piezas: una **etiqueta** visible arriba, el **control**, y debajo una **ayuda** o un **error**. El error reemplaza a la ayuda, se anuncia (`role="alert"`) y se liga al control con `aria-describedby`.
+
+<Demo surface="white" column code={`<Input label="Correo del dueño" type="email" hint="Aquí enviamos el resumen semanal." />
+<Input label="Correo del dueño" error="Escribe un correo completo, por ejemplo marco@casaolivo.com" />
+<Input label="Local" disabled defaultValue="Bellaire" />`}>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20}}>
+    <Input label="Correo del dueño" type="email" placeholder="marco@casaolivo.com" hint="Aquí enviamos el resumen semanal." />
+    <Input label="Correo del dueño" type="email" defaultValue="marco@" error="Escribe un correo completo, por ejemplo marco@casaolivo.com" />
+    <Input label="Local" disabled defaultValue="Bellaire" />
+    <Input label="Teléfono" optional placeholder="+1 713 555 0142" />
+  </div>
+</Demo>
+
+| Estado | Borde | Notas |
+| --- | --- | --- |
+| Reposo | `border-light` 1.5 px | Campo blanco, radio de 8 px |
+| Hover | `teal-500` | |
+| Foco | `teal-800` + anillo y halo | |
+| Error | `status-danger-fg` | Un mensaje con icono; nunca solo color |
+| Deshabilitado | ninguno, relleno cloud | Texto atenuado; explica el porqué cerca |
+
+Las etiquetas son de 13 px, peso 600. Marca los campos **opcionales** con "(optional)" y deja sin marca los obligatorios: la mayoría lo son.
+
+## Texto, texto largo y select
+
+<Demo surface="white" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20}}>
+    <Textarea label="Notas internas" optional rows={3} placeholder="Lo que el equipo deba saber" />
+    <Select label="Paquete" options={['Essential', 'Pillar 1', 'Pillar 2', 'Full system']} hint="Define qué módulos ve el cliente." />
+    <Input small label="Campo compacto" placeholder="14 px, para barras de herramientas" />
+  </div>
+</Demo>
+
+## Checkbox, radio e interruptor
+
+Un **checkbox** es para un sí que forma parte de un formulario. Un **radio** elige uno entre pocos. Un **interruptor** surte efecto al instante, así que es para ajustes y nunca para un formulario con botón de Guardar.
+
+<Demo surface="white" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24}}>
+    <div style={{display: 'grid', gap: 12}}>
+      <Check label="Tengo el consentimiento del cliente" defaultChecked />
+      <Check label="Envíame una copia" />
+      <Check label="No disponible" disabled />
+    </div>
+    <div style={{display: 'grid', gap: 12}} role="radiogroup" aria-label="Canal">
+      <Check type="radio" name="ch" label="Email" defaultChecked />
+      <Check type="radio" name="ch" label="SMS" />
+      <Check type="radio" name="ch" label="Ambos" />
+    </div>
+    <div style={{display: 'grid', gap: 12}}>
+      <Switch label="Resumen semanal" defaultChecked />
+      <Switch label="Respuesta automática a reseñas de 5 estrellas" />
+      <Switch label="Bloqueado por el paquete" disabled />
+    </div>
+  </div>
+</Demo>
+
+## Un formulario completo
+
+<Demo surface="white">
+  <FormPattern />
+</Demo>
+
+## Reglas
+
+<DoDontRow>
+  <DoDont kind="do">Valida cuando la persona sale del campo, y otra vez al enviar. Conserva lo que escribió.</DoDont>
+  <DoDont kind="dont">Borrar el formulario ante un error, o mostrar errores antes de que la persona termine.</DoDont>
+  <DoDont kind="do">Escribe el error como una solución: "Escribe un correo completo, por ejemplo marco@casaolivo.com".</DoDont>
+  <DoDont kind="dont">Escribir "Entrada inválida", y nunca poner la etiqueta dentro del campo como placeholder.</DoDont>
+</DoDontRow>
+
+- Usa el **control y el teclado correctos**: `type="email"`, `inputmode="numeric"`, tokens de `autocomplete`.
+- Pon **una columna** de campos; pon dos lado a lado solo cuando son cortos y relacionados (ciudad y estado).
+- Deshabilita el botón de enviar solo mientras guarda (`loading`); nunca para decir "el formulario está incompleto".

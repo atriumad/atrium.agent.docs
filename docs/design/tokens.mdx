@@ -1,0 +1,75 @@
+---
+sidebar_position: 15
+title: "Tokens"
+description: "The tokens as code: CSS custom properties, the Tailwind v4 theme, the dark theme, and how packages/ui adopts them."
+---
+
+import {TokenCode, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Tokens*: the code to copy
+
+Every color, size and duration on these pages is a design token. They are written once, in `src/design/tokens.ts`, and a script generates the CSS from it. Components read tokens, never raw values.
+
+```bash
+bun scripts/build-tokens.ts           # writes src/css/atrium-tokens.css
+bun scripts/build-tokens.ts --check   # fails if the CSS is stale or a contrast guard fails
+```
+
+## Naming
+
+| Layer | Examples | Rule |
+| --- | --- | --- |
+| **Raw palette** | `--teal-800`, `--mint-400`, `--amber-500`, `--cloud-300` | A color and a step. Only the roles below use them |
+| **Roles** | `--surface-card`, `--text-strong`, `--border-light`, `--status-danger-fg` | What a thing is for. Components read these |
+| **Scale** | `--text-sm`, `--space-4`, `--radius-md`, `--dur-base` | A step in a ramp |
+| **Component** | `.atr-btn`, `.atr-card` | A class that reads only roles and scales |
+
+A change at the raw layer changes the brand. A change at the role layer re-themes a surface. A component never changes.
+
+## CSS custom properties
+
+<TokenCode kind="css" />
+
+## Dark theme
+
+Dark redefines roles, not components.
+
+<TokenCode kind="dark" />
+
+## Tailwind v4
+
+`packages/ui` is Tailwind v4 with Base UI ([ADR 0004](../adr/0004-base-ui-and-tailwind)). This is the theme block, generated from the same tokens.
+
+:::caution Do not add `--spacing-N` tokens
+In Tailwind v4, a `--spacing-4` token redefines `p-4`, `gap-4` and friends. The spacing scale is already a 4 px base (`--spacing: 0.25rem`) and matches ours, so it is left alone.
+:::
+
+<TokenCode kind="tailwind" />
+
+## In this site
+
+The documentation maps its theme onto the same tokens.
+
+<TokenCode kind="infima" />
+
+## Adopting the tokens in `packages/ui`
+
+[Decision 15](../plan/open-decisions) asked for the brand system and the product theme to be reconciled. This section is the reconciliation: the brand palette is the raw layer, and the product layer adds status, data and the dark roles. `packages/ui/src/theme.css` holds an earlier provisional theme (ink, lime, cream, amber). To adopt:
+
+1. Copy `src/css/atrium-tokens.css` into `packages/ui/src/` and import it from `theme.css`.
+2. Replace the provisional `@theme` colors with the Tailwind block above.
+3. Port the component classes as React components, one at a time, starting with Button, Badge, Card and Field. The props on these pages are the API.
+4. Move the Manager and Platform case screens onto them. They already use roles (`bg-paper`, `text-ink`), so the change is mostly renaming.
+5. Run `--check` in CI so the CSS and the contrast guard cannot drift.
+
+## Changing a token
+
+1. Edit `src/design/tokens.ts`. Raw colors change the brand, so they need a decision recorded; roles and scales are a normal change.
+2. Run `bun scripts/build-tokens.ts`. A failing contrast guard stops here.
+3. Look at the affected pages in [Colors](./colors) and the [components](./components).
+4. Commit the source and the generated CSS together.
+
+<DoDontRow>
+  <DoDont kind="do">Reference a role: <code>var(--surface-card)</code>.</DoDont>
+  <DoDont kind="dont">Write <code>#ffffff</code> or <code>#072f34</code> in a component.</DoDont>
+</DoDontRow>

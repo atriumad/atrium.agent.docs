@@ -1,0 +1,89 @@
+---
+sidebar_position: 3
+title: "Typography"
+description: "The four families, the type ramp, tracking and the emphasis devices."
+---
+
+import {FontCards, TypeRamp, TrackingTable, Demo, Eyebrow, Emph, Highlight, ScriptAccent, DoDont, DoDontRow, Stat} from '@site/src/components/design';
+
+# *Typography*: one sans, one serif accent
+
+The interface speaks in **Inter Tight**. Warmth comes from a single italic serif phrase, a marker swipe or a handwritten word, never from a second sans. Numbers that matter are set in the serif.
+
+## The families
+
+<FontCards />
+
+All faces are free to use. Inter Tight and Instrument Serif load from Google Fonts in the documentation; the apps bundle them so they work offline.
+
+:::note A decision recorded
+The Platform prototype was drawn in **Geist**. The brand system and the Manager and Mobile prototypes use **Inter Tight**, so Inter Tight is the product face and Geist is a prototype artifact. The two have close metrics; no screen needs redrawing.
+:::
+
+## The headline recipe
+
+A headline is a sans sentence with **one** emphasized phrase in the serif italic. Add the marker swipe or the script only when the line has room for a third voice.
+
+<Demo surface="white" column>
+  <Eyebrow tone="teal">Welcome</Eyebrow>
+  <div style={{fontSize: 'clamp(2rem, 5vw, 3.25rem)', lineHeight: 1.05, letterSpacing: '-0.03em', color: 'var(--teal-800)'}}>
+    Welcome to <Emph>atrium</Emph>
+  </div>
+  <div style={{fontSize: 'clamp(1.6rem, 4vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--teal-800)'}}>
+    We build <Highlight>growth engines</Highlight>, not just ads.
+  </div>
+  <div style={{fontSize: 'clamp(1.6rem, 4vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-0.03em', color: 'var(--teal-800)'}}>
+    You've found <ScriptAccent>your people</ScriptAccent>.
+  </div>
+</Demo>
+
+| Device | Face | Rule |
+| --- | --- | --- |
+| Emphasis phrase | Instrument Serif, italic | One per heading, 1 to 4 words |
+| Marker swipe | Amber band behind the text | One per view; teal or mint on request |
+| Script | Nothing You Could Do, underlined | One word per screen, display sizes only |
+| Eyebrow | Inter Tight 600, caps, 0.18em | Above a heading, 12 to 13 px |
+| Big figure | Instrument Serif, upright | The one number a card is about |
+
+## The ramp
+
+The brand ramp runs from 12 to 72 px. Product screens live between 12 and 32: tables and dense UI at **14 px**, body at 16.
+
+<TypeRamp />
+
+Display sizes are fluid for marketing and the Hub: `--text-display-xl` (up to 120 px), `-lg` (80) and `-md` (56), each a `clamp()`.
+
+### Weights and leading
+
+| Weight | Use |
+| --- | --- |
+| 400 | Body, long text |
+| 500 | Labels, chips, table cells that need weight |
+| 600 | Buttons, field labels, headings in product |
+| 700 | Rare: marketing statements only |
+
+Leading is `0.95` for stacked display lines, `1.1` to `1.15` for headings, `1.6` for body. Keep paragraphs to **60 to 75 characters** per line.
+
+## Tracking
+
+Headlines tighten, labels spread. The spread-caps eyebrow is the signature.
+
+<TrackingTable />
+
+## Numbers
+
+Tables and stats use **tabular numerals** (`font-variant-numeric: tabular-nums`) so columns align. Align numbers right. A stat's figure is the serif; its unit and label stay sans.
+
+<Demo surface="white">
+  <div style={{width: 220}}><Stat label="Average rating" value="4.6" unit="/ 5" delta={2} /></div>
+  <div style={{width: 220}}><Stat label="Open cases" value="3" delta={-25} goodWhen="down" note="1 overdue" /></div>
+</Demo>
+
+## Do and don't
+
+<DoDontRow>
+  <DoDont kind="do">Use the serif for one phrase in a heading, or for one figure in a card.</DoDont>
+  <DoDont kind="dont">Set body copy, labels, buttons or navigation in the serif.</DoDont>
+  <DoDont kind="do">Write interface text in sentence case.</DoDont>
+  <DoDont kind="dont">Use Title Case, ALL CAPS beyond eyebrows, or fake bold.</DoDont>
+</DoDontRow>

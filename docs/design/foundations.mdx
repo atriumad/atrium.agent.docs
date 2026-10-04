@@ -1,0 +1,98 @@
+---
+sidebar_position: 4
+title: "Foundations"
+description: "Spacing, layout, radius, elevation, texture, motion and focus."
+---
+
+import {SpaceScale, RadiusScale, ShadowScale, MotionScale, Breakpoints, Layers, Demo, Card, Button, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Foundations*: the shapes behind every screen
+
+## Spacing
+
+An **8 px grid** with a 4 px half step. Space between related things is small, space between groups is large. The brand breathes: when in doubt, add space.
+
+<SpaceScale />
+
+| Where | Gap |
+| --- | --- |
+| Icon to label | 4 to 8 px |
+| Label to field | 6 to 8 px |
+| Between fields | 16 px |
+| Card padding | 20 px in product, 28 px in marketing |
+| Between cards | 16 px |
+| Between page sections | 48 to 64 px |
+
+## Layout
+
+Content stops at **1200 px** (1360 for wide dashboards). The side gutter is `clamp(1.25rem, 4vw, 4rem)`. The Manager and the Platform show a side navigation from `lg` upward; below it the navigation moves into a menu.
+
+<Breakpoints />
+
+Design mobile first. A table that cannot fit becomes a list of cards, never a horizontal scroll of the page.
+
+## Radius
+
+Pills for what you press, soft cards for what you read, 4 to 8 px for fields.
+
+<RadiusScale />
+
+## Borders
+
+Pills and outlines are drawn with a **1.5 px** stroke, never a heavier one. Hairlines on cards and tables are 1 px in `border-light`. On dark, hairlines are `border-on-dark`.
+
+## Elevation
+
+The identity is flat. Elevation is **color**: a mint or amber field, a white card on a cloud page. Shadows exist only for things that float.
+
+<ShadowScale />
+
+| Use a shadow for | Do not use one for |
+| --- | --- |
+| Menus and popovers (`shadow-pop`) | Cards in a grid |
+| Dialogs, hover lift (`shadow-float`) | Buttons |
+| Bento tiles on an aurora field (`shadow-soft`) | Table rows, inputs |
+
+### Aurora and grain
+
+Marketing and the Hub may use the **aurora**: a pale mint and amber wash from the corners, with dark type on top. It is secondary and low contrast. The product screens do not use it.
+
+<Demo surface="white">
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, width: '100%'}}>
+    <Card tone="aurora" bento elevation="soft" title="Aurora">Balanced: mint with a warm corner.</Card>
+    <Card tone="aurora-cool" bento elevation="soft" title="Cool">Calm and editorial.</Card>
+    <Card tone="aurora-deep" bento elevation="float" title="Deep">For a dark tile.</Card>
+  </div>
+</Demo>
+
+## Motion
+
+Things **settle**. A confident ease-out, around 220 ms, no bounce and no spin. Hover deepens the field by one step or lifts to mint. Press scales to 0.97 with no color flash.
+
+<MotionScale />
+
+| Event | Duration | Notes |
+| --- | --- | --- |
+| Press | `dur-fast` 120 ms | Scale 0.97 |
+| Hover, color, small moves | `dur-base` 220 ms | |
+| Panels, dialogs, entrances | `dur-slow` 420 ms | Fade and a short rise |
+
+With `prefers-reduced-motion: reduce` every duration drops to 0 and the press scale to 1. Never carry meaning in motion alone.
+
+## Focus
+
+Focus is a **teal ring with an amber halo** (mint on dark). The amber alone is 1.9:1 on white and fails; the teal ring clears 3:1 on every surface, and the halo keeps the brand.
+
+<Demo surface="white">
+  <Button>Tab to me</Button>
+  <Button variant="outline">Then to me</Button>
+</Demo>
+
+## Layers
+
+<Layers />
+
+<DoDontRow>
+  <DoDont kind="do">Use the spacing and radius tokens. Round to the grid.</DoDont>
+  <DoDont kind="dont">Invent a 10 px gap, a 12 px radius or a shadow that is not in the list.</DoDont>
+</DoDontRow>

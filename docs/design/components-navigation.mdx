@@ -1,0 +1,83 @@
+---
+sidebar_position: 11
+title: "Navigation"
+description: "Tabs, segmented control, breadcrumbs, pagination, side navigation and top bar."
+---
+
+import {useState} from 'react';
+import {Demo, Tabs, UnderlineTabs, Segmented, Breadcrumbs, Pager, ShellPattern, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Navigation*: know where you are
+
+## Tabs
+
+Pill **tabs** filter or switch views of the **same** list, with a count when it helps. The selected tab is filled teal. They are a `tablist`: arrow keys move, and the selected tab is the one in the tab order.
+
+export const TabsDemo = () => {
+  const [v, setV] = useState('active');
+  return <Tabs label="Status" value={v} onChange={setV} items={[{id: 'active', label: 'Active', count: 4}, {id: 'open', label: 'Open', count: 3}, {id: 'contacted', label: 'Contacted', count: 1}, {id: 'resolved', label: 'Resolved', count: 0}, {id: 'all', label: 'All', count: 4}]} />;
+};
+
+<Demo surface="white" code={`<Tabs label="Status" value={v} onChange={setV}
+  items={[{id: 'active', label: 'Active', count: 4}, ...]} />`}>
+  <TabsDemo />
+</Demo>
+
+## Underline tabs
+
+For **sections of a page** (Overview, Reviews, Settings). Quieter than pills, they sit on a hairline.
+
+export const UnderlineDemo = () => {
+  const [v, setV] = useState('overview');
+  return <div style={{width: '100%'}}><UnderlineTabs label="Sections" value={v} onChange={setV} items={[{id: 'overview', label: 'Overview'}, {id: 'reviews', label: 'Reviews'}, {id: 'settings', label: 'Settings'}]} /></div>;
+};
+
+<Demo surface="white"><UnderlineDemo /></Demo>
+
+## Segmented control
+
+A small switch between **two to four options** that change how the same data is shown (a range, a view). It is a button group with `aria-pressed`, not tabs.
+
+export const SegDemo = () => {
+  const [v, setV] = useState('30d');
+  return <Segmented label="Range" value={v} onChange={setV} items={[{id: '7d', label: '7 days'}, {id: '30d', label: '30 days'}, {id: '90d', label: '90 days'}]} />;
+};
+
+<Demo surface="white"><SegDemo /></Demo>
+
+## Breadcrumbs
+
+Show the path in a deep area (Manager: Clients, Casa Olivo, Reviews). The last item is the current page, not a link.
+
+<Demo surface="white"><Breadcrumbs items={['Clients', 'Casa Olivo', 'Reviews']} /></Demo>
+
+## Pagination
+
+For long lists where a person looks for a row. Prefer filters and search first; use infinite scroll only for feeds.
+
+export const PagerDemo = () => {
+  const [p, setP] = useState(2);
+  return <Pager pages={5} page={p} onChange={setP} />;
+};
+
+<Demo surface="white"><PagerDemo /></Demo>
+
+## Side navigation and top bar
+
+The Manager's chrome: a **deep teal** side navigation with the current page in mint, group titles in spread caps, and an amber **count** for what needs a person. The top bar holds search and the person. Below `lg` the side navigation moves into a menu button.
+
+<Demo surface="white">
+  <ShellPattern />
+</Demo>
+
+| Part | Rule |
+| --- | --- |
+| Current page | `aria-current="page"`, mint text and a 3 px mint edge |
+| Count badge | Amber, only for work waiting on a person, hidden at zero |
+| Groups | At most four, with a title in spread caps |
+| Labels | One or two words, nouns: "Cases", "Approvals" |
+
+<DoDontRow>
+  <DoDont kind="do">Keep the main navigation to seven items or fewer, in the same order on every surface.</DoDont>
+  <DoDont kind="dont">Hide a locked module. It stays visible with a teaser, as the [package access](../product/packages-and-access) rules say.</DoDont>
+</DoDontRow>

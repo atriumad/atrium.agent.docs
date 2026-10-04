@@ -1,0 +1,130 @@
+---
+sidebar_position: 2
+title: "Colors"
+description: "The brand palette, the semantic roles, the status and data colors, and the dark theme."
+---
+
+import {Swatches, SemanticTable, StatusTable, DataPalette, AgentIdentities, Demo, Card, Button, Chip, Badge, StatusBadge, Banner, DoDont, DoDontRow, Highlight, Eyebrow} from '@site/src/components/design';
+
+# *Colors*: three anchors and a warm accent
+
+The brand is deep teal, mint, cloud and amber. The product adds a small set of **status** colors, because a dashboard has to say "good" and "wrong" and the brand palette has no red or green. Every value below lives in `src/design/tokens.ts`, and the CSS custom properties are generated from it.
+
+## The brand palette
+
+Four families. Use the **bold** step of each as the color, and the others as steps around it.
+
+### Deep teal: the dark anchor
+<Swatches group="teal" />
+
+### Mint: the light accent
+<Swatches group="mint" />
+
+### Amber: the campaign color
+<Swatches group="amber" />
+
+### Cloud: the cool white
+<Swatches group="cloud" />
+
+## Using them
+
+The default pairing is **two-tone**: mint on teal, or teal on mint. Amber is a third, rarer voice.
+
+<Demo surface="white" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12}}>
+    <Card tone="teal" title="Mint on teal">The default on dark. Headlines in mint, body in cloud.</Card>
+    <Card tone="mint" title="Teal on mint">The default on a light field.</Card>
+    <Card tone="amber" title="Teal on amber">A campaign field. One per view.</Card>
+    <Card tone="cloud" title="Teal on cloud">A sunken area inside a page.</Card>
+  </div>
+</Demo>
+
+| Color | Share of a screen | Used for |
+| --- | --- | --- |
+| Cloud and white | About 70% | Page, cards, fields, tables |
+| Deep teal | About 20% | Text, the dark chrome, the primary button |
+| Mint | About 8% | Accent on dark, soft fills, selected rows |
+| Amber | 2% or less | One highlight, one campaign field, the count badge |
+
+## Semantic roles
+
+Components never read a raw color. They read a role, so a dark surface only has to redefine the roles.
+
+### Surfaces
+<SemanticTable group="surface" />
+
+### Text
+<SemanticTable group="text" />
+
+### Lines
+<SemanticTable group="line" />
+
+## Status colors
+
+The brand has no red and no green. These five are the **product layer**, taken from the Platform, Manager and Mobile prototypes. They are the only colors that carry a meaning.
+
+<StatusTable />
+
+<Demo surface="white">
+  <StatusBadge status="positive">Resolved</StatusBadge>
+  <StatusBadge status="warning">Due in 3h</StatusBadge>
+  <StatusBadge status="danger">Overdue by 6h</StatusBadge>
+  <StatusBadge status="info">Draft</StatusBadge>
+  <StatusBadge status="neutral">Paused</StatusBadge>
+</Demo>
+
+:::caution Color never speaks alone
+A status always has a word and a mark (an icon or a dot). A person who cannot tell terracotta from green must still read "Overdue" and see a cross. Text on a status tint always passes 4.5:1; see [Accessibility](./accessibility).
+:::
+
+Amber is **campaign**, not **warning**. A warning uses `status-warning` (an amber-ink on a pale amber tint), never an amber field.
+
+## Data colors
+
+For charts, in the order series are used. Six is the limit: beyond that, group or use small multiples. Adjacent series never rely on hue alone, so charts also use position, labels or direct annotation.
+
+<DataPalette />
+
+## Agent identities
+
+Each agent has a face color and a card color, shared with the home page and the footer.
+
+<AgentIdentities />
+
+## The dark theme
+
+Dark is not an inversion. It is the Manager's chrome and any deep-teal surface: the roles are redefined, and the status colors lighten so they hold contrast on teal.
+
+<Demo surface="dark" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12}}>
+    <Card bordered title="Cards on dark" description="surface-card is teal-800 over a teal-900 page." />
+    <div style={{display: 'grid', gap: 8}}>
+      <Banner status="danger" title="Overdue by 6h" />
+      <Banner status="positive" title="Reply published" />
+    </div>
+  </div>
+  <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>
+    <Button>Primary becomes mint</Button>
+    <Button variant="outline">Outline</Button>
+    <StatusBadge status="warning">Due soon</StatusBadge>
+  </div>
+</Demo>
+
+Set `data-atr-theme="dark"` on any ancestor to switch.
+
+## Do and don't
+
+<DoDontRow>
+  <DoDont kind="do">
+    Use teal-800 for text and mint-400 on teal. Both clear 7:1.
+  </DoDont>
+  <DoDont kind="dont">
+    Use mint text on white, or amber text on anything. They fail contrast.
+  </DoDont>
+  <DoDont kind="do">
+    Use <Highlight>one</Highlight> amber marker swipe behind the word that matters.
+  </DoDont>
+  <DoDont kind="dont">
+    Use an amber field as an error. Amber is campaign; errors use the danger status.
+  </DoDont>
+</DoDontRow>

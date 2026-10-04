@@ -1,0 +1,62 @@
+---
+sidebar_position: 5
+title: "Iconography and logo"
+description: "The α mark, the wordmark, clear space, and the icon set with its rules."
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import {IconGrid, Demo, DoDont, DoDontRow, Button, Atr} from '@site/src/components/design';
+import {Search, Plus, ArrowRight, Star} from 'lucide-react';
+
+# *Iconography* and logo
+
+Atrium's identity is typographic. It leans on the Greek **α** and a lowercase **atrium** wordmark, not on an icon set. Functional icons come from Lucide.
+
+## The mark and the wordmark
+
+<div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16, margin: '1rem 0'}}>
+  <div style={{display: 'grid', placeItems: 'center', padding: 32, borderRadius: 14, background: '#fff', border: '1px solid var(--atrium-line)'}}>
+    <img src={useBaseUrl('/img/logo.svg')} alt="Atrium mark on a light background" height="64" />
+  </div>
+  <div style={{display: 'grid', placeItems: 'center', padding: 32, borderRadius: 14, background: '#072f34'}}>
+    <img src={useBaseUrl('/img/logo-dark.svg')} alt="Atrium mark on a dark background" height="64" />
+  </div>
+</div>
+
+| Rule | Value |
+| --- | --- |
+| Colors | Deep teal on light, mint on deep teal. One color per mark |
+| Clear space | Half the height of the mark on every side |
+| Minimum size | 24 px tall for the mark, 80 px wide for the wordmark |
+| Wordmark | Always lowercase: **atrium**. Use the SVG, never type it in a font |
+| Recoloring | Via `currentColor` or a CSS mask, never a filter |
+
+<DoDontRow>
+  <DoDont kind="do">Place the mark on a flat teal, mint, cloud or white field.</DoDont>
+  <DoDont kind="dont">Stretch, rotate, outline, add a shadow, or put it over a busy photo.</DoDont>
+</DoDontRow>
+
+## Icons
+
+Functional icons are **[Lucide](https://lucide.dev)**: a 24 px grid, **1.75 px stroke**, rounded caps and joins, which echoes the 1.5 px pill outlines. The brand ships no icon set of its own; when it does, it replaces Lucide behind the same names.
+
+<IconGrid />
+
+### Rules
+
+- **Sizes.** 16 px beside 14 px text, 20 px in buttons and navigation, 24 px as a standalone mark. Never scale a Lucide icon by fractions.
+- **Color.** Icons take `currentColor`. They are never a second accent color.
+- **Meaning.** An icon never carries meaning alone. Pair it with a label, or give an icon-only button an `aria-label`. A status icon sits next to its word.
+- **Set.** Add an icon to the list above before using it, so the product uses one vocabulary: one icon per concept.
+
+<Demo surface="white">
+  <Button icon={<Plus size={16} strokeWidth={1.75} />}>Add client</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.75} />}>Continue</Button>
+  <Button iconOnly variant="ghost" aria-label="Search"><Search size={18} strokeWidth={1.75} /></Button>
+</Demo>
+
+## Agents
+
+Each of the six agents has a face (a Blobatar generated from its name) and a pair of colors. They appear on the home page, in the footer and wherever an agent acts or speaks. See [Colors](./colors#agent-identities).
+
+An agent is a **person-like presence**, so it never uses the mark, and it never wears a status color: the agent's colors are its identity, not its state.

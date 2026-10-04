@@ -1,0 +1,60 @@
+---
+sidebar_position: 6
+title: "Components"
+description: "The catalogue of components, their status, and the contract every one meets."
+---
+
+import {Demo, Button, Chip, Badge, StatusBadge, Card, Input, Tabs, Banner} from '@site/src/components/design';
+
+# *Components*: the parts every surface shares
+
+These are the components the product needs, in the order they are built. Each page shows the component live, in its states, with its anatomy, its API and its rules. The code on these pages is the code `packages/ui` adopts.
+
+## Catalogue
+
+| Component | Page | Surfaces | Status |
+| --- | --- | --- | --- |
+| Button, icon button, link | [Actions](./components-actions) | All | Specified and built here |
+| Chip | [Actions](./components-actions) | All | Specified and built here |
+| Field, input, textarea, select | [Forms](./components-forms) | All | Specified and built here |
+| Checkbox, radio, switch | [Forms](./components-forms) | All | Specified and built here |
+| Card | [Data](./components-data) | All | Specified and built here |
+| Stat, delta, sparkline, bars, score ring | [Data](./components-data) | Platform, Manager, Mobile | Specified and built here |
+| Data table | [Data](./components-data) | Manager, Platform | Specified and built here |
+| Avatar, progress | [Data](./components-data) | All | Specified and built here |
+| Badge, status badge | [Feedback](./components-feedback) | All | Specified and built here |
+| Banner, toast | [Feedback](./components-feedback) | All | Specified and built here |
+| Empty state, skeleton | [Feedback](./components-feedback) | All | Specified and built here |
+| Tooltip, dialog, menu | [Feedback](./components-feedback) | Manager, Platform | Specified and built here |
+| Tabs, segmented, underline tabs | [Navigation](./components-navigation) | All | Specified and built here |
+| Breadcrumbs, pagination | [Navigation](./components-navigation) | Manager, Platform | Specified and built here |
+| Side navigation, top bar | [Navigation](./components-navigation) | Manager, Platform | Specified and built here |
+| Date range, combobox, file drop | not yet | Manager | To specify when the first screen needs it |
+| Charts beyond bars and sparkline | not yet | Platform | To specify with the Growth Score screens |
+
+## The contract
+
+Every component meets the same rules. A component that cannot is not finished.
+
+1. **It reads roles, not colors.** Only the tokens in [Colors](./colors), so a surface can re-theme it.
+2. **It has every state.** Rest, hover, focus, active, disabled, and where it applies loading, error and selected.
+3. **It is keyboard complete.** Reachable with Tab, operable with Enter and Space (and arrows for tabs and menus), with the focus ring from [Foundations](./foundations#focus).
+4. **It is named for assistive technology.** A visible label, or an `aria-label` for icon-only parts. Errors are announced (`role="alert"`) and tied to the field.
+5. **It never relies on color alone.** Status has a word and a mark.
+6. **It respects reduced motion.** Durations are tokens that collapse to zero.
+7. **Targets are large enough.** 44 px on mobile, 24 px at minimum on desktop.
+8. **It has a loading, an empty and an error design** wherever it holds data.
+
+## A taste
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center'}}>
+    <Button>Primary</Button><Button variant="mint">Mint</Button><Button variant="outline">Outline</Button>
+    <Chip variant="mint-soft">Chip</Chip><Badge tone="teal">Badge</Badge><StatusBadge status="positive">Resolved</StatusBadge>
+  </div>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12}}>
+    <Card bordered title="Card" description="A soft 14 px card on a cloud page." />
+    <Input label="Field" placeholder="A field with a label" hint="Helper text sits underneath." />
+  </div>
+  <Banner status="warning" title="Due in 3 hours" action={<Button size="sm" variant="outline">Review</Button>}>Reach out before the 24-hour target.</Banner>
+</Demo>

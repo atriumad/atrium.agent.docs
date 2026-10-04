@@ -10,7 +10,9 @@
     "build": "docusaurus build",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "tokens": "bun scripts/build-tokens.ts",
+    "tokens:check": "bun scripts/build-tokens.ts --check"
   },
   "dependencies": {
     "@blobatar/react": "^2.7.0",
@@ -21,6 +23,7 @@
     "@mdx-js/react": "^3.1.0",
     "blobatar": "^2.7.0",
     "clsx": "^2.1.1",
+    "lucide-react": "^1.52.0",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

@@ -1,0 +1,62 @@
+---
+sidebar_position: 5
+title: "Iconografía y logo"
+description: "La marca α, el wordmark, el espacio libre y el set de iconos con sus reglas."
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import {IconGrid, Demo, DoDont, DoDontRow, Button, Atr} from '@site/src/components/design';
+import {Search, Plus, ArrowRight, Star} from 'lucide-react';
+
+# *Iconografía* y logo
+
+La identidad de Atrium es tipográfica. Se apoya en la **α** griega y en un wordmark **atrium** en minúscula, no en un set de iconos. Los iconos funcionales vienen de Lucide.
+
+## La marca y el wordmark
+
+<div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16, margin: '1rem 0'}}>
+  <div style={{display: 'grid', placeItems: 'center', padding: 32, borderRadius: 14, background: '#fff', border: '1px solid var(--atrium-line)'}}>
+    <img src={useBaseUrl('/img/logo.svg')} alt="Marca de Atrium sobre fondo claro" height="64" />
+  </div>
+  <div style={{display: 'grid', placeItems: 'center', padding: 32, borderRadius: 14, background: '#072f34'}}>
+    <img src={useBaseUrl('/img/logo-dark.svg')} alt="Marca de Atrium sobre fondo oscuro" height="64" />
+  </div>
+</div>
+
+| Regla | Valor |
+| --- | --- |
+| Colores | Teal profundo sobre claro, menta sobre teal profundo. Un color por marca |
+| Espacio libre | La mitad de la altura de la marca por cada lado |
+| Tamaño mínimo | 24 px de alto para la marca, 80 px de ancho para el wordmark |
+| Wordmark | Siempre en minúscula: **atrium**. Usa el SVG, nunca lo escribas con una fuente |
+| Recolorear | Con `currentColor` o una máscara CSS, nunca con un filtro |
+
+<DoDontRow>
+  <DoDont kind="do">Coloca la marca sobre un campo plano teal, menta, cloud o blanco.</DoDont>
+  <DoDont kind="dont">Estirarla, rotarla, delinearla, ponerle sombra o ponerla sobre una foto cargada.</DoDont>
+</DoDontRow>
+
+## Iconos
+
+Los iconos funcionales son **[Lucide](https://lucide.dev)**: una grilla de 24 px, **trazo de 1.75 px**, extremos y uniones redondeados, que hace eco de los contornos de 1.5 px de las píldoras. La marca no trae un set propio; cuando lo tenga, reemplaza a Lucide detrás de los mismos nombres.
+
+<IconGrid />
+
+### Reglas
+
+- **Tamaños.** 16 px junto a texto de 14 px, 20 px en botones y navegación, 24 px como marca independiente. Nunca escales un icono de Lucide con fracciones.
+- **Color.** Los iconos toman `currentColor`. Nunca son un segundo color de acento.
+- **Significado.** Un icono nunca lleva el significado solo. Acompáñalo con una etiqueta, o dale un `aria-label` a un botón solo de icono. Un icono de estado va junto a su palabra.
+- **Set.** Añade un icono a la lista de arriba antes de usarlo, para que el producto use un solo vocabulario: un icono por concepto.
+
+<Demo surface="white">
+  <Button icon={<Plus size={16} strokeWidth={1.75} />}>Añadir cliente</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.75} />}>Continuar</Button>
+  <Button iconOnly variant="ghost" aria-label="Buscar"><Search size={18} strokeWidth={1.75} /></Button>
+</Demo>
+
+## Agentes
+
+Cada uno de los seis agentes tiene una cara (un Blobatar generado desde su nombre) y un par de colores. Aparecen en la home, en el footer y dondequiera que un agente actúa o habla. Ver [Colores](./colors#identidades-de-los-agentes).
+
+Un agente es una **presencia parecida a una persona**, así que nunca usa la marca, y nunca lleva un color de estado: los colores del agente son su identidad, no su estado.

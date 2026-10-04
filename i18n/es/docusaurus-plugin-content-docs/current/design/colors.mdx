@@ -1,0 +1,130 @@
+---
+sidebar_position: 2
+title: "Colores"
+description: "La paleta de la marca, los roles semánticos, los colores de estado y de datos, y el tema oscuro."
+---
+
+import {Swatches, SemanticTable, StatusTable, DataPalette, AgentIdentities, Demo, Card, Button, Chip, Badge, StatusBadge, Banner, DoDont, DoDontRow, Highlight, Eyebrow} from '@site/src/components/design';
+
+# *Colores*: tres anclas y un acento cálido
+
+La marca es teal profundo, menta, cloud y ámbar. El producto añade un conjunto pequeño de colores de **estado**, porque un dashboard tiene que decir "bien" y "mal" y la paleta de la marca no tiene rojo ni verde. Cada valor de abajo vive en `src/design/tokens.ts`, y las propiedades CSS se generan desde ahí.
+
+## La paleta de la marca
+
+Cuatro familias. Usa el paso marcado como el color, y los demás como escalones a su alrededor.
+
+### Teal profundo: el ancla oscura
+<Swatches group="teal" />
+
+### Menta: el acento claro
+<Swatches group="mint" />
+
+### Ámbar: el color de campaña
+<Swatches group="amber" />
+
+### Cloud: el blanco frío
+<Swatches group="cloud" />
+
+## Cómo usarlos
+
+La combinación por defecto es **de dos tonos**: menta sobre teal, o teal sobre menta. El ámbar es una tercera voz, más rara.
+
+<Demo surface="white" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12}}>
+    <Card tone="teal" title="Menta sobre teal">Lo normal sobre oscuro. Titulares en menta, cuerpo en cloud.</Card>
+    <Card tone="mint" title="Teal sobre menta">Lo normal sobre un campo claro.</Card>
+    <Card tone="amber" title="Teal sobre ámbar">Un campo de campaña. Uno por vista.</Card>
+    <Card tone="cloud" title="Teal sobre cloud">Un área hundida dentro de una página.</Card>
+  </div>
+</Demo>
+
+| Color | Parte de una pantalla | Se usa para |
+| --- | --- | --- |
+| Cloud y blanco | Cerca del 70% | Página, tarjetas, campos, tablas |
+| Teal profundo | Cerca del 20% | Texto, el chrome oscuro, el botón primario |
+| Menta | Cerca del 8% | Acento sobre oscuro, rellenos suaves, filas seleccionadas |
+| Ámbar | 2% o menos | Un resaltado, un campo de campaña, la insignia de conteo |
+
+## Roles semánticos
+
+Los componentes nunca leen un color crudo. Leen un rol, así una superficie oscura solo tiene que redefinir los roles.
+
+### Superficies
+<SemanticTable group="surface" />
+
+### Texto
+<SemanticTable group="text" />
+
+### Líneas
+<SemanticTable group="line" />
+
+## Colores de estado
+
+La marca no tiene rojo ni verde. Estos cinco son la **capa de producto**, tomados de los prototipos de Platform, Manager y Mobile. Son los únicos colores que llevan un significado.
+
+<StatusTable />
+
+<Demo surface="white">
+  <StatusBadge status="positive">Resuelto</StatusBadge>
+  <StatusBadge status="warning">Vence en 3h</StatusBadge>
+  <StatusBadge status="danger">Vencido hace 6h</StatusBadge>
+  <StatusBadge status="info">Borrador</StatusBadge>
+  <StatusBadge status="neutral">Pausado</StatusBadge>
+</Demo>
+
+:::caution El color nunca habla solo
+Un estado siempre tiene una palabra y una marca (un icono o un punto). Quien no distingue terracota de verde debe poder leer "Vencido" y ver una cruz. El texto sobre un tinte de estado siempre pasa 4.5:1; ver [Accesibilidad](./accessibility).
+:::
+
+El ámbar es **campaña**, no **aviso**. Un aviso usa `status-warning` (una tinta ámbar sobre un tinte ámbar pálido), nunca un campo ámbar.
+
+## Colores de datos
+
+Para gráficos, en el orden en que se usan las series. Seis es el límite: más que eso, agrupa o usa múltiplos pequeños. Las series adyacentes no dependen solo del tono, así que los gráficos también usan posición, etiquetas o anotación directa.
+
+<DataPalette />
+
+## Identidades de los agentes
+
+Cada agente tiene un color de cara y un color de tarjeta, compartidos con la home y el footer.
+
+<AgentIdentities />
+
+## El tema oscuro
+
+Oscuro no es una inversión. Es el chrome del Manager y cualquier superficie teal profundo: se redefinen los roles y los colores de estado se aclaran para mantener el contraste sobre teal.
+
+<Demo surface="dark" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12}}>
+    <Card bordered title="Tarjetas sobre oscuro" description="surface-card es teal-800 sobre una página teal-900." />
+    <div style={{display: 'grid', gap: 8}}>
+      <Banner status="danger" title="Vencido hace 6h" />
+      <Banner status="positive" title="Respuesta publicada" />
+    </div>
+  </div>
+  <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>
+    <Button>El primario pasa a menta</Button>
+    <Button variant="outline">Contorno</Button>
+    <StatusBadge status="warning">Vence pronto</StatusBadge>
+  </div>
+</Demo>
+
+Pon `data-atr-theme="dark"` en cualquier ancestro para cambiar.
+
+## Haz y no hagas
+
+<DoDontRow>
+  <DoDont kind="do">
+    Usa teal-800 para el texto y mint-400 sobre teal. Los dos superan 7:1.
+  </DoDont>
+  <DoDont kind="dont">
+    Usar texto menta sobre blanco, o texto ámbar sobre cualquier cosa. No cumplen el contraste.
+  </DoDont>
+  <DoDont kind="do">
+    Usa <Highlight>un</Highlight> trazo de marcador ámbar detrás de la palabra que importa.
+  </DoDont>
+  <DoDont kind="dont">
+    Usar un campo ámbar como error. El ámbar es campaña; los errores usan el estado de peligro.
+  </DoDont>
+</DoDontRow>

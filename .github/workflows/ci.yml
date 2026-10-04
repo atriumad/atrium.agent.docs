@@ -24,6 +24,10 @@ jobs:
       - name: Install
         run: bun install --frozen-lockfile
 
+      # The generated CSS must match src/design/tokens.ts, and every contrast pairing must pass.
+      - name: Design tokens
+        run: bun run tokens:check
+
       - name: Typecheck
         run: bun run typecheck
 

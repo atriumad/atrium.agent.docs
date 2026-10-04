@@ -1,0 +1,84 @@
+---
+sidebar_position: 1
+title: "Design"
+description: "The visual language of Atrium: principles, voice, and where each part is documented."
+---
+
+import {Demo, Eyebrow, Highlight, Emph, ScriptAccent, Button, Chip, Badge, Card, Gallery, Tile, StatusBadge} from '@site/src/components/design';
+
+# Design: *a visual language* for every surface
+
+Atrium looks like a confident friend who happens to be very good at marketing: warm, direct, a little irreverent, and never corporate. This section is the visual reference for it. It defines the colors, the type, the shapes, the motion and the components, so that the Platform, the Manager, the Hub, the mobile app and this documentation read as one product.
+
+<Demo surface="dark">
+  <div style={{display: 'grid', gap: 12}}>
+    <Eyebrow tone="mint" spread="widest">The experience era</Eyebrow>
+    <div style={{fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', lineHeight: 1.02, letterSpacing: '-0.03em', color: 'var(--mint-400)', maxWidth: '16ch'}}>
+      Turn strangers into <Emph>regulars</Emph>
+    </div>
+    <div style={{display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8}}>
+      <Button variant="mint">Get started</Button>
+      <Button variant="outline">See the system</Button>
+    </div>
+  </div>
+</Demo>
+
+## The principles
+
+1. **Two tones by default.** Mint on deep teal, or deep teal on mint. Amber is the campaign color: one marker swipe or one field, never both competing.
+2. **Flat and color-led.** Hierarchy comes from fields of color and hairlines, not from blur. Shadows are rare and belong to things that float.
+3. **Pills act, cards hold.** Everything you can press is a pill. Content sits in soft cards of 14 px.
+4. **One voice, with an accent.** A clean sans for everything, and one serif italic phrase for warmth. The handwritten script is a seasoning: one word, once.
+5. **Color never speaks alone.** Status always carries a word and a mark. The brand has no red or green, so product status colors exist only where a meaning is needed.
+6. **Calm motion.** Things settle in about 220 ms. Nothing bounces or spins, and everything respects reduced motion.
+
+## The voice on screen
+
+Interface copy follows the brand voice: first person plural ("we") talking to "you", short sentences, specific verbs, no exclamation marks, no emoji. Errors say what happened and what to do next. Empty states say what will appear and when.
+
+<Gallery min={280}>
+  <Tile title="Clear">
+    <Card bordered title="Nothing needs follow-up right now." description="New cases appear here the moment a guest leaves a low rating." />
+  </Tile>
+  <Tile title="Specific">
+    <Card bordered title="3 reviews are waiting for your approval" description="We drafted a reply to each one in your voice." />
+  </Tile>
+</Gallery>
+
+## Where it applies
+
+| Surface | Look | What is specific |
+| --- | --- | --- |
+| **Platform** (the client) | Light: cloud and white, deep teal text | Numbers in the serif, the score ring, calm cards |
+| **Manager** (the agency) | Dark chrome: deep teal side navigation over a light work area | Dense tables, status everywhere, the amber count badge |
+| **Hub** (the guest) | Takes each restaurant's color and logo on the same components | A contrast guard on the accent; see [Surfaces](./surfaces) |
+| **Mobile** (the owner) | Light, large targets, one decision per screen | 44 px targets, the serif for the number that matters |
+| **Documentation** | Light and dark, with the brand tokens | This section and its live examples |
+
+## What is in this section
+
+| Page | What it covers |
+| --- | --- |
+| [Colors](./colors) | The palette, semantic roles, status and data colors, the dark theme |
+| [Typography](./typography) | Four families, the type ramp, tracking, the emphasis devices |
+| [Foundations](./foundations) | Spacing, layout, radius, elevation, texture, motion, focus |
+| [Iconography and logo](./iconography-and-logo) | The mark, the wordmark, the icon set and its rules |
+| [Components](./components) | The catalogue and the contract every component meets |
+| [Patterns](./patterns) | Whole screens: cases, dashboard, portfolio, forms, shell |
+| [Surfaces](./surfaces) | How each app themes the same parts |
+| [Accessibility](./accessibility) | Contrast results, focus, targets, motion |
+| [Tokens](./tokens) | The code to copy: CSS, Tailwind, and how `packages/ui` adopts them |
+
+## Status
+
+:::note What is built
+The tokens and the primitives on these pages are real code, written once in this repository (`src/design`, `src/css/atrium-tokens.css`, `src/css/atrium-ui.css`, `src/components/design`). `packages/ui` has not adopted them yet; [Tokens](./tokens) lists the steps. Until then the Manager and Platform screens use an earlier provisional theme, and this section is the target they move to ([decision 15](../plan/open-decisions)).
+:::
+
+<Demo>
+  <Chip variant="mint-soft">Mint</Chip>
+  <Chip variant="amber">Amber</Chip>
+  <Badge tone="teal">Teal</Badge>
+  <StatusBadge status="positive">Done</StatusBadge>
+  <span style={{fontSize: 20}}>We're <Highlight>humans</Highlight>, and so is <ScriptAccent>your guest</ScriptAccent>.</span>
+</Demo>

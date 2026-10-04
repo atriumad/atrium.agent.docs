@@ -1,0 +1,83 @@
+---
+sidebar_position: 11
+title: "Navegación"
+description: "Tabs, control segmentado, migas de pan, paginación, navegación lateral y barra superior."
+---
+
+import {useState} from 'react';
+import {Demo, Tabs, UnderlineTabs, Segmented, Breadcrumbs, Pager, ShellPattern, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Navegación*: saber dónde estás
+
+## Tabs
+
+Las **tabs** en píldora filtran o cambian vistas de la **misma** lista, con un conteo cuando ayuda. La tab seleccionada va rellena de teal. Son un `tablist`: las flechas se mueven, y la tab seleccionada es la que está en el orden de tabulación.
+
+export const TabsDemo = () => {
+  const [v, setV] = useState('active');
+  return <Tabs label="Estado" value={v} onChange={setV} items={[{id: 'active', label: 'Activos', count: 4}, {id: 'open', label: 'Abiertos', count: 3}, {id: 'contacted', label: 'Contactados', count: 1}, {id: 'resolved', label: 'Resueltos', count: 0}, {id: 'all', label: 'Todos', count: 4}]} />;
+};
+
+<Demo surface="white" code={`<Tabs label="Estado" value={v} onChange={setV}
+  items={[{id: 'active', label: 'Activos', count: 4}, ...]} />`}>
+  <TabsDemo />
+</Demo>
+
+## Tabs subrayadas
+
+Para **secciones de una página** (Resumen, Reseñas, Ajustes). Más discretas que las píldoras, descansan sobre una línea fina.
+
+export const UnderlineDemo = () => {
+  const [v, setV] = useState('overview');
+  return <div style={{width: '100%'}}><UnderlineTabs label="Secciones" value={v} onChange={setV} items={[{id: 'overview', label: 'Resumen'}, {id: 'reviews', label: 'Reseñas'}, {id: 'settings', label: 'Ajustes'}]} /></div>;
+};
+
+<Demo surface="white"><UnderlineDemo /></Demo>
+
+## Control segmentado
+
+Un interruptor pequeño entre **dos y cuatro opciones** que cambian cómo se muestran los mismos datos (un rango, una vista). Es un grupo de botones con `aria-pressed`, no tabs.
+
+export const SegDemo = () => {
+  const [v, setV] = useState('30d');
+  return <Segmented label="Rango" value={v} onChange={setV} items={[{id: '7d', label: '7 días'}, {id: '30d', label: '30 días'}, {id: '90d', label: '90 días'}]} />;
+};
+
+<Demo surface="white"><SegDemo /></Demo>
+
+## Migas de pan
+
+Muestran la ruta en una zona profunda (Manager: Clientes, Casa Olivo, Reseñas). El último elemento es la página actual, no un enlace.
+
+<Demo surface="white"><Breadcrumbs items={['Clientes', 'Casa Olivo', 'Reseñas']} /></Demo>
+
+## Paginación
+
+Para listas largas donde la persona busca una fila. Prefiere primero filtros y búsqueda; usa scroll infinito solo para feeds.
+
+export const PagerDemo = () => {
+  const [p, setP] = useState(2);
+  return <Pager pages={5} page={p} onChange={setP} />;
+};
+
+<Demo surface="white"><PagerDemo /></Demo>
+
+## Navegación lateral y barra superior
+
+El chrome del Manager: una navegación lateral **teal profundo** con la página actual en menta, títulos de grupo en mayúsculas espaciadas y un **conteo** ámbar para lo que espera a una persona. La barra superior lleva la búsqueda y a la persona. Por debajo de `lg`, la navegación lateral pasa a un botón de menú.
+
+<Demo surface="white">
+  <ShellPattern />
+</Demo>
+
+| Parte | Regla |
+| --- | --- |
+| Página actual | `aria-current="page"`, texto menta y un borde de 3 px menta |
+| Insignia de conteo | Ámbar, solo para trabajo que espera a una persona, oculta en cero |
+| Grupos | Como máximo cuatro, con un título en mayúsculas espaciadas |
+| Etiquetas | Una o dos palabras, sustantivos: "Casos", "Aprobaciones" |
+
+<DoDontRow>
+  <DoDont kind="do">Mantén la navegación principal en siete elementos o menos, en el mismo orden en todas las superficies.</DoDont>
+  <DoDont kind="dont">Ocultar un módulo bloqueado. Sigue visible con un teaser, como dicen las reglas de [acceso por paquete](../product/packages-and-access).</DoDont>
+</DoDontRow>

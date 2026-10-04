@@ -7,6 +7,7 @@ const sidebars: SidebarsConfig = {
   agents: auto('agents'),
   data: auto('data'),
   product: auto('product'),
+  design: auto('design'),
   architecture: auto('architecture'),
   modules: auto('modules'),
   plan: auto('plan'),

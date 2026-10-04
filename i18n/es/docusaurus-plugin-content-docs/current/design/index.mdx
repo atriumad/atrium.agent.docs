@@ -1,0 +1,84 @@
+---
+sidebar_position: 1
+title: "Diseño"
+description: "El lenguaje visual de Atrium: principios, voz y dónde se documenta cada parte."
+---
+
+import {Demo, Eyebrow, Highlight, Emph, ScriptAccent, Button, Chip, Badge, Card, Gallery, Tile, StatusBadge} from '@site/src/components/design';
+
+# Diseño: *un lenguaje visual* para cada superficie
+
+Atrium se ve como un amigo seguro de sí mismo que además es muy bueno en marketing: cálido, directo, un poco irreverente y nunca corporativo. Esta sección es la referencia visual. Define los colores, la tipografía, las formas, el movimiento y los componentes, para que la Platform, el Manager, el Hub, la app móvil y esta documentación se lean como un solo producto.
+
+<Demo surface="dark">
+  <div style={{display: 'grid', gap: 12}}>
+    <Eyebrow tone="mint" spread="widest">La era de la experiencia</Eyebrow>
+    <div style={{fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', lineHeight: 1.02, letterSpacing: '-0.03em', color: 'var(--mint-400)', maxWidth: '16ch'}}>
+      Convierte extraños en <Emph>regulares</Emph>
+    </div>
+    <div style={{display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8}}>
+      <Button variant="mint">Empezar</Button>
+      <Button variant="outline">Ver el sistema</Button>
+    </div>
+  </div>
+</Demo>
+
+## Los principios
+
+1. **Dos tonos por defecto.** Menta sobre teal profundo, o teal profundo sobre menta. El ámbar es el color de campaña: un trazo de marcador o un campo, nunca los dos compitiendo.
+2. **Plano y guiado por el color.** La jerarquía sale de campos de color y líneas finas, no del desenfoque. Las sombras son raras y son para lo que flota.
+3. **Las píldoras actúan, las tarjetas contienen.** Todo lo que se puede pulsar es una píldora. El contenido vive en tarjetas suaves de 14 px.
+4. **Una voz, con un acento.** Una sans limpia para todo y una frase en serif cursiva para dar calidez. La letra manuscrita es un condimento: una palabra, una vez.
+5. **El color nunca habla solo.** Un estado siempre lleva una palabra y una marca. La marca no tiene rojo ni verde, así que los colores de estado del producto existen solo donde hace falta un significado.
+6. **Movimiento calmado.** Las cosas se asientan en unos 220 ms. Nada rebota ni gira, y todo respeta el movimiento reducido.
+
+## La voz en pantalla
+
+El texto de la interfaz sigue la voz de la marca: primera persona del plural ("nosotros") hablándole a "tú", frases cortas, verbos concretos, sin signos de exclamación, sin emoji. Los errores dicen qué pasó y qué hacer. Los estados vacíos dicen qué va a aparecer y cuándo.
+
+<Gallery min={280}>
+  <Tile title="Claro">
+    <Card bordered title="Nada requiere seguimiento ahora." description="Los casos nuevos aparecen aquí en cuanto un guest deja una nota baja." />
+  </Tile>
+  <Tile title="Concreto">
+    <Card bordered title="3 reseñas esperan tu aprobación" description="Redactamos una respuesta para cada una con tu voz." />
+  </Tile>
+</Gallery>
+
+## Dónde se aplica
+
+| Superficie | Aspecto | Qué tiene de particular |
+| --- | --- | --- |
+| **Platform** (el cliente) | Claro: cloud y blanco, texto teal profundo | Números en la serif, el anillo del score, tarjetas calmadas |
+| **Manager** (la agencia) | Chrome oscuro: navegación lateral teal profundo sobre un área de trabajo clara | Tablas densas, estado en todas partes, la insignia ámbar con el conteo |
+| **Hub** (el guest) | Toma el color y el logo de cada restaurante sobre los mismos componentes | Una guarda de contraste sobre el acento; ver [Superficies](./surfaces) |
+| **Mobile** (el dueño) | Claro, objetivos grandes, una decisión por pantalla | Objetivos de 44 px, la serif para el número que importa |
+| **Documentación** | Claro y oscuro, con los tokens de la marca | Esta sección y sus ejemplos vivos |
+
+## Qué hay en esta sección
+
+| Página | Qué cubre |
+| --- | --- |
+| [Colores](./colors) | La paleta, los roles semánticos, los colores de estado y de datos, el tema oscuro |
+| [Tipografía](./typography) | Cuatro familias, la escala, el tracking, los recursos de énfasis |
+| [Fundamentos](./foundations) | Espaciado, layout, radios, elevación, textura, movimiento, foco |
+| [Iconografía y logo](./iconography-and-logo) | La marca, el wordmark, el set de iconos y sus reglas |
+| [Componentes](./components) | El catálogo y el contrato que cumple cada uno |
+| [Patrones](./patterns) | Pantallas completas: casos, dashboard, cartera, formularios, shell |
+| [Superficies](./surfaces) | Cómo cada app tematiza las mismas piezas |
+| [Accesibilidad](./accessibility) | Resultados de contraste, foco, objetivos, movimiento |
+| [Tokens](./tokens) | El código para copiar: CSS, Tailwind y cómo lo adopta `packages/ui` |
+
+## Estado
+
+:::note Qué está construido
+Los tokens y los primitivos de estas páginas son código real, escrito una sola vez en este repositorio (`src/design`, `src/css/atrium-tokens.css`, `src/css/atrium-ui.css`, `src/components/design`). `packages/ui` todavía no los adoptó; [Tokens](./tokens) lista los pasos. Hasta entonces, las pantallas del Manager y la Platform usan un tema provisional anterior, y esta sección es el destino al que se mueven ([decisión 15](../plan/open-decisions)).
+:::
+
+<Demo>
+  <Chip variant="mint-soft">Menta</Chip>
+  <Chip variant="amber">Ámbar</Chip>
+  <Badge tone="teal">Teal</Badge>
+  <StatusBadge status="positive">Hecho</StatusBadge>
+  <span style={{fontSize: 20}}>Somos <Highlight>humanos</Highlight>, y tu guest también <ScriptAccent>lo es</ScriptAccent>.</span>
+</Demo>
