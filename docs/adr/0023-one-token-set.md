@@ -1,12 +1,12 @@
 ---
-id: 0019-one-token-set
-sidebar_position: 20
-title: "0019 · The ATRIUM AD design system is the visual system"
-sidebar_label: "0019 · The ATRIUM AD design system is the visual system"
+id: 0023-one-token-set
+sidebar_position: 24
+title: "0023 · The ATRIUM AD design system is the visual system"
+sidebar_label: "0023 · The ATRIUM AD design system is the visual system"
 description: "The ATRIUM AD design system is the visual system"
 ---
 
-# ADR 0019: The ATRIUM AD design system is the visual system
+# ADR 0023: The ATRIUM AD design system is the visual system
 
 | Status | Date | Deciders |
 | --- | --- | --- |

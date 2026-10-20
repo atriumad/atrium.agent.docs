@@ -1,0 +1,41 @@
+---
+id: 0019-llm-provider-behind-a-port
+sidebar_position: 20
+title: "0019 · The language model sits behind a port"
+sidebar_label: "0019 · The language model sits behind a port"
+description: "The language model sits behind a port"
+---
+
+# ADR 0019: The language model sits behind a port
+
+| Status | Date | Deciders |
+| --- | --- | --- |
+| **Accepted** | 2026-10-13 | Atrium · product and technology |
+
+## Context
+
+Sentiment reads what guests write in a survey. That needs a language model, and the provider will change: we start with a free model to build, and move to a paid one before real clients. Guests' words are third-party data.
+
+## Decision
+
+The use case depends on a `ResponseReader` port. The adapter lives in `apps/agents` and calls OpenRouter through the Vercel AI SDK, with the reading schema as a Zod schema. The provider is a model id in `HOST_MODEL_SENTIMENT` (or `HOST_MODEL_DEFAULT`). The model used is stored with every reading (`read_model`). Only the rating, the two chosen options and the comment reach the model: never a guest id, name or contact. The model can only raise a severity, never lower one or close a case.
+
+Real clients' responses go only to a paid model, or to a model whose data policy has been checked and recorded here. The agents service refuses a `:free` model unless `NODE_ENV` is `development` or `test`, or `HOST_ALLOW_FREE=true`; an unset `NODE_ENV` counts as production.
+
+## Consequences
+
+- Changing provider changes a string, not the module.
+- A free model that rate-limits or fails leaves responses unread; Recovery still works from the rating.
+- A reading call holds one database transaction for at most 15 seconds by default. `HOST_MODEL_TIMEOUT_MS` raises that limit, and with it the time a transaction stays open.
+- The free models that support structured output are all reasoning models. Measured on `nvidia/nemotron-3.5-super-vl:free`: 4 to 31 seconds per reading, about 450 to 1,000 tokens of thinking before a 35-token answer, an occasional 502 from the provider and one call that hung past 90 seconds. The output cap is 2,000 tokens because a cap of 400 left such a model with no text at all. For development, set `HOST_MODEL_TIMEOUT_MS=60000`; the queue retries what still fails.
+- The adapter reports a model that returned no text as `invalid_output`, not as a provider failure.
+- Agents run in their own service, called by the worker ([0020](./0020-agents-in-their-own-service)); events and retries stay on pg-boss ([0006](./0006-events-with-pg-boss)). The variables in this ADR are now `HOST_LLM_API_KEY`, `HOST_MODEL_*` and `HOST_ALLOW_FREE`.
+- Before enabling a model for real clients, run the golden and hostile cases once against that model (`bun apps/agents/scripts/eval-sentiment.ts` with `HOST_LLM_API_KEY` and `HOST_MODEL_SENTIMENT` set) and record the model and its data policy in this ADR. The live SDK call has not been exercised against a real provider yet.
+
+## Discarded alternatives
+
+- Calling the provider from inside Recovery: it would make cases depend on an outside service.
+- Vercel Functions or Queues for agents: they would replace the transactional queue of ADR 0006.
+- Keyword lists per client (the legacy way): brittle and maintained by hand.
+
+## Model in use

@@ -6,7 +6,7 @@ description: "Where this documentation lives and how it is updated."
 
 # Maintaining this *documentation*
 
-This documentation is a Docusaurus site that will live in `apps/docs` of the monorepo. Until the repository exists, it is a standalone project.
+This documentation is a Docusaurus site that lives in `apps/docs` of the monorepo.
 
 ## Languages
 
@@ -20,7 +20,6 @@ English is the default language and lives in `docs/`. The Spanish translation li
 | `docs/agents` | Agents, subagents, autonomy, interaction, scenarios, rules |
 | `docs/data` | Signals, sources, metrics and scoring, storage and the pipeline, the manual worksheet |
 | `docs/product` | Platform, Manager, Mobile, packages and access |
-| `docs/design` | The visual reference: colors, type, foundations, components, patterns, tokens. Its examples are live code in `src/components/design` |
 | `docs/architecture` | Principles, stack, repository, events, integrations, agents and MCP, security |
 | `docs/modules` | Specification of each module |
 | `docs/plan` | Phases, gates, tests, mandala and open decisions |
@@ -38,7 +37,7 @@ English is the default language and lives in `docs/`. The Spanish translation li
 
 ```bash
 bun install
-bun run dev      # http://localhost:3000 with reload (one language at a time: add --locale es)
-bun run build    # generates the static site in build/ for both languages and validates links
-bun run serve    # serves the build locally, with the language switcher
+bun run docs:dev     # from the repository root: http://localhost:3000 with reload (one language at a time)
+bun run docs:build   # generates the static site in apps/docs/build for both languages and validates links
+bun run --filter @atrium/docs serve   # serves the build locally, with the language switcher
 ```

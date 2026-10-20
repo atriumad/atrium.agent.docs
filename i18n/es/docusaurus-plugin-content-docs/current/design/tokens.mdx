@@ -72,7 +72,7 @@ La documentación mapea su tema sobre los mismos tokens.
 
 ## Adoptar los tokens en `packages/ui`
 
-La [decisión 15](../plan/open-decisions) la cierra el [ADR 0019](../adr/0019-one-token-set). `packages/ui/src/theme.css` ya usa crema, tinta y lima, pero con valores escritos antes de encontrar este sistema. Para adoptar:
+La [decisión 15](../plan/open-decisions) la cierra el [ADR 0023](../adr/0023-one-token-set). `packages/ui/src/theme.css` ya usa crema, tinta y lima, pero con valores escritos antes de encontrar este sistema. Para adoptar:
 
 1. Copia `src/css/atrium-tokens.css` a `packages/ui/src/` e impórtalo desde `theme.css`.
 2. Reemplaza los colores provisionales de `@theme` por el bloque de Tailwind de arriba, y renombra `ink` a `charcoal`, `paper` a `cream-100`.

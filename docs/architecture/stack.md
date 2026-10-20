@@ -27,10 +27,11 @@ Each choice has its own ADR with the full context.
 | Charts and maps | Purpose-built SVG charts, MapLibre with CARTO tiles | Brand-accurate charts; the awareness map needs zones, not a full GIS | Charting suites | — |
 | Data on screen | TanStack Query | Caching and consistent loading states | Loose fetch | — |
 | Auth | Better Auth with organizations | Users, organizations, roles and invitations in our database | Clerk, Supabase Auth | [0011](../adr/0011-better-auth) |
-| Messaging | Twilio for email and SMS, React Email for templates | One provider for every send, with webhooks for opens, clicks and opt-outs | Resend, a campaign platform | [0017](../adr/0017-twilio-email-and-sms) |
+| Messaging | Resend for email, React Email for templates | One provider for every send, with a signed webhook for deliveries, bounces and complaints | A campaign platform | [0021](../adr/0021-resend-email-no-sms) |
 | POS | Toast (nightly export or API) | The outcome system of record for the target restaurants | Unified POS platforms | [0013](../adr/0013-signals-data-model) |
 | Social data | Metricool | One feed for IG, FB, TikTok and YouTube, with per-post rows | Per-network APIs | [0014](../adr/0014-n8n-connectors-with-ingestion-api) |
 | Agents | MCP (TypeScript SDK) + policy engine + Claude | Tools as the only door, rules in code | Direct API or database access | [0009](../adr/0009-agents-mcp-and-policies) |
 | Hosting | Vercel (web) + Railway (API, worker, agents, N8N) | The worker and N8N need always-on processes | All serverless | — |
+| LLM | OpenRouter through the Vercel AI SDK, behind a port | Provider is a model id; free to start, paid for real clients | Calling one vendor directly | [0019](../adr/0019-llm-provider-behind-a-port) |
 | Observability | Sentry + structured logs (pino) | Errors, failed jobs, connector freshness and timings, with the client in every log | — | — |
 | Quality | Biome, bun test, Playwright, k6, axe, evals | Tests against real Postgres; evals per agent | ESLint + Prettier | — |

@@ -6,7 +6,7 @@ description: "Dónde vive esta documentación y cómo se actualiza."
 
 # Mantener esta *documentación*
 
-Esta documentación es un sitio Docusaurus que vivirá en `apps/docs` del monorepo. Mientras el repositorio no exista, es un proyecto independiente.
+Esta documentación es un sitio Docusaurus que vive en `apps/docs` del monorepo.
 
 ## Idiomas
 
@@ -20,7 +20,6 @@ El inglés es el idioma por defecto y vive en `docs/`. La traducción al españo
 | `docs/agents` | Agentes, subagentes, autonomía, interacción, escenarios, reglas |
 | `docs/data` | Signals, fuentes, métricas y scoring, almacenamiento y pipeline, la hoja manual |
 | `docs/product` | Platform, Manager, Mobile, paquetes y acceso |
-| `docs/design` | La referencia visual: colores, tipografía, fundamentos, componentes, patrones, tokens. Sus ejemplos son código vivo en `src/components/design` |
 | `docs/architecture` | Principios, stack, repositorio, eventos, integraciones, agentes y MCP, seguridad |
 | `docs/modules` | Especificación de cada módulo |
 | `docs/plan` | Fases, puertas, pruebas, mandala y decisiones abiertas |
@@ -38,7 +37,7 @@ El inglés es el idioma por defecto y vive en `docs/`. La traducción al españo
 
 ```bash
 bun install
-bun run dev      # http://localhost:3000 con recarga (un idioma a la vez: agrega --locale es)
-bun run build    # genera el sitio estático en build/ para los dos idiomas y valida enlaces
-bun run serve    # sirve el build localmente, con el selector de idioma
+bun run docs:dev     # desde la raíz del repositorio: http://localhost:3000 con recarga (un idioma a la vez)
+bun run docs:build   # genera el sitio estático en apps/docs/build para los dos idiomas y valida enlaces
+bun run --filter @atrium/docs serve   # sirve el build localmente, con el selector de idioma
 ```
