@@ -1,0 +1,70 @@
+---
+sidebar_position: 5
+title: "Iconography and logo"
+description: "The typographic wordmark, what the system draws instead of icons, and the Lucide stand-in that needs approval."
+---
+
+import {IconGrid, Demo, DoDont, DoDontRow, Button, Wordmark, Rule, Eyebrow, Checkbox, Check, StatusBadge, Banner} from '@site/src/components/design';
+import {Search, Plus, ArrowRight} from 'lucide-react';
+
+# *Iconography* and logo
+
+## The wordmark
+
+There is **no logo artwork** for this brand. The mark is the name set in the display face: **ATRIUM** in uppercase, with **AD** dimmed to 45%. No symbol has been drawn, reconstructed or approximated. When artwork arrives it replaces the component's insides without changing its API.
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 32, alignItems: 'baseline', flexWrap: 'wrap'}}>
+    <Wordmark size="sm" /><Wordmark /><Wordmark size="lg" />
+  </div>
+</Demo>
+<Demo surface="dark">
+  <Wordmark tone="cream" size="lg" />
+  <Wordmark tone="lime" size="lg" />
+</Demo>
+
+| Rule | Value |
+| --- | --- |
+| Case | Always uppercase: ATRIUM AD |
+| Color | Charcoal on cream, cream or lime on charcoal. One color per mark |
+| Sizes | 16, 24, 44 and 96 px. The tracking loosens at small sizes and tightens at large ones |
+| Do not | Stretch it, outline it, add a shadow, or draw a symbol beside it |
+
+The documentation site still uses the earlier teal "A" favicon and social images, because they were drawn for the previous brand. They need replacing once artwork exists.
+
+## What the system draws instead of icons
+
+The system deliberately has **no icon set**. Navigation, buttons and cards carry meaning with type, rules and the lime marker. Two small marks are drawn from primitives, not from a library:
+
+<Demo surface="white" column>
+  <Eyebrow>The 28 px leading rule of an eyebrow</Eyebrow>
+  <Check label="The CSS tick of a checkbox" defaultChecked />
+</Demo>
+
+No emoji, and no unicode characters used as icons, apart from the single `←` of a back link, which is text.
+
+## The icon question: needs approval
+
+A product has to show "done", "late", "search" and "download" in places where a word alone would crowd the row. The system's own recommendation for that case is **Lucide** at 1.5 px stroke, 20 or 24 px, `currentColor`, which matches its line weight. That is a substitution to approve, not a decision already made.
+
+Until it is approved, the product components here use Lucide in these places only: the **mark of a status** (so color never speaks alone), the icon of a **banner**, the **empty state**, and icon-only buttons.
+
+<IconGrid />
+
+### Rules
+
+- **Size and stroke.** 16 px beside 14 px text, 20 px in buttons and navigation, 24 px alone. Stroke 1.5.
+- **Color.** Icons take `currentColor`. They are never an accent.
+- **Meaning.** An icon never carries meaning alone. Pair it with a label, or give an icon-only button an `aria-label`.
+- **One icon per concept.** Add an icon to the list above before using it.
+
+<Demo surface="white">
+  <Button icon={<Plus size={16} strokeWidth={1.5} />}>Add client</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.5} />}>Continue</Button>
+  <Button iconOnly variant="ghost" aria-label="Search"><Search size={18} strokeWidth={1.5} /></Button>
+  <StatusBadge status="danger">Overdue by 6h</StatusBadge>
+</Demo>
+
+## Agents
+
+Each of the six agents has a face (a Blobatar generated from its name) and a pair of colors. They appear on the home page, in the footer and wherever an agent acts or speaks. Their colors predate this system and are their own identity; they stay as they are until the identity owner decides. An agent never wears a status color.

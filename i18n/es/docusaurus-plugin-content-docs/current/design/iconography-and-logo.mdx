@@ -1,0 +1,70 @@
+---
+sidebar_position: 5
+title: "Iconografía y logo"
+description: "El wordmark tipográfico, lo que el sistema dibuja en lugar de iconos y el sustituto Lucide que necesita aprobación."
+---
+
+import {IconGrid, Demo, DoDont, DoDontRow, Button, Wordmark, Rule, Eyebrow, Check, StatusBadge, Banner} from '@site/src/components/design';
+import {Search, Plus, ArrowRight} from 'lucide-react';
+
+# *Iconografía* y logo
+
+## El wordmark
+
+**No hay arte de logo** para esta marca. La marca es el nombre compuesto en la fuente de display: **ATRIUM** en mayúsculas, con **AD** atenuado al 45%. No se ha dibujado, reconstruido ni aproximado ningún símbolo. Cuando llegue el arte, reemplaza el interior del componente sin cambiar su API.
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 32, alignItems: 'baseline', flexWrap: 'wrap'}}>
+    <Wordmark size="sm" /><Wordmark /><Wordmark size="lg" />
+  </div>
+</Demo>
+<Demo surface="dark">
+  <Wordmark tone="cream" size="lg" />
+  <Wordmark tone="lime" size="lg" />
+</Demo>
+
+| Regla | Valor |
+| --- | --- |
+| Caja | Siempre en mayúsculas: ATRIUM AD |
+| Color | Carbón sobre crema, crema o lima sobre carbón. Un color por marca |
+| Tamaños | 16, 24, 44 y 96 px. El tracking se abre en tamaños pequeños y se aprieta en grandes |
+| No hagas | Estirarlo, delinearlo, ponerle sombra o dibujar un símbolo a su lado |
+
+El sitio de documentación todavía usa el favicon "A" teal y las imágenes sociales anteriores, porque se dibujaron para la marca previa. Hay que reemplazarlos cuando exista el arte.
+
+## Lo que el sistema dibuja en lugar de iconos
+
+El sistema deliberadamente **no tiene set de iconos**. La navegación, los botones y las tarjetas llevan el significado con tipografía, reglas y el marcador lima. Dos marcas pequeñas se dibujan con primitivas, no con una librería:
+
+<Demo surface="white" column>
+  <Eyebrow>La regla inicial de 28 px de un eyebrow</Eyebrow>
+  <Check label="El tick CSS de un checkbox" defaultChecked />
+</Demo>
+
+Sin emoji, y sin caracteres unicode usados como iconos, salvo la única `←` de un enlace de regreso, que es texto.
+
+## La cuestión de los iconos: necesita aprobación
+
+Un producto tiene que mostrar "hecho", "tarde", "buscar" y "descargar" donde una palabra sola saturaría la fila. La recomendación del propio sistema para ese caso es **Lucide** con trazo de 1.5 px, 20 o 24 px, `currentColor`, que coincide con su grosor de línea. Eso es una sustitución por aprobar, no una decisión tomada.
+
+Mientras no se apruebe, los componentes de producto de aquí usan Lucide solo en estos lugares: la **marca de un estado** (para que el color nunca hable solo), el icono de un **banner**, el **estado vacío** y los botones solo de icono.
+
+<IconGrid />
+
+### Reglas
+
+- **Tamaño y trazo.** 16 px junto a texto de 14 px, 20 px en botones y navegación, 24 px solo. Trazo de 1.5.
+- **Color.** Los iconos toman `currentColor`. Nunca son un acento.
+- **Significado.** Un icono nunca lleva el significado solo. Acompáñalo con una etiqueta, o dale un `aria-label` a un botón solo de icono.
+- **Un icono por concepto.** Añade un icono a la lista de arriba antes de usarlo.
+
+<Demo surface="white">
+  <Button icon={<Plus size={16} strokeWidth={1.5} />}>Añadir cliente</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.5} />}>Continuar</Button>
+  <Button iconOnly variant="ghost" aria-label="Buscar"><Search size={18} strokeWidth={1.5} /></Button>
+  <StatusBadge status="danger">Vencido hace 6h</StatusBadge>
+</Demo>
+
+## Agentes
+
+Cada uno de los seis agentes tiene una cara (un Blobatar generado desde su nombre) y un par de colores. Aparecen en la home, en el footer y dondequiera que un agente actúa o habla. Sus colores son anteriores a este sistema y son su propia identidad; se quedan como están hasta que decida el dueño de la identidad. Un agente nunca lleva un color de estado.

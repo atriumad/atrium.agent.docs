@@ -29,7 +29,7 @@ Connectors move data from each provider into `signals_daily`.
 flowchart LR
   T["Toast POS · 4 h"] --> N
   MC["Metricool · 6 h"] --> N
-  TW["Twilio · 4 h + webhook"] --> N
+  RS["Resend · 4 h + webhook"] --> N
   GB["Google GBP · daily"] --> N
   AD["Meta + Google Ads · daily"] --> N
   H["Atrium Landing · realtime"] --> API
@@ -44,7 +44,7 @@ flowchart LR
 | --- | --- | --- |
 | Toast POS | Orders, revenue, guests, subscribers, menu performance | every 4 h |
 | Metricool | All social platforms plus paid social and search | every 6 h |
-| Twilio | Email, SMS and automations | 4 h + webhook |
+| Resend | Email and automations | 4 h + webhook |
 | Google GBP | Profile actions, reviews, local rank | daily |
 | Atrium Landing | Hub sessions and every button tap, tagged by source | realtime |
 | Survey Flow | Post-order scores, QR opt-ins | realtime |
@@ -55,6 +55,13 @@ N8N workflows are the connector layer, and they never write to the database dire
 ## Identity stitching
 
 Overlaps are resolved by identity stitching: pixel ID, POS match and phone or email join every signal, so one guest is counted once across every source. A QR scan and the order it led to are the same guest and are never double counted. Manual entries land in the same table, timestamped and tagged `source = manual`.
+
+## Operating rules
+
+- **Partitions.** `signals_daily` has one partition per month. Ingestion creates a missing one on demand, and the worker keeps the current month and the next twelve ready (job `signals.ensure_partitions`, the first of each month at 03:00 UTC). The database refuses dates before 2020-01-01 and more than about 400 days ahead. Only the owner role can read a partition directly; the application reads the parent table, so the row-level policies always apply.
+- **Replacing a day.** Each row carries a `revision`: 1 when inserted, plus 1 every time a re-run replaces it, so corrected days are visible.
+- **Erasure.** When a guest is erased, their signals stay (the counts are real) and `guest_id` is cleared by the `signals.erase_guest` consumer, for that client only. The opaque guest row and the consent log (ids only) are kept.
+- **Retention.** The consumers' idempotency ledger (`processed_events`) is pruned after 30 days by the job `core.prune_processed_events`, daily at 03:30 UTC. The application never deletes from `signals_daily`.
 
 ## Attribution methods
 

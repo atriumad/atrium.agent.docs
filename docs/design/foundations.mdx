@@ -1,0 +1,105 @@
+---
+sidebar_position: 4
+title: "Foundations"
+description: "Spacing, layout, radius, borders, elevation, motion and focus."
+---
+
+import {SpaceScale, RadiusScale, BordersTable, ShadowScale, MotionScale, Breakpoints, Layers, Demo, Card, Button, Rule, DoDont, DoDontRow, Chip} from '@site/src/components/design';
+
+# *Foundations*: drawn, not shaded
+
+## Spacing
+
+A **4 px grid**. Space between related things is small, space between groups is large; sections breathe with 64 to 88 px.
+
+<SpaceScale />
+
+| Where | Gap |
+| --- | --- |
+| Icon to label | 4 to 8 px |
+| Label to field | 8 px |
+| Between fields | 16 px |
+| Card padding | 24 px by default, 16 px for a list row |
+| Between cards | 16 px |
+| Between page sections | 64 to 88 px, with a 3 px rule |
+
+## Layout
+
+A **12-column grid**, content at most **1240 px** (1440 for wide dashboards), a gutter of `clamp(1.25rem, 4vw, 3.5rem)`. Text stays under **68 characters** a line. The Manager and the Platform show a side navigation from `lg` upward.
+
+<Breakpoints />
+
+Design mobile first. A table that cannot fit becomes a list of cards, never a horizontal scroll of the page.
+
+## Radius
+
+Squared off. The radii are small and deliberate, and only chips are round.
+
+<RadiusScale />
+
+<Demo surface="white">
+  <Button>A button is never a pill</Button>
+  <Chip>A chip is</Chip>
+</Demo>
+
+## Borders and the rule
+
+The system is drawn, not shaded. Borders do the work shadows would do elsewhere.
+
+<BordersTable />
+
+The **3 px rule** is structural: it appears on nearly every section boundary and above every table. The 1 px hairline separates rows inside a block.
+
+<Demo surface="white" column>
+  <Rule label="02 — Results" />
+  <Rule weight="hair" />
+</Demo>
+
+## Elevation
+
+Elevation is **adjacency and rules**, not blur. A default card is cream-100 with a 6 px radius, a 1 px hairline and no shadow. The one card that matters gets a 1 px ink border and the **2 px printed offset**. A diffuse shadow belongs only to floating UI.
+
+<ShadowScale />
+
+<Demo surface="light">
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, width: '100%'}}>
+    <Card title="Paper">Hairline, flat.</Card>
+    <Card tone="ruled" elevation="offset" title="Ruled, offset">The printed drop.</Card>
+    <Card elevation="pop" title="Pop">Menus and dialogs only.</Card>
+  </div>
+</Demo>
+
+There are **no gradients, no mesh, no glass and no grain overlay**. Imagery sits inside a card with a hairline; text over an image sits in a solid charcoal capsule, never a protection gradient.
+
+## Motion
+
+Quiet and quick. A confident ease-out, three durations, **fades and 1 to 2 px moves only**. No bounce, no spring, no scale-in.
+
+<MotionScale />
+
+| State | Behavior |
+| --- | --- |
+| Hover | The fill deepens one step; an outline button inverts to solid; a card lifts 2 px and its border goes to ink; a link turns clay and thickens its underline to 2 px |
+| Press | `translateY(1px)`. Never a scale, never a color flash |
+| Focus | A 2 px clay outline at 2 px offset, on everything focusable |
+| Disabled | Opacity 0.4, no color change |
+
+With `prefers-reduced-motion: reduce` every duration drops to 0 and the press shift to 0. Motion never carries the only signal.
+
+## Focus
+
+Clay on cream is 3.5:1 and on charcoal 3.8:1, so the 2 px clay ring clears the 3:1 an interface part needs on both.
+
+<Demo surface="white">
+  <Button>Press Tab</Button>
+  <Button variant="outline">to move focus</Button>
+</Demo>
+
+## Layers
+
+<Layers />
+
+<DoDontRow>
+  <DoDont kind="do">Use the spacing and radius tokens, and the 3 px rule between sections.</DoDont>
+  <DoDont kind="dont">Add a soft shadow to a card, round a button, or put a gradient behind text.</DoDont>
+</DoDontRow>

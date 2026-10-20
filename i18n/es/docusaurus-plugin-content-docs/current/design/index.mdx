@@ -1,0 +1,88 @@
+---
+sidebar_position: 1
+title: "Diseño"
+description: "El lenguaje visual de Atrium: principios, voz y dónde se documenta cada parte."
+---
+
+import {Demo, Eyebrow, Highlight, Emphasis, Button, Chip, Badge, Card, Rule, StatFigure, Gallery, Tile, StatusBadge} from '@site/src/components/design';
+
+# Diseño: *un lenguaje* visual impreso
+
+Atrium se ve impreso, no vítreo: tinta carbón cálida sobre papel crema, una sola señal ácida en lima, una sola arcilla cálida y una regla gruesa de 3 px que hace el trabajo estructural. Escribe como alguien que ya hizo el trabajo y te cuenta lo que pasó. Esta sección es la referencia visual. Define los colores, la tipografía, las formas, el movimiento y los componentes, para que la Platform, el Manager, el Hub, la app móvil y esta documentación se lean como un solo producto.
+
+<Demo surface="dark">
+  <div style={{display: 'grid', gap: 16, width: '100%'}}>
+    <Eyebrow tone="on-dark">01 — El sistema</Eyebrow>
+    <div style={{fontSize: 'var(--text-display-md)', lineHeight: 0.95, letterSpacing: 'var(--tracking-tighter)', color: 'var(--cream-100)', maxWidth: '16ch'}}>
+      Acordamos el número <Emphasis>antes</Emphasis> de empezar
+    </div>
+    <Rule tone="on-dark" label="Atrium" />
+    <div style={{display: 'flex', gap: 10, flexWrap: 'wrap'}}>
+      <Button variant="lime">Ver el trabajo</Button>
+      <Button variant="outline">Leer el caso</Button>
+    </div>
+  </div>
+</Demo>
+
+## Los principios
+
+1. **Carbón sobre crema.** No hay negro ni blanco puro. El ancla oscura es un carbón cálido, el ancla clara es papel crema. Lo inverso, crema sobre carbón, lleva las bandas de pruebas y los pies.
+2. **Una sola señal.** La lima es puntuación: una llamada a la acción, un marcador, una tarjeta. Un campo lima por vista, como máximo. La arcilla es el secundario cálido: foco, errores, una cita. Nunca es el botón principal.
+3. **Dibujado, no sombreado.** La profundidad viene de líneas finas de 1 px, una regla de 3 px y bloques planos de color. Una sombra difusa es solo para un menú o un diálogo.
+4. **Recto.** Botones, campos y tarjetas tienen esquinas pequeñas y deliberadas. Solo los chips son redondos.
+5. **Una familia, un acento.** Inter Tight en 400, con 500 como único escalón. Instrument Serif para la frase de énfasis en cursiva y para cada cifra.
+6. **Los números cargan la afirmación.** Todo lo que pueda llevar una cifra la lleva, compuesta en la serif.
+
+## La voz en pantalla
+
+Llana, directa, concreta, sin prisa. Primera persona del plural ("nosotros") hablándole a "tú". Frases declarativas cortas, minúscula de oración, puntos y sin signos de exclamación, sin emoji. Los errores dicen qué pasó y qué hacer. Los estados vacíos dicen qué va a aparecer y cuándo. Evita "apalancar", "desbloquear", "lo mejor de su clase" y cualquier frase cuyo primer trabajo sea describir la siguiente.
+
+<Gallery min={280}>
+  <Tile title="Haz">
+    <Card title="Nada requiere seguimiento ahora." description="Los casos nuevos aparecen aquí en cuanto un guest deja una nota baja." />
+  </Tile>
+  <Tile title="Haz">
+    <StatFigure value="2.7x" label="Retorno de la inversión" />
+  </Tile>
+</Gallery>
+
+## Dónde se aplica
+
+| Superficie | Aspecto | Qué tiene de particular |
+| --- | --- | --- |
+| **Platform** (el cliente) | Papel crema, tarjetas con línea fina | Cifras en la serif, densidad calmada, una tarjeta lima |
+| **Manager** (la agencia) | Una navegación lateral carbón sobre un área de trabajo crema | Tablas densas bajo una regla de 3 px, estado en todas partes |
+| **Hub** (el guest) | Los mismos componentes con el acento de cada restaurante | Una guarda del acento; ver [Superficies](./surfaces) |
+| **Mobile** (el dueño) | Papel crema, objetivos grandes | Una decisión por pantalla, objetivos de 44 px |
+| **Documentación** | Crema y carbón, con un tema oscuro | Esta sección y sus ejemplos vivos |
+
+## Qué hay en esta sección
+
+| Página | Qué cubre |
+| --- | --- |
+| [Colores](./colors) | La paleta, los roles semánticos, los colores de estado y de datos, el tema oscuro |
+| [Tipografía](./typography) | Dos familias, la escala, la etiqueta en mayúsculas espaciadas, los recursos de énfasis |
+| [Fundamentos](./foundations) | Espaciado, layout, radios, bordes, elevación, movimiento, foco |
+| [Iconografía y logo](./iconography-and-logo) | El wordmark tipográfico y la cuestión de los iconos |
+| [Componentes](./components) | El catálogo y el contrato que cumple cada uno |
+| [Patrones](./patterns) | Pantallas completas: casos, dashboard, cartera, formularios, shell |
+| [Superficies](./surfaces) | Cómo cada app tematiza las mismas piezas |
+| [Accesibilidad](./accessibility) | Contraste medido, foco, objetivos, movimiento |
+| [Tokens](./tokens) | El código para copiar, y qué es nuestro frente al sistema |
+
+## De dónde viene
+
+Este es el **sistema de diseño ATRIUM AD**. Una copia vive en `design/system` de este repositorio (ver su `SOURCE.md`). Sus tokens y sus trece componentes se usan tal cual, con unas pocas excepciones por contraste; [Tokens](./tokens#qué-es-nuestro) las lista. El sistema dice que la interfaz de app y de producto, el email y los documentos nunca se crearon. Los colores de estado, la paleta de datos, el tema oscuro y los componentes adicionales de aquí son esa capa faltante, construida solo con la paleta del propio sistema.
+
+:::caution Pendientes del sistema de origen
+Lima y arcilla son **provisionales** hasta que se puedan leer los tableros de marca. **No hay logo** (el wordmark es tipográfico) y **no hay set de iconos**. Las pantallas de producto usan Lucide como sustituto que aún necesita aprobación. Ver [Iconografía y logo](./iconography-and-logo).
+:::
+
+<Demo>
+  <Chip variant="lime">Lima</Chip>
+  <Chip variant="ink">Tinta</Chip>
+  <Chip>Contorno</Chip>
+  <Badge variant="clay">Arcilla</Badge>
+  <StatusBadge status="positive">Resuelto</StatusBadge>
+  <span style={{fontSize: 20}}>Palabras llanas, <Highlight>un</Highlight> marcador.</span>
+</Demo>

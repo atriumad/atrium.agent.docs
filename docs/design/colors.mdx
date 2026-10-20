@@ -1,0 +1,121 @@
+---
+sidebar_position: 2
+title: "Colors"
+description: "The palette, the semantic roles, the status and data colors, and the dark theme."
+---
+
+import {Swatches, SemanticTable, StatusTable, DataPalette, Demo, Card, Button, Chip, Badge, StatusBadge, Banner, DoDont, DoDontRow, Highlight, Eyebrow} from '@site/src/components/design';
+
+# *Colors*: four values carry the brand
+
+**Charcoal**, **cream**, **lime** and **clay**. Sage is carried for texture-adjacent surfaces. There is no black and no pure white. Every value below lives in `src/design/tokens.ts`, and the CSS custom properties are generated from it.
+
+## The palette
+
+Use the named step of each family as the color, and the others as steps around it.
+
+### Charcoal: the dark anchor
+<Swatches group="charcoal" />
+
+### Cream: the paper
+<Swatches group="cream" />
+
+### Lime: the signal
+<Swatches group="lime" />
+
+### Clay: the warm secondary
+<Swatches group="clay" />
+
+### Sage
+<Swatches group="sage" />
+
+:::note Placeholders and an addition
+Lime and clay are placeholders in the source system until the brand boards can be read. `clay-700` is the one color added here, for clay text on a clay tint and the pressed clay button. See [Tokens](./tokens#what-is-ours).
+:::
+
+## Using them
+
+The default pairing is **charcoal on cream**. The inverse, **cream on charcoal**, carries proof bands, footers and deck openers. Lime and clay are punctuation.
+
+<Demo surface="white" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12}}>
+    <Card title="Charcoal on cream">The default. Paper with a hairline.</Card>
+    <Card tone="dark" title="Cream on charcoal">Proof bands and footers.</Card>
+    <Card tone="lime" title="Charcoal on lime">The one lime card of a view.</Card>
+    <Card tone="sunken" title="On sunken cream">A well inside a page.</Card>
+  </div>
+</Demo>
+
+| Color | Share of a screen | Used for |
+| --- | --- | --- |
+| Cream | About 75% | The page, cards, fields, tables |
+| Charcoal | About 20% | Text, rules, the primary button, dark fields |
+| Lime | 4% or less | One call to action, one marker, one card |
+| Clay | 1% or less | Focus, errors, a quote, a count that needs a person |
+
+## Semantic roles
+
+Components never read a raw color. They read a role, so a dark surface only has to redefine the roles.
+
+### Surfaces
+<SemanticTable group="surface" />
+
+### Text
+<SemanticTable group="text" />
+
+### Lines
+<SemanticTable group="line" />
+
+## Status colors
+
+The system has one signal and one warm color, and no green, amber or blue. A dashboard still has to say "done" and "late", so status is told apart by **fill, a 3 px left rule and a mark**, never by hue alone. This is the product layer, built only from the palette.
+
+<StatusTable />
+
+<Demo surface="white">
+  <StatusBadge status="positive">Resolved</StatusBadge>
+  <StatusBadge status="warning">Due in 3h</StatusBadge>
+  <StatusBadge status="danger">Overdue by 6h</StatusBadge>
+  <StatusBadge status="info">Draft</StatusBadge>
+  <StatusBadge status="neutral">Paused</StatusBadge>
+</Demo>
+
+:::caution Color never speaks alone
+Every status has a word and a mark. Lime reads as positive and clay as late, but a person who cannot tell them apart still reads "Overdue" and sees the left rule and the icon. Text on a status fill always passes 4.5:1; see [Accessibility](./accessibility).
+:::
+
+## Data colors
+
+For charts, in the order series are used. Six is the limit: beyond that, group or use small multiples. Adjacent series never rely on hue alone, so charts also use position, labels or direct annotation.
+
+<DataPalette />
+
+## The dark theme
+
+Dark is a charcoal field, not an inversion. The roles are redefined: the page is `charcoal-900`, cards are `charcoal-800`, figures and the primary action turn lime, and status colors lighten to hold contrast.
+
+<Demo surface="dark" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12}}>
+    <Card title="Cards on dark" description="surface-card is charcoal-800 over a charcoal-900 page." />
+    <div style={{display: 'grid', gap: 8}}>
+      <Banner status="danger" title="Overdue by 6h" />
+      <Banner status="positive" title="Reply published" />
+    </div>
+  </div>
+  <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>
+    <Button>Primary becomes lime</Button>
+    <Button variant="outline">Outline</Button>
+    <StatusBadge status="warning">Due soon</StatusBadge>
+  </div>
+</Demo>
+
+Set `data-atr-theme="dark"` on any ancestor to switch. Agents keep their own face colors for now; their identity is not part of this system.
+
+## Do and don't
+
+<DoDontRow>
+  <DoDont kind="do">Use charcoal on cream, and cream on charcoal. Both clear 11:1.</DoDont>
+  <DoDont kind="dont">Use clay-500 or lime-600 as text on cream. They fail contrast.</DoDont>
+  <DoDont kind="do">Put <Highlight>one</Highlight> lime marker behind the word that matters.</DoDont>
+  <DoDont kind="dont">Use clay as the main button, or put two lime fields in one view.</DoDont>
+</DoDontRow>

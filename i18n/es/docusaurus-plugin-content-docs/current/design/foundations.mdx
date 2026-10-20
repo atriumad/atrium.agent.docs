@@ -1,0 +1,105 @@
+---
+sidebar_position: 4
+title: "Fundamentos"
+description: "Espaciado, layout, radios, bordes, elevación, movimiento y foco."
+---
+
+import {SpaceScale, RadiusScale, BordersTable, ShadowScale, MotionScale, Breakpoints, Layers, Demo, Card, Button, Rule, DoDont, DoDontRow, Chip} from '@site/src/components/design';
+
+# *Fundamentos*: dibujado, no sombreado
+
+## Espaciado
+
+Una **grilla de 4 px**. El espacio entre cosas relacionadas es pequeño, el espacio entre grupos es grande; las secciones respiran con 64 a 88 px.
+
+<SpaceScale />
+
+| Dónde | Separación |
+| --- | --- |
+| Icono a etiqueta | 4 a 8 px |
+| Etiqueta a campo | 8 px |
+| Entre campos | 16 px |
+| Padding de tarjeta | 24 px por defecto, 16 px para una fila de lista |
+| Entre tarjetas | 16 px |
+| Entre secciones de página | 64 a 88 px, con una regla de 3 px |
+
+## Layout
+
+Una **grilla de 12 columnas**, contenido de hasta **1240 px** (1440 en dashboards anchos), un margen de `clamp(1.25rem, 4vw, 3.5rem)`. El texto se queda bajo **68 caracteres** por línea. El Manager y la Platform muestran una navegación lateral desde `lg`.
+
+<Breakpoints />
+
+Diseña primero para móvil. Una tabla que no cabe se vuelve una lista de tarjetas, nunca un scroll horizontal de la página.
+
+## Radios
+
+Recto. Los radios son pequeños y deliberados, y solo los chips son redondos.
+
+<RadiusScale />
+
+<Demo surface="white">
+  <Button>Un botón nunca es una píldora</Button>
+  <Chip>Un chip sí</Chip>
+</Demo>
+
+## Bordes y la regla
+
+El sistema se dibuja, no se sombrea. Los bordes hacen el trabajo que en otros sistemas hacen las sombras.
+
+<BordersTable />
+
+La **regla de 3 px** es estructural: aparece en casi todo límite de sección y sobre cada tabla. La línea fina de 1 px separa filas dentro de un bloque.
+
+<Demo surface="white" column>
+  <Rule label="02 — Resultados" />
+  <Rule weight="hair" />
+</Demo>
+
+## Elevación
+
+La elevación es **adyacencia y reglas**, no desenfoque. Una tarjeta por defecto es cream-100 con radio de 6 px, una línea fina de 1 px y sin sombra. La tarjeta que importa recibe un borde de tinta de 1 px y el **desfase impreso de 2 px**. Una sombra difusa pertenece solo a la interfaz flotante.
+
+<ShadowScale />
+
+<Demo surface="light">
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, width: '100%'}}>
+    <Card title="Papel">Línea fina, plana.</Card>
+    <Card tone="ruled" elevation="offset" title="Con regla, desfase">El desfase impreso.</Card>
+    <Card elevation="pop" title="Pop">Solo menús y diálogos.</Card>
+  </div>
+</Demo>
+
+**No hay degradados, ni malla, ni vidrio, ni capa de grano.** Las imágenes van dentro de una tarjeta con línea fina; el texto sobre una imagen va en una cápsula carbón sólida, nunca en un degradado de protección.
+
+## Movimiento
+
+Callado y rápido. Un ease-out seguro, tres duraciones, **solo fundidos y movimientos de 1 a 2 px**. Sin rebote, sin resorte, sin entradas con escala.
+
+<MotionScale />
+
+| Estado | Comportamiento |
+| --- | --- |
+| Hover | El relleno se profundiza un paso; un botón de contorno se invierte a sólido; una tarjeta sube 2 px y su borde pasa a tinta; un enlace se vuelve arcilla y engrosa su subrayado a 2 px |
+| Pulsar | `translateY(1px)`. Nunca una escala, nunca un destello de color |
+| Foco | Un contorno arcilla de 2 px a 2 px de distancia, en todo lo enfocable |
+| Deshabilitado | Opacidad 0.4, sin cambio de color |
+
+Con `prefers-reduced-motion: reduce`, toda duración baja a 0 y el desplazamiento al pulsar a 0. El movimiento nunca lleva la única señal.
+
+## Foco
+
+La arcilla sobre crema es 3.5:1 y sobre carbón 3.8:1, así que el anillo arcilla de 2 px supera el 3:1 que necesita una parte de interfaz en ambos.
+
+<Demo surface="white">
+  <Button>Pulsa Tab</Button>
+  <Button variant="outline">para mover el foco</Button>
+</Demo>
+
+## Capas
+
+<Layers />
+
+<DoDontRow>
+  <DoDont kind="do">Usa los tokens de espaciado y de radio, y la regla de 3 px entre secciones.</DoDont>
+  <DoDont kind="dont">Añadir una sombra suave a una tarjeta, redondear un botón o poner un degradado detrás de un texto.</DoDont>
+</DoDontRow>

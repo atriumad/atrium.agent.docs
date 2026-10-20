@@ -1,0 +1,129 @@
+---
+sidebar_position: 9
+title: "Visualización de datos"
+description: "Card, StatFigure, tesela de stat, delta, gráficos, anillo de score, tabla, avatar, progreso y carga."
+---
+
+import {Demo, Card, Stat, StatFigure, Delta, Sparkline, Bars, ScoreRing, DataTable, Avatar, Progress, StatusBadge, Skeleton, Eyebrow, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Visualización de datos*: las cifras cargan la afirmación
+
+Todo lo que pueda llevar una cifra la lleva, compuesta en la serif. Muestra grande el número que importa; muestra el resto en la etiqueta de mayúsculas espaciadas.
+
+## Tarjeta
+
+Un contenedor dibujado: **cream-100, radio de 6 px, línea fina de 1 px, sin sombra**. El énfasis viene del tono, de un borde de tinta de 1 px o del desfase impreso de 2 px.
+
+<Demo surface="light" column code={`<Card title="Título" description="Línea de apoyo">...</Card>
+<Card tone="ruled" elevation="offset" interactive />   // la tarjeta que importa
+<Card tone="sunken" />
+<Card tone="dark" />
+<Card tone="lime" />                                    // una por vista
+<Card tone="clay" />                                    // una cita; solo texto grande`}>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 16}}>
+    <Card title="Papel" description="Línea fina, plana." />
+    <Card tone="ruled" elevation="offset" title="Con regla" description="Borde de tinta, desfase impreso." />
+    <Card tone="sunken" title="Hundida" description="Un hueco." />
+    <Card tone="dark" title="Oscura" description="Bandas de pruebas." />
+    <Card tone="lime" title="Lima" description="Una por vista." />
+    <Card tone="clay"><span style={{fontSize: 24, lineHeight: 1.15}}>Una cita, en tamaño grande.</span></Card>
+    <Card interactive title="Interactiva" description="Sube 2 px al pasar el cursor." />
+  </div>
+</Demo>
+
+| Prop | Valores | Notas |
+| --- | --- | --- |
+| `tone` | `paper` `ruled` `sunken` `dark` `lime` `clay` | Como máximo una tarjeta lima o arcilla por región de pantalla |
+| `elevation` | `flat` `card` `offset` `pop` | `offset` es el desfase impreso; `pop` solo para interfaz flotante |
+| `padding` | `none` `sm` 16 · por defecto 24 · `lg` 32 | Una fila de lista usa `sm` |
+| `interactive` | boolean | Solo si toda la tarjeta es un enlace |
+
+:::caution Texto sobre una tarjeta arcilla
+Crema sobre clay-500 es 3.8:1. Pon el texto de una tarjeta arcilla en **24 px o más**, donde basta 3:1, o usa en su lugar el tinte clay-200.
+:::
+
+## StatFigure y la tesela de stat
+
+**StatFigure** es el recurso de pruebas: una cifra grande en serif con un pie en mayúsculas espaciadas. La **tesela de stat** es la misma idea a tamaño de producto, con una unidad, un delta y una tendencia.
+
+<Demo surface="light">
+  <StatFigure value="2.7x" label="Retorno de la inversión" />
+  <StatFigure value="$44M" label="Medios gestionados" tone="lime" size="sm" />
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16, width: '100%'}}>
+    <Stat label="Reseñas nuevas" value="38" delta={12} spark={[4, 6, 5, 8, 7, 11, 13]} />
+    <Stat label="Nota media" value="4.6" unit="/ 5" delta={2} spark={[4.2, 4.3, 4.3, 4.4, 4.5, 4.5, 4.6]} />
+    <Stat label="Casos abiertos" value="3" delta={-25} goodWhen="down" note="1 vencido" />
+  </div>
+</Demo>
+
+El tono `lime` de una cifra es lime-600 y es solo para un **campo oscuro**. Sobre crema es 1.4:1; sobre carbón es un color de titular.
+
+### Delta
+
+La flecha muestra la **dirección**; el color muestra **si es bueno**: carbón cuando lo es, arcilla cuando no. Menos casos abiertos es hacia abajo y bueno, así que se queda en carbón. El signo, la flecha y un "up" o "down" oculto lo llevan para quien no ve el color.
+
+<Demo surface="white">
+  <Delta value={12} /><Delta value={-4} /><Delta value={-25} goodWhen="down" /><Delta value={0} />
+</Demo>
+
+## Gráficos
+
+Las barras y las sparklines se dibujan en SVG con la paleta de datos (carbón primero), con el último punto en arcilla. Todo gráfico tiene un `aria-label` con sus valores.
+
+<Demo surface="white">
+  <Card title="Pedidos por semana" description="De Toast, últimas 6 semanas">
+    <div style={{marginTop: 12, overflowX: 'auto'}}><Bars data={[{label: 'S1', value: 412}, {label: 'S2', value: 438}, {label: 'S3', value: 401}, {label: 'S4', value: 466}, {label: 'S5', value: 490}, {label: 'S6', value: 512}]} /></div>
+  </Card>
+  <Sparkline label="Tendencia de reseñas" values={[4, 6, 5, 8, 7, 11, 13]} width={160} height={40} />
+</Demo>
+
+Reglas: las barras empiezan en cero; etiqueta directamente en lugar de una leyenda con dos series o menos; como máximo seis series (ver [Colores](./colors#colores-de-datos)).
+
+## Anillo de score
+
+El Growth Score como un arco carbón sobre un riel crema, con la cifra en la serif.
+
+<Demo surface="white">
+  <ScoreRing value={72} label="Growth Score" />
+  <ScoreRing value={48} label="Reputación" size={88} />
+</Demo>
+
+## Tabla
+
+Una tabla sirve para comparar filas. Va bajo la **regla de 3 px**; las cabeceras son etiquetas en mayúsculas espaciadas sobre una línea de tinta de 1 px; las filas son líneas finas; los números van alineados a la derecha con numerales tabulares. Ordenar es un botón en la cabecera con `aria-sort`.
+
+<Demo surface="white" column>
+  <DataTable label="Locales" columns={[{key: 'name', label: 'Local', sortable: true}, {key: 'reviews', label: 'Reseñas', numeric: true, sortable: true}, {key: 'rating', label: 'Nota', numeric: true, sortable: true}, {key: 'state', label: 'Estado'}]} rows={[
+    {name: 'Casa Olivo · Bellaire', reviews: '312', rating: '4.6', state: <StatusBadge status="positive">Sano</StatusBadge>},
+    {name: 'Brasa Norte', reviews: '198', rating: '4.3', state: <StatusBadge status="warning">Atención</StatusBadge>},
+    {name: 'La Mesa', reviews: '74', rating: '3.9', state: <StatusBadge status="danger">En riesgo</StatusBadge>},
+  ]} />
+</Demo>
+
+En pantallas estrechas una tabla se vuelve una lista de tarjetas con las mismas etiquetas. Ver [Patrones](./patterns).
+
+## Avatar y progreso
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 12, alignItems: 'center'}}><Avatar name="Dana Ruiz" size="sm" /><Avatar name="Leo Park" /><Avatar name="Marco Vidal" size="lg" /></div>
+  <div style={{display: 'grid', gap: 14, maxWidth: 360}}>
+    <Progress value={72} label="Configuración" />
+    <Progress value={46} tone="lime" label="Tareas" />
+    <Progress value={20} tone="clay" label="Presupuesto usado" />
+  </div>
+</Demo>
+
+Un avatar es una tesela recta de 4 px con iniciales; una foto la reemplaza. El **progreso** siempre tiene una etiqueta y el número cerca, nunca solo la barra.
+
+## Carga
+
+Muestra la **forma** de lo que viene, no un spinner, para todo lo que sea más grande que un botón.
+
+<Demo surface="white">
+  <Card padding="sm"><div style={{display: 'grid', gap: 10, width: 240}}><Skeleton width={70} height={16} /><Skeleton height={34} /><Skeleton width="60%" /></div></Card>
+</Demo>
+
+<DoDontRow>
+  <DoDont kind="do">Abre con una cifra grande en serif y dale a cada otro número un pie y una unidad.</DoDont>
+  <DoDont kind="dont">Llenar una pantalla con doce teselas iguales, o componer una cifra en grotesca a tamaño de display.</DoDont>
+</DoDontRow>

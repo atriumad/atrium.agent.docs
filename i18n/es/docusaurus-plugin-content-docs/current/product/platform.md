@@ -26,6 +26,8 @@ La Platform es donde el restaurante ve su crecimiento: el mapa, el score y lo qu
 
 La navegación los agrupa como Dashboard · Engines (Discoverability, Attention, Retention, Reputation, Growth, Reporting) · Insights y equipo (Benchmarks, Management) · Cuenta (Settings). Las etiquetas "Attention" y "Reputation" son los nombres en la Platform de los engines Acquisition y Reputation.
 
+El Overview del dueño responde "¿cómo va mi negocio y qué me necesita?" con el rating, las respuestas, los clics del enlace de reseña y los casos abiertos, cada uno con su cambio; cada definición está en [Leer el Overview](../guides/reading-the-overview). Las páginas Feedback y Responses son tablas con una banda de resumen arriba; ver [Tablas y páginas de sección](../guides/tables-and-section-pages).
+
 ## Qué contiene cada sección
 
 ### Dashboard
@@ -62,6 +64,7 @@ La navegación los agrupa como Dashboard · Engines (Discoverability, Attention,
 - **De dónde vienen:** orígenes del opt-in (portal WiFi, encuesta por QR, checkouts de pedidos y reservas online), cada uno convertido en una audiencia de retención.
 - **Quiénes son:** el guestbook del CRM de Toast, con segmentos y ciclo de vida (nuevo → regular → VIP, win-backs).
 - **Lo que hacemos:** campañas y automatizaciones always-on con resultados, **cohort retention** por mes desde la primera visita y **channel performance.**
+- **La tarjeta de sellos:** **Stamp a card** (buscar o escanear una tarjeta, agregar un sello, entregar el premio, anular el último sello), **Loyalty activity** (una banda de resumen y la tabla de sellos, premios y tarjetas) y **Program & QR** (los sellos necesarios, el premio, el enfriamiento y el acento, el QR de registro para imprimir como póster o tarjetas de mesa, y rotarlo). El lado del guest es la app de la tarjeta en el puerto 3006; ver [Lealtad y la tarjeta de sellos](../guides/loyalty-and-qr-card).
 
 ### Attribution
 

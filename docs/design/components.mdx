@@ -1,0 +1,60 @@
+---
+sidebar_position: 6
+title: "Components"
+description: "The catalogue of components, which come from the design system and which are product additions, and the contract every one meets."
+---
+
+import {Demo, Button, Chip, Badge, StatusBadge, Card, Input, Banner, Eyebrow, Rule, StatFigure, Check, Select} from '@site/src/components/design';
+
+# *Components*: thirteen from the system, the rest built on them
+
+The design system ships **thirteen components**. The product needs more, so the rest are built here from the same tokens and rules and marked as additions. Each page shows the component live, in its states, with its API and its rules. This is the code `packages/ui` adopts.
+
+## Catalogue
+
+| Component | Page | Source |
+| --- | --- | --- |
+| Button | [Actions](./components-actions) | System |
+| Chip | [Actions](./components-actions) | System |
+| Input, Select, Checkbox | [Forms](./components-forms) | System |
+| Textarea, radio, switch | [Forms](./components-forms) | Product addition |
+| Card | [Data](./components-data) | System |
+| StatFigure | [Data](./components-data) | System |
+| Stat tile, delta, sparkline, bars, score ring | [Data](./components-data) | Product addition |
+| Data table, avatar, progress, skeleton | [Data](./components-data) | Product addition |
+| Badge | [Feedback](./components-feedback) | System |
+| Status badge, banner, toast, empty state | [Feedback](./components-feedback) | Product addition |
+| Tooltip, dialog, menu | [Feedback](./components-feedback) | Product addition |
+| Eyebrow, Highlight, Emphasis, Rule, Wordmark | [Typography](./typography), [Foundations](./foundations) | System |
+| Tabs (chips), underline tabs, segmented | [Navigation](./components-navigation) | Product addition |
+| Breadcrumbs, pagination, side navigation, top bar | [Navigation](./components-navigation) | Product addition |
+| Date range, combobox, file drop, charts beyond bars | not yet | Specify when a screen needs one |
+
+## The contract
+
+Every component meets the same rules. A component that cannot is not finished.
+
+1. **It reads roles, not colors.** Only the tokens in [Colors](./colors), so a surface can re-theme it.
+2. **It is drawn, not shaded.** Hairlines, the 3 px rule and flat fills. A diffuse shadow only on a menu or a dialog.
+3. **It is squared.** A 4 px radius for buttons and fields, 6 px for cards. Only chips are round.
+4. **It has every state.** Rest, hover, focus, press, disabled, and where it applies loading, error and selected.
+5. **It is keyboard complete**, with the 2 px clay focus ring.
+6. **It is named for assistive technology.** A visible label, or an `aria-label` for icon-only parts. Errors are announced and tied to the field.
+7. **It never relies on color alone.** Status has a word and a mark.
+8. **It respects reduced motion.** Durations are tokens that collapse to zero.
+9. **Targets are large enough.** 44 px on touch, 24 px at minimum on desktop.
+10. **It has a loading, an empty and an error design** wherever it holds data.
+
+## A taste
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center'}}>
+    <Button>Primary</Button><Button variant="lime">Lime</Button><Button variant="outline">Outline</Button>
+    <Chip variant="ink">Chip</Chip><Badge variant="clay">Badge</Badge><StatusBadge status="positive">Resolved</StatusBadge>
+  </div>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16}}>
+    <Card title="Card" description="A drawn container: a hairline, 6 px corners." />
+    <Input label="Work email" placeholder="you@company.com" hint="We reply within two working days." />
+  </div>
+  <Banner status="warning" title="Due in 3 hours" action={<Button size="sm" variant="outline">Review</Button>}>Reach out before the 24-hour target.</Banner>
+</Demo>

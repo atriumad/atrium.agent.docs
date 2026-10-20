@@ -1,0 +1,87 @@
+---
+sidebar_position: 3
+title: "Tipografía"
+description: "Dos familias, la escala, la etiqueta en mayúsculas espaciadas y los recursos de énfasis."
+---
+
+import {FontCards, TypeRamp, TrackingTable, Demo, Eyebrow, Emphasis, Highlight, StatFigure, Rule, DoDont, DoDontRow, Stat} from '@site/src/components/design';
+
+# *Tipografía*: escala y tracking, no peso
+
+Dos familias hacen tres trabajos. **Inter Tight** lleva display, titulares, cuerpo e interfaz en regular 400, con 500 como único escalón. **Instrument Serif** lleva la frase de énfasis en cursiva y **cada cifra**. Nada en el sistema es más pesado que 500: la jerarquía viene del tamaño, el tracking y la interlínea.
+
+## Las familias
+
+<FontCards />
+
+Inter Tight e Instrument Serif vienen empaquetadas con el sistema y con este sitio (`static/fonts`), así que funcionan sin conexión.
+
+:::note Una decisión registrada
+El prototipo de la Platform se dibujó en **Geist**. El sistema de diseño usa **Inter Tight**, así que Inter Tight es la fuente del producto y Geist es un artefacto del prototipo. Las dos tienen métricas cercanas; ninguna pantalla hay que redibujarla.
+:::
+
+## El titular
+
+Un titular es una frase de grotesca apretada y apilada en 400. Dale **un** recurso de énfasis, nunca dos: la frase en serif cursiva para dar calidez, o el marcador lima para dar volumen.
+
+<Demo surface="white" column>
+  <div style={{fontSize: 'var(--text-display-md)', lineHeight: 0.95, letterSpacing: 'var(--tracking-tighter)', color: 'var(--charcoal-900)'}}>
+    Tomamos <Emphasis>cuatro</Emphasis> clientes a la vez
+  </div>
+  <div style={{fontSize: 'var(--text-display-md)', lineHeight: 0.95, letterSpacing: 'var(--tracking-tighter)', color: 'var(--charcoal-900)'}}>
+    Hecho para pagarse <Highlight>solo</Highlight> en nueve semanas
+  </div>
+</Demo>
+
+| Recurso | Fuente | Regla |
+| --- | --- | --- |
+| Frase de énfasis | Instrument Serif, cursiva | Una por titular, de 1 a 4 palabras. Lleva un poco de padding a la derecha para que la cursiva no se corte |
+| Bloque marcador | Lima plano detrás de la palabra | Uno por línea. Existe una variante de tinte arcilla para citas |
+| Cifra | Instrument Serif, recta | Todo número que sea una afirmación, en tamaño de display |
+| Etiqueta | Inter Tight 500, 11 px, mayúsculas, 0.16em | Eyebrows, navegación, pies, metadatos, cabeceras de tabla |
+
+## La etiqueta en mayúsculas espaciadas
+
+El tejido conectivo del sistema: 11 px, 500, mayúsculas, `0.16em`, en el color atenuado. Los eyebrows llevan una regla inicial de 28 px y se numeran en marketing (`01 —`, `02 —`).
+
+<Demo surface="white" column>
+  <Eyebrow>Caso de estudio</Eyebrow>
+  <Eyebrow rule={false}>Metadato, sin regla</Eyebrow>
+  <Rule label="Sección" />
+</Demo>
+
+## Cifras
+
+Las cifras siempre van en la serif, nunca en la grotesca a tamaño de display, con numerales tabulares para que las columnas alineen. Un pie en la etiqueta de mayúsculas dice qué es el número.
+
+<Demo surface="white">
+  <StatFigure value="2.7x" label="Retorno de la inversión" />
+  <StatFigure value="$44M" label="Medios gestionados" size="sm" />
+  <div style={{width: 220}}><Stat label="Nota media" value="4.6" unit="/ 5" delta={2} /></div>
+</Demo>
+
+## La escala
+
+Los tamaños de display son fluidos (`--text-display-xl`, `-lg`, `-md`, cada uno un `clamp()`). La escala estática va de 72 a 11 px. Las pantallas de producto viven entre 11 y 32: tablas e interfaz densa a **14 px**, cuerpo a 16.
+
+<TypeRamp />
+
+### Pesos e interlínea
+
+| Peso | Uso |
+| --- | --- |
+| 400 | Titulares, cuerpo, todo por defecto |
+| 500 | El único escalón: etiquetas en mayúsculas, botones, chips, una celda de tabla que necesita peso |
+
+La interlínea es `0.92` a `1.05` para titulares apretados y apilados, `1.15` para titulares menores, `1.6` para el cuerpo. Mantén los párrafos en **68 caracteres** (`--container-text`).
+
+## Tracking
+
+Los titulares se aprietan, las etiquetas se abren.
+
+<TrackingTable />
+
+<DoDontRow>
+  <DoDont kind="do">Construye la jerarquía con tamaño, tracking e interlínea. Escribe los titulares en minúscula de oración.</DoDont>
+  <DoDont kind="dont">Usar negrita, Title Case o mayúsculas más allá de la etiqueta. Nunca componer una cifra en grotesca a tamaño de display.</DoDont>
+</DoDontRow>

@@ -1,0 +1,95 @@
+---
+sidebar_position: 8
+title: "Formularios"
+description: "Input, select, checkbox, y el textarea, el radio y el interruptor construidos sobre ellos."
+---
+
+import {Demo, Input, Textarea, Select, Check, Switch, DoDont, DoDontRow, FormPattern} from '@site/src/components/design';
+
+# *Formularios*: etiqueta, control, ayuda, error
+
+Un campo es recto, con una etiqueta en mayúsculas espaciadas encima y un anillo de foco arcilla. Pide lo que necesitas, di por qué cuando no sea obvio, y cuando algo está mal di qué hacer.
+
+## Input
+
+La **etiqueta** es la etiqueta en mayúsculas espaciadas de 11 px. La **ayuda** o el **error** va debajo; el error reemplaza a la ayuda, se anuncia (`role="alert"`) y se liga al control con `aria-describedby`.
+
+<Demo surface="light" column code={`<Input label="Correo de trabajo" placeholder="tu@empresa.com" />
+<Input label="Presupuesto" error="Dinos un rango para poder ser útiles." />
+<Input label="Local" disabled defaultValue="Bellaire" />`}>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24}}>
+    <Input label="Correo de trabajo" type="email" placeholder="tu@empresa.com" hint="Respondemos en dos días hábiles." />
+    <Input label="Presupuesto" defaultValue="" error="Dinos un rango para poder ser útiles." />
+    <Input label="Local" disabled defaultValue="Bellaire" />
+    <Input label="Teléfono" optional placeholder="+1 713 555 0142" />
+  </div>
+</Demo>
+
+Sobre un campo carbón, el input es transparente con un borde más claro (`tone="dark"` en el sistema):
+
+<Demo surface="dark">
+  <div style={{width: '100%', maxWidth: 360}}><Input label="Correo para el boletín" placeholder="tu@empresa.com" /></div>
+</Demo>
+
+| Estado | Borde | Notas |
+| --- | --- | --- |
+| Reposo | `field-border` (charcoal-500), 1 px | Relleno cream-100, radio de 4 px |
+| Hover | charcoal-800 | |
+| Foco | charcoal-800 y un contorno arcilla de 2 px | |
+| Error | clay-500 | Un mensaje en clay-600 bajo el campo; nunca solo color |
+| Deshabilitado | opacidad 0.4 | Explica el porqué cerca |
+
+:::note El borde del campo es charcoal-500
+El sistema dibuja un campo con la línea fina crema. Cream-400 sobre un campo cream-100 es 1.5:1, por debajo del 3:1 que necesita el borde de un control, así que el producto usa `--field-border` (6.1:1). Las tarjetas y las reglas conservan la línea fina.
+:::
+
+Marca los campos **opcionales** con "(opcional)" y deja sin marca los obligatorios.
+
+## Select, textarea
+
+<Demo surface="light" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24}}>
+    <Select label="Paquete" options={['Essential', 'Pillar 1', 'Pillar 2', 'Full system']} hint="Define qué módulos ve el cliente." />
+    <Textarea label="Notas internas" optional rows={3} placeholder="Lo que el equipo deba saber" />
+    <Input small label="Campo compacto" placeholder="14 px, para barras de herramientas" />
+  </div>
+</Demo>
+
+## Checkbox, radio e interruptor
+
+El **checkbox** es una caja recta de 18 px que se rellena de lima con un tick carbón (un tick CSS, no un icono). Un **radio** elige uno entre pocos y es redondo porque la forma lleva su significado. Un **interruptor** surte efecto al instante, así que es para ajustes y nunca para un formulario con botón de Guardar.
+
+<Demo surface="light" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24}}>
+    <div style={{display: 'grid', gap: 12}}>
+      <Check label="Tengo el consentimiento del cliente" defaultChecked />
+      <Check label="Envíame una copia" />
+      <Check label="No disponible" disabled />
+    </div>
+    <div style={{display: 'grid', gap: 12}} role="radiogroup" aria-label="Canal">
+      <Check type="radio" name="ch" label="Email" defaultChecked />
+      <Check type="radio" name="ch" label="SMS" />
+      <Check type="radio" name="ch" label="Ambos" />
+    </div>
+    <div style={{display: 'grid', gap: 12}}>
+      <Switch label="Resumen semanal" defaultChecked />
+      <Switch label="Respuesta automática a reseñas de 5 estrellas" />
+      <Switch label="Bloqueado por el paquete" disabled />
+    </div>
+  </div>
+</Demo>
+
+## Un formulario completo
+
+<Demo surface="light">
+  <FormPattern />
+</Demo>
+
+<DoDontRow>
+  <DoDont kind="do">Valida cuando la persona sale del campo, y otra vez al enviar. Escribe el error como una solución.</DoDont>
+  <DoDont kind="dont">Borrar el formulario ante un error, escribir "Entrada inválida", o poner la etiqueta dentro del campo como placeholder.</DoDont>
+</DoDontRow>
+
+- Usa el control y el teclado correctos: `type="email"`, `inputmode="numeric"`, tokens de `autocomplete`.
+- Una columna de campos; dos lado a lado solo cuando son cortos y relacionados.
+- Deshabilita el envío solo mientras guarda (`loading`), nunca para decir "incompleto".

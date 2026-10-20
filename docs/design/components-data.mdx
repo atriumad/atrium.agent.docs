@@ -1,0 +1,129 @@
+---
+sidebar_position: 9
+title: "Data display"
+description: "Card, StatFigure, stat tile, delta, charts, score ring, table, avatar, progress and loading."
+---
+
+import {Demo, Card, Stat, StatFigure, Delta, Sparkline, Bars, ScoreRing, DataTable, Avatar, Progress, StatusBadge, Skeleton, Eyebrow, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Data display*: figures carry the claim
+
+Anything that can hold a figure holds one, set in the serif. Show the number that matters big; show the rest in the wide-caps label.
+
+## Card
+
+A drawn container: **cream-100, a 6 px radius, a 1 px hairline, no shadow**. Emphasis comes from the tone, a 1 px ink border, or the 2 px printed offset.
+
+<Demo surface="light" column code={`<Card title="Title" description="Supporting line">...</Card>
+<Card tone="ruled" elevation="offset" interactive />   // the one card that matters
+<Card tone="sunken" />
+<Card tone="dark" />
+<Card tone="lime" />                                    // one per view
+<Card tone="clay" />                                    // a quote; large text only`}>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 16}}>
+    <Card title="Paper" description="Hairline, flat." />
+    <Card tone="ruled" elevation="offset" title="Ruled" description="Ink border, printed offset." />
+    <Card tone="sunken" title="Sunken" description="A well." />
+    <Card tone="dark" title="Dark" description="Proof bands." />
+    <Card tone="lime" title="Lime" description="One per view." />
+    <Card tone="clay"><span style={{fontSize: 24, lineHeight: 1.15}}>A quote, at a large size.</span></Card>
+    <Card interactive title="Interactive" description="Lifts 2 px on hover." />
+  </div>
+</Demo>
+
+| Prop | Values | Notes |
+| --- | --- | --- |
+| `tone` | `paper` `ruled` `sunken` `dark` `lime` `clay` | At most one lime or clay card per screen region |
+| `elevation` | `flat` `card` `offset` `pop` | `offset` is the printed drop; `pop` only for floating UI |
+| `padding` | `none` `sm` 16 · default 24 · `lg` 32 | A list row uses `sm` |
+| `interactive` | boolean | Only if the whole card is a link |
+
+:::caution Text on a clay card
+Cream on clay-500 is 3.8:1. Set text on a clay card at **24 px or larger**, where 3:1 is enough, or use the clay-200 tint instead.
+:::
+
+## StatFigure and the stat tile
+
+**StatFigure** is the proof device: a big serif figure with a wide-caps caption. The **stat tile** is the same idea at product size, with a unit, a delta and a trend.
+
+<Demo surface="light">
+  <StatFigure value="2.7x" label="Return on ad spend" />
+  <StatFigure value="$44M" label="Media managed" tone="lime" size="sm" />
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16, width: '100%'}}>
+    <Stat label="New reviews" value="38" delta={12} spark={[4, 6, 5, 8, 7, 11, 13]} />
+    <Stat label="Average rating" value="4.6" unit="/ 5" delta={2} spark={[4.2, 4.3, 4.3, 4.4, 4.5, 4.5, 4.6]} />
+    <Stat label="Open cases" value="3" delta={-25} goodWhen="down" note="1 overdue" />
+  </div>
+</Demo>
+
+The `lime` tone of a figure is lime-600 and is for a **dark field** only. On cream it is 1.4:1; on charcoal it is a headline color.
+
+### Delta
+
+The arrow shows **direction**; the color shows **whether it is good**: charcoal when it is, clay when it is not. Fewer open cases is down and good, so it stays charcoal. The sign, the arrow and a hidden "up" or "down" carry it for anyone who cannot see color.
+
+<Demo surface="white">
+  <Delta value={12} /><Delta value={-4} /><Delta value={-25} goodWhen="down" /><Delta value={0} />
+</Demo>
+
+## Charts
+
+Bars and sparklines are drawn in SVG from the data palette (charcoal first), with the latest point in clay. Every chart has an `aria-label` listing its values.
+
+<Demo surface="white">
+  <Card title="Orders per week" description="From Toast, last 6 weeks">
+    <div style={{marginTop: 12, overflowX: 'auto'}}><Bars data={[{label: 'W1', value: 412}, {label: 'W2', value: 438}, {label: 'W3', value: 401}, {label: 'W4', value: 466}, {label: 'W5', value: 490}, {label: 'W6', value: 512}]} /></div>
+  </Card>
+  <Sparkline label="Reviews trend" values={[4, 6, 5, 8, 7, 11, 13]} width={160} height={40} />
+</Demo>
+
+Rules: bars start at zero; label directly instead of a legend for two series or fewer; at most six series (see [Colors](./colors#data-colors)).
+
+## Score ring
+
+The Growth Score as a charcoal arc on a cream track, with the figure in the serif.
+
+<Demo surface="white">
+  <ScoreRing value={72} label="Growth Score" />
+  <ScoreRing value={48} label="Reputation" size={88} />
+</Demo>
+
+## Table
+
+A table is for comparing rows. It sits under the **3 px rule**; headers are wide-caps labels over a 1 px ink line; rows are hairlines; numbers are right-aligned with tabular numerals. Sorting is a button in the header with `aria-sort`.
+
+<Demo surface="white" column>
+  <DataTable label="Locations" columns={[{key: 'name', label: 'Location', sortable: true}, {key: 'reviews', label: 'Reviews', numeric: true, sortable: true}, {key: 'rating', label: 'Rating', numeric: true, sortable: true}, {key: 'state', label: 'State'}]} rows={[
+    {name: 'Casa Olivo · Bellaire', reviews: '312', rating: '4.6', state: <StatusBadge status="positive">Healthy</StatusBadge>},
+    {name: 'Brasa Norte', reviews: '198', rating: '4.3', state: <StatusBadge status="warning">Watch</StatusBadge>},
+    {name: 'La Mesa', reviews: '74', rating: '3.9', state: <StatusBadge status="danger">At risk</StatusBadge>},
+  ]} />
+</Demo>
+
+On narrow screens a table becomes a list of cards with the same labels. See [Patterns](./patterns).
+
+## Avatar and progress
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 12, alignItems: 'center'}}><Avatar name="Dana Ruiz" size="sm" /><Avatar name="Leo Park" /><Avatar name="Marco Vidal" size="lg" /></div>
+  <div style={{display: 'grid', gap: 14, maxWidth: 360}}>
+    <Progress value={72} label="Setup" />
+    <Progress value={46} tone="lime" label="Tasks" />
+    <Progress value={20} tone="clay" label="Budget used" />
+  </div>
+</Demo>
+
+An avatar is a squared 4 px tile with initials; a photo replaces it. **Progress** always has a label and the number nearby, never only the bar.
+
+## Loading
+
+Show the **shape** of what is coming, not a spinner, for anything bigger than a button.
+
+<Demo surface="white">
+  <Card padding="sm"><div style={{display: 'grid', gap: 10, width: 240}}><Skeleton width={70} height={16} /><Skeleton height={34} /><Skeleton width="60%" /></div></Card>
+</Demo>
+
+<DoDontRow>
+  <DoDont kind="do">Lead with one big serif figure and give every other number a caption and a unit.</DoDont>
+  <DoDont kind="dont">Fill a screen with twelve equal tiles, or set a figure in the grotesque at display size.</DoDont>
+</DoDontRow>

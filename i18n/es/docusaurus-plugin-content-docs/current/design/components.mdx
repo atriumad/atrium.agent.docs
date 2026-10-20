@@ -1,0 +1,60 @@
+---
+sidebar_position: 6
+title: "Componentes"
+description: "El catálogo de componentes, cuáles vienen del sistema de diseño y cuáles son adiciones del producto, y el contrato que cumple cada uno."
+---
+
+import {Demo, Button, Chip, Badge, StatusBadge, Card, Input, Banner} from '@site/src/components/design';
+
+# *Componentes*: trece del sistema, el resto construido encima
+
+El sistema de diseño trae **trece componentes**. El producto necesita más, así que el resto se construye aquí con los mismos tokens y reglas y se marca como adición. Cada página muestra el componente en vivo, en sus estados, con su API y sus reglas. Este es el código que adopta `packages/ui`.
+
+## Catálogo
+
+| Componente | Página | Origen |
+| --- | --- | --- |
+| Button | [Acciones](./components-actions) | Sistema |
+| Chip | [Acciones](./components-actions) | Sistema |
+| Input, Select, Checkbox | [Formularios](./components-forms) | Sistema |
+| Textarea, radio, interruptor | [Formularios](./components-forms) | Adición del producto |
+| Card | [Datos](./components-data) | Sistema |
+| StatFigure | [Datos](./components-data) | Sistema |
+| Tesela de stat, delta, sparkline, barras, anillo de score | [Datos](./components-data) | Adición del producto |
+| Tabla de datos, avatar, progreso, skeleton | [Datos](./components-data) | Adición del producto |
+| Badge | [Feedback](./components-feedback) | Sistema |
+| Badge de estado, banner, toast, estado vacío | [Feedback](./components-feedback) | Adición del producto |
+| Tooltip, diálogo, menú | [Feedback](./components-feedback) | Adición del producto |
+| Eyebrow, Highlight, Emphasis, Rule, Wordmark | [Tipografía](./typography), [Fundamentos](./foundations) | Sistema |
+| Tabs (chips), tabs subrayadas, segmentado | [Navegación](./components-navigation) | Adición del producto |
+| Migas de pan, paginación, navegación lateral, barra superior | [Navegación](./components-navigation) | Adición del producto |
+| Rango de fechas, combobox, zona de archivos, gráficos más allá de barras | todavía no | Especificar cuando una pantalla lo necesite |
+
+## El contrato
+
+Todo componente cumple las mismas reglas. Un componente que no puede no está terminado.
+
+1. **Lee roles, no colores.** Solo los tokens de [Colores](./colors), para que una superficie lo pueda retematizar.
+2. **Está dibujado, no sombreado.** Líneas finas, la regla de 3 px y rellenos planos. Una sombra difusa solo en un menú o un diálogo.
+3. **Es recto.** Un radio de 4 px en botones y campos, 6 px en tarjetas. Solo los chips son redondos.
+4. **Tiene todos los estados.** Reposo, hover, foco, pulsado, deshabilitado y, donde aplique, cargando, error y seleccionado.
+5. **Se usa completo con teclado**, con el anillo de foco arcilla de 2 px.
+6. **Tiene nombre para la tecnología de apoyo.** Una etiqueta visible, o un `aria-label` en las partes solo de icono. Los errores se anuncian y se ligan al campo.
+7. **Nunca depende solo del color.** El estado lleva una palabra y una marca.
+8. **Respeta el movimiento reducido.** Las duraciones son tokens que bajan a cero.
+9. **Los objetivos son suficientemente grandes.** 44 px en táctil, 24 px como mínimo en escritorio.
+10. **Tiene un diseño de carga, de vacío y de error** donde sea que contenga datos.
+
+## Una muestra
+
+<Demo surface="white" column>
+  <div style={{display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center'}}>
+    <Button>Primario</Button><Button variant="lime">Lima</Button><Button variant="outline">Contorno</Button>
+    <Chip variant="ink">Chip</Chip><Badge variant="clay">Badge</Badge><StatusBadge status="positive">Resuelto</StatusBadge>
+  </div>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16}}>
+    <Card title="Tarjeta" description="Un contenedor dibujado: una línea fina, esquinas de 6 px." />
+    <Input label="Correo de trabajo" placeholder="tu@empresa.com" hint="Respondemos en dos días hábiles." />
+  </div>
+  <Banner status="warning" title="Vence en 3 horas" action={<Button size="sm" variant="outline">Revisar</Button>}>Contacta antes del objetivo de 24 horas.</Banner>
+</Demo>

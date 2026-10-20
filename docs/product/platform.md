@@ -26,6 +26,8 @@ The Platform is where the restaurant sees its growth: the map, the score and wha
 
 The navigation groups them as Dashboard · Engines (Discoverability, Attention, Retention, Reputation, Growth, Reporting) · Insights and team (Benchmarks, Management) · Account (Settings). The labels "Attention" and "Reputation" are the Platform names for the Acquisition and Reputation engines.
 
+The owner's Overview answers "how is my business doing, and what needs me?" with the rating, responses, review link clicks and open cases, each with its change; every definition is in [Reading the Overview](../guides/reading-the-overview). The Feedback and Responses pages are tables with a summary band on top; see [Tables and section pages](../guides/tables-and-section-pages).
+
 ## What each section contains
 
 ### Dashboard
@@ -62,6 +64,7 @@ The navigation groups them as Dashboard · Engines (Discoverability, Attention, 
 - **Where they come from:** opt-in sources (WiFi portal, QR survey, online order and reservation checkouts), each becoming a retention audience.
 - **Who they are:** the guestbook from the Toast CRM, with segments and lifecycle (new → regular → VIP, win-backs).
 - **What we're doing:** campaigns and always-on automations with results, **cohort retention** by month since first visit, and **channel performance**.
+- **The stamp card:** **Stamp a card** (find or scan a card, add a stamp, hand out the reward, void the last stamp), **Loyalty activity** (a summary band and the table of stamps, rewards and cards) and **Program & QR** (the stamps needed, reward, cooldown and accent, the join QR to print as a poster or table cards, and rotating it). The guest side is the card app on port 3006; see [Loyalty and the stamp card](../guides/loyalty-and-qr-card).
 
 ### Attribution
 

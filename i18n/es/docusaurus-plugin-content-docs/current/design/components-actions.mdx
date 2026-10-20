@@ -1,0 +1,116 @@
+---
+sidebar_position: 7
+title: "Acciones"
+description: "Botón y chip."
+---
+
+import {Demo, Button, Chip, DoDont, DoDontRow} from '@site/src/components/design';
+import {Plus, ArrowRight, Search} from 'lucide-react';
+import {useState} from 'react';
+
+# *Acciones*: lo que se pulsa
+
+Un botón es recto, con rellenos planos y trazos de 1 px. Un chip es la única píldora. Una acción primaria por vista.
+
+## Botón
+
+<Demo switcher code={`<Button>Primario</Button>
+<Button variant="lime">Lima</Button>
+<Button variant="clay">Arcilla</Button>
+<Button variant="outline">Contorno</Button>
+<Button variant="ghost">Fantasma</Button>`}>
+  <Button>Primario</Button>
+  <Button variant="lime">Lima</Button>
+  <Button variant="clay">Arcilla</Button>
+  <Button variant="outline">Contorno</Button>
+  <Button variant="ghost">Fantasma</Button>
+</Demo>
+
+| Variante | Uso |
+| --- | --- |
+| `primary` | La llamada a la acción por defecto. Relleno carbón, texto crema. Sobre un campo oscuro pasa a lima |
+| `lime` | La señal ruidosa. Una por vista |
+| `clay` | El secundario cálido, y una acción destructiva tras una confirmación. **Nunca** es la llamada a la acción principal |
+| `outline` | Una acción secundaria. Al pasar el cursor se invierte a relleno carbón sólido |
+| `ghost` | Una acción terciaria, y acciones dentro de barras de herramientas densas |
+
+:::note El botón arcilla es clay-600
+El sistema rellena el botón arcilla con clay-500. Crema sobre clay-500 es 3.8:1, que no cumple para una etiqueta de 15 px. El relleno aquí es **clay-600** (5.2:1) y el estado presionado es **clay-700**.
+:::
+
+### Tamaños, iconos, carga, deshabilitado
+
+<Demo surface="white" code={`<Button size="sm">Pequeño</Button>
+<Button>Mediano</Button>
+<Button size="lg">Grande</Button>
+<Button icon={<Plus size={16} />}>Añadir cliente</Button>
+<Button variant="outline" iconRight={<ArrowRight size={16} />}>Continuar</Button>
+<Button iconOnly variant="ghost" aria-label="Buscar"><Search size={18} /></Button>
+<Button loading>Guardando</Button>
+<Button disabled>Deshabilitado</Button>`}>
+  <Button size="sm">Pequeño</Button>
+  <Button>Mediano</Button>
+  <Button size="lg">Grande</Button>
+  <Button icon={<Plus size={16} strokeWidth={1.5} />}>Añadir cliente</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.5} />}>Continuar</Button>
+  <Button iconOnly variant="ghost" aria-label="Buscar"><Search size={18} strokeWidth={1.5} /></Button>
+  <Button loading>Guardando</Button>
+  <Button disabled>Deshabilitado</Button>
+</Demo>
+
+### API
+
+| Prop | Tipo | Por defecto | Notas |
+| --- | --- | --- | --- |
+| `variant` | `primary` \| `lime` \| `clay` \| `outline` \| `ghost` | `primary` | |
+| `size` | `sm` \| `md` \| `lg` | `md` | Padding 7/14, 11/22, 15/30; texto 13, 15, 17 px |
+| `icon` / `iconRight` | `ReactNode` | ninguno | 16 px, trazo 1.5, `currentColor` |
+| `iconOnly` | `boolean` | `false` | Necesita `aria-label`. 44 px en táctil |
+| `loading` | `boolean` | `false` | Un spinner, `aria-busy`, deshabilitado, conserva su ancho |
+| `block` | `boolean` | `false` | Ancho completo: diálogos y móvil |
+| `disabled` | `boolean` | `false` | Opacidad 0.4 y sin cambio de color. Explica el porqué cerca |
+
+### Estados
+
+El texto es 500 con `0.01em`. El **hover** profundiza el relleno un paso (un botón de contorno se invierte a sólido). Al **pulsar** baja 1 px. El **foco** es un contorno arcilla de 2 px a 2 px de distancia. **Cargando** muestra un spinner y conserva la etiqueta.
+
+<DoDontRow>
+  <DoDont kind="do">Empieza con un verbo: "Guardar cliente", "Resolver", "Ver el trabajo".</DoDont>
+  <DoDont kind="dont">Redondear un botón en píldora, usar "OK" o "Enviar", o poner dos botones lima en una vista.</DoDont>
+</DoDontRow>
+
+## Chip
+
+La única píldora: etiquetas de servicio y filtros. **Con contorno** por defecto; **tinta** cuando está seleccionado. Mayúsculas, 0.06em, 11 o 13 px.
+
+export const ChipDemo = () => {
+  const [on, setOn] = useState('SEO');
+  return (
+    <>
+      {['SEO', 'Medios', 'Contenido', 'Marca'].map((c) => (
+        <Chip key={c} onClick={() => setOn(c)} active={on === c}>{c}</Chip>
+      ))}
+    </>
+  );
+};
+
+<Demo surface="white" code={`<Chip onClick={...} active={on === 'SEO'}>SEO</Chip>   // un filtro
+<Chip variant="lime">Nuevo</Chip>                        // una etiqueta
+<Chip onRemove={...}>Houston</Chip>                      // removible`}>
+  <ChipDemo />
+</Demo>
+
+<Demo surface="light">
+  <Chip>Contorno</Chip>
+  <Chip variant="ink">Tinta</Chip>
+  <Chip variant="lime">Lima</Chip>
+  <Chip variant="clay">Arcilla</Chip>
+  <Chip size="sm">Pequeño</Chip>
+  <Chip count={3}>Con conteo</Chip>
+  <Chip onRemove={() => undefined}>Removible</Chip>
+</Demo>
+<Demo surface="dark">
+  <Chip variant="dark">Sobre oscuro</Chip>
+</Demo>
+
+Un chip con `onClick` es un botón de alternancia (`aria-pressed`). Sin él, un chip es una etiqueta y no recibe foco. El chip arcilla usa texto **clay-700** sobre clay-200 (el clay-600 del sistema daba 4.1:1).

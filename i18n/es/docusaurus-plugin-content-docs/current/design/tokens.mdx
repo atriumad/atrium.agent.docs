@@ -1,0 +1,94 @@
+---
+sidebar_position: 15
+title: "Tokens"
+description: "Los tokens como código, qué es nuestro frente al sistema y cómo los adopta packages/ui."
+---
+
+import {TokenCode, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Tokens*: el código para copiar
+
+Cada color, tamaño y duración de estas páginas es un token de diseño. Se escriben una sola vez, en `src/design/tokens.ts`, y un script genera el CSS desde ahí. Los componentes leen tokens, nunca valores crudos. La paleta cruda, la tipografía, el espaciado, los radios, los bordes, las sombras y el movimiento vienen del sistema de diseño ATRIUM AD, cuya copia vive en `design/system` (ver su `SOURCE.md`).
+
+```bash
+bun run tokens         # escribe src/css/atrium-tokens.css
+bun run tokens:check   # falla si el CSS está desactualizado o una guarda de contraste falla
+```
+
+## Nombres
+
+| Capa | Ejemplos | Regla |
+| --- | --- | --- |
+| **Paleta cruda** | `--charcoal-800`, `--cream-200`, `--lime-500`, `--clay-500` | Un color y un paso. Solo los usan los roles de abajo |
+| **Roles** | `--surface-card`, `--text-strong`, `--border-light`, `--status-danger-fg` | Para qué sirve algo. Los componentes leen estos |
+| **Escala** | `--text-sm`, `--space-4`, `--radius-sm`, `--dur-base` | Un paso de una rampa |
+| **Componente** | `.atr-btn`, `.atr-card` | Una clase que lee solo roles y escalas |
+
+Un cambio en la capa cruda cambia la marca. Un cambio en la capa de roles retematiza una superficie. Un componente nunca cambia.
+
+## Propiedades CSS
+
+<TokenCode kind="css" />
+
+## Tema oscuro
+
+Oscuro redefine roles, no componentes.
+
+<TokenCode kind="dark" />
+
+## Tailwind v4
+
+`packages/ui` es Tailwind v4 con Base UI ([ADR 0004](../adr/0004-base-ui-and-tailwind)). Este es el bloque del tema, generado desde los mismos tokens.
+
+:::caution No añadas tokens `--spacing-N`
+En Tailwind v4, un token `--spacing-4` redefine `p-4`, `gap-4` y compañía. La escala de espaciado ya es de base 4 px (`--spacing: 0.25rem`) y coincide con la del sistema, así que se deja tal cual.
+:::
+
+<TokenCode kind="tailwind" />
+
+## Qué es nuestro
+
+El sistema de diseño se usa tal cual, con estas excepciones y adiciones. Cada una existe por una razón declarada.
+
+| Qué | Por qué |
+| --- | --- |
+| `clay-700` (`#9a3817`) es nuevo | El texto arcilla sobre un tinte arcilla, y el botón arcilla presionado, necesitan 4.5:1 |
+| El botón arcilla se rellena con `clay-600` | Crema sobre clay-500 es 3.8:1 |
+| El chip arcilla usa texto `clay-700` | Clay-600 sobre clay-200 es 4.1:1 |
+| `--field-border` (`charcoal-500`) | Un borde de campo con línea fina crema es 1.5:1 |
+| Colores de estado (positivo, aviso, peligro, info, neutro) | El sistema no tiene verde, ámbar ni azul y un dashboard necesita estado |
+| Paleta de datos de seis | Los gráficos necesitan colores categóricos |
+| El tema oscuro | El chrome del Manager y cualquier campo carbón |
+| Textarea, radio, interruptor, tabla, banner, toast, diálogo, menú, tabs y el resto | El producto los necesita; el sistema define trece componentes |
+| JetBrains Mono para código | El sistema no tiene monoespaciada |
+
+Los pendientes del sistema siguen abiertos: lima y arcilla son provisionales, no hay logo ni set de iconos, y Lucide es un sustituto no aprobado.
+
+## En este sitio
+
+La documentación mapea su tema sobre los mismos tokens.
+
+<TokenCode kind="infima" />
+
+## Adoptar los tokens en `packages/ui`
+
+La [decisión 15](../plan/open-decisions) la cierra el [ADR 0023](../adr/0023-one-token-set). `packages/ui/src/theme.css` ya usa crema, tinta y lima, pero con valores escritos antes de encontrar este sistema. Para adoptar:
+
+1. Copia `src/css/atrium-tokens.css` a `packages/ui/src/` e impórtalo desde `theme.css`.
+2. Reemplaza los colores provisionales de `@theme` por el bloque de Tailwind de arriba, y renombra `ink` a `charcoal`, `paper` a `cream-100`.
+3. Porta las clases de los componentes como componentes React, uno a uno, empezando por Button, Badge, Card y Field. Las props de estas páginas son la API.
+4. Mueve las pantallas de casos del Manager y la Platform a ellos: botones rectos, la regla de 3 px, la serif para las cifras, arcilla para el foco.
+5. Corre `tokens:check` en CI para que el CSS y la guarda de contraste no se desincronicen.
+
+## Cambiar un token
+
+1. Edita `src/design/tokens.ts`. Un color crudo cambia la marca, así que necesita una decisión registrada; los roles y las escalas son un cambio normal.
+2. Corre `bun run tokens`. Una guarda de contraste que falle se detiene aquí.
+3. Mira las páginas afectadas en [Colores](./colors) y los [componentes](./components).
+4. Haz commit del código fuente y del CSS generado juntos.
+5. Si cambió el propio sistema de origen, cópialo de nuevo en `design/system` primero.
+
+<DoDontRow>
+  <DoDont kind="do">Referencia un rol: <code>var(--surface-card)</code>.</DoDont>
+  <DoDont kind="dont">Escribir <code>#fbf8f1</code> o <code>#242726</code> en un componente.</DoDont>
+</DoDontRow>

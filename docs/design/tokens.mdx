@@ -1,0 +1,94 @@
+---
+sidebar_position: 15
+title: "Tokens"
+description: "The tokens as code, what is ours versus the system's, and how packages/ui adopts them."
+---
+
+import {TokenCode, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Tokens*: the code to copy
+
+Every color, size and duration on these pages is a design token. They are written once, in `src/design/tokens.ts`, and a script generates the CSS from it. Components read tokens, never raw values. The raw palette, type, space, radius, borders, shadows and motion come from the ATRIUM AD design system, a copy of which lives in `design/system` (see its `SOURCE.md`).
+
+```bash
+bun run tokens         # writes src/css/atrium-tokens.css
+bun run tokens:check   # fails if the CSS is stale or a contrast guard fails
+```
+
+## Naming
+
+| Layer | Examples | Rule |
+| --- | --- | --- |
+| **Raw palette** | `--charcoal-800`, `--cream-200`, `--lime-500`, `--clay-500` | A color and a step. Only the roles below use them |
+| **Roles** | `--surface-card`, `--text-strong`, `--border-light`, `--status-danger-fg` | What a thing is for. Components read these |
+| **Scale** | `--text-sm`, `--space-4`, `--radius-sm`, `--dur-base` | A step in a ramp |
+| **Component** | `.atr-btn`, `.atr-card` | A class that reads only roles and scales |
+
+A change at the raw layer changes the brand. A change at the role layer re-themes a surface. A component never changes.
+
+## CSS custom properties
+
+<TokenCode kind="css" />
+
+## Dark theme
+
+Dark redefines roles, not components.
+
+<TokenCode kind="dark" />
+
+## Tailwind v4
+
+`packages/ui` is Tailwind v4 with Base UI ([ADR 0004](../adr/0004-base-ui-and-tailwind)). This is the theme block, generated from the same tokens.
+
+:::caution Do not add `--spacing-N` tokens
+In Tailwind v4, a `--spacing-4` token redefines `p-4`, `gap-4` and friends. The spacing scale is already a 4 px base (`--spacing: 0.25rem`) and matches the system's, so it is left alone.
+:::
+
+<TokenCode kind="tailwind" />
+
+## What is ours
+
+The design system is used as it is, with these exceptions and additions. Each one exists for a stated reason.
+
+| What | Why |
+| --- | --- |
+| `clay-700` (`#9a3817`) is new | Clay text on a clay tint, and the pressed clay button, need 4.5:1 |
+| The clay button is filled with `clay-600` | Cream on clay-500 is 3.8:1 |
+| The clay chip uses `clay-700` text | Clay-600 on clay-200 is 4.1:1 |
+| `--field-border` (`charcoal-500`) | A cream hairline field edge is 1.5:1 |
+| Status colors (positive, warning, danger, info, neutral) | The system has no green, amber or blue and a dashboard needs status |
+| Data palette of six | Charts need categorical colors |
+| The dark theme | The Manager's chrome and any charcoal field |
+| Textarea, radio, switch, table, banner, toast, dialog, menu, tabs and the rest | The product needs them; the system defines thirteen components |
+| JetBrains Mono for code | The system has no monospace |
+
+The system's open items stay open: lime and clay are placeholders, there is no logo and no icon set, and Lucide is an unapproved stand-in.
+
+## In this site
+
+The documentation maps its theme onto the same tokens.
+
+<TokenCode kind="infima" />
+
+## Adopting the tokens in `packages/ui`
+
+[Decision 15](../plan/open-decisions) is closed by [ADR 0023](../adr/0023-one-token-set). `packages/ui/src/theme.css` already uses cream, ink and lime, but with values written before this system was found. To adopt:
+
+1. Copy `src/css/atrium-tokens.css` into `packages/ui/src/` and import it from `theme.css`.
+2. Replace the provisional `@theme` colors with the Tailwind block above, and rename `ink` to `charcoal`, `paper` to `cream-100`.
+3. Port the component classes as React components, one at a time, starting with Button, Badge, Card and Field. The props on these pages are the API.
+4. Move the Manager and Platform case screens onto them: squared buttons, the 3 px rule, the serif for figures, clay for focus.
+5. Run `tokens:check` in CI so the CSS and the contrast guard cannot drift.
+
+## Changing a token
+
+1. Edit `src/design/tokens.ts`. A raw color changes the brand, so it needs a decision recorded; roles and scales are a normal change.
+2. Run `bun run tokens`. A failing contrast guard stops here.
+3. Look at the affected pages in [Colors](./colors) and the [components](./components).
+4. Commit the source and the generated CSS together.
+5. If the source system itself changed, copy it again into `design/system` first.
+
+<DoDontRow>
+  <DoDont kind="do">Reference a role: <code>var(--surface-card)</code>.</DoDont>
+  <DoDont kind="dont">Write <code>#fbf8f1</code> or <code>#242726</code> in a component.</DoDont>
+</DoDontRow>

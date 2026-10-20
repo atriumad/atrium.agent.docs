@@ -1,0 +1,121 @@
+---
+sidebar_position: 2
+title: "Colores"
+description: "La paleta, los roles semánticos, los colores de estado y de datos, y el tema oscuro."
+---
+
+import {Swatches, SemanticTable, StatusTable, DataPalette, Demo, Card, Button, Chip, Badge, StatusBadge, Banner, DoDont, DoDontRow, Highlight, Eyebrow} from '@site/src/components/design';
+
+# *Colores*: cuatro valores cargan la marca
+
+**Carbón**, **crema**, **lima** y **arcilla**. El salvia se lleva para superficies cercanas a la textura. No hay negro ni blanco puro. Cada valor de abajo vive en `src/design/tokens.ts`, y las propiedades CSS se generan desde ahí.
+
+## La paleta
+
+Usa el paso con nombre de cada familia como el color, y los demás como escalones a su alrededor.
+
+### Carbón: el ancla oscura
+<Swatches group="charcoal" />
+
+### Crema: el papel
+<Swatches group="cream" />
+
+### Lima: la señal
+<Swatches group="lime" />
+
+### Arcilla: el secundario cálido
+<Swatches group="clay" />
+
+### Salvia
+<Swatches group="sage" />
+
+:::note Provisionales y una adición
+Lima y arcilla son provisionales en el sistema de origen hasta que se puedan leer los tableros de marca. `clay-700` es el único color añadido aquí, para texto arcilla sobre un tinte arcilla y el botón arcilla presionado. Ver [Tokens](./tokens#qué-es-nuestro).
+:::
+
+## Cómo usarlos
+
+La combinación por defecto es **carbón sobre crema**. Lo inverso, **crema sobre carbón**, lleva bandas de pruebas, pies y aperturas de presentación. La lima y la arcilla son puntuación.
+
+<Demo surface="white" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12}}>
+    <Card title="Carbón sobre crema">Lo normal. Papel con una línea fina.</Card>
+    <Card tone="dark" title="Crema sobre carbón">Bandas de pruebas y pies.</Card>
+    <Card tone="lime" title="Carbón sobre lima">La única tarjeta lima de una vista.</Card>
+    <Card tone="sunken" title="Sobre crema hundido">Un hueco dentro de una página.</Card>
+  </div>
+</Demo>
+
+| Color | Parte de una pantalla | Se usa para |
+| --- | --- | --- |
+| Crema | Cerca del 75% | La página, tarjetas, campos, tablas |
+| Carbón | Cerca del 20% | Texto, reglas, el botón primario, campos oscuros |
+| Lima | 4% o menos | Una llamada a la acción, un marcador, una tarjeta |
+| Arcilla | 1% o menos | Foco, errores, una cita, un conteo que necesita a una persona |
+
+## Roles semánticos
+
+Los componentes nunca leen un color crudo. Leen un rol, así una superficie oscura solo tiene que redefinir los roles.
+
+### Superficies
+<SemanticTable group="surface" />
+
+### Texto
+<SemanticTable group="text" />
+
+### Líneas
+<SemanticTable group="line" />
+
+## Colores de estado
+
+El sistema tiene una señal y un color cálido, y ningún verde, ámbar ni azul. Un dashboard igual tiene que decir "hecho" y "tarde", así que el estado se distingue por **relleno, una regla izquierda de 3 px y una marca**, nunca solo por el tono. Esta es la capa de producto, construida solo con la paleta.
+
+<StatusTable />
+
+<Demo surface="white">
+  <StatusBadge status="positive">Resuelto</StatusBadge>
+  <StatusBadge status="warning">Vence en 3h</StatusBadge>
+  <StatusBadge status="danger">Vencido hace 6h</StatusBadge>
+  <StatusBadge status="info">Borrador</StatusBadge>
+  <StatusBadge status="neutral">Pausado</StatusBadge>
+</Demo>
+
+:::caution El color nunca habla solo
+Todo estado tiene una palabra y una marca. La lima se lee como positivo y la arcilla como tarde, pero quien no los distingue igual lee "Vencido" y ve la regla izquierda y el icono. El texto sobre un relleno de estado siempre pasa 4.5:1; ver [Accesibilidad](./accessibility).
+:::
+
+## Colores de datos
+
+Para gráficos, en el orden en que se usan las series. Seis es el límite: más que eso, agrupa o usa múltiplos pequeños. Las series adyacentes no dependen solo del tono, así que los gráficos también usan posición, etiquetas o anotación directa.
+
+<DataPalette />
+
+## El tema oscuro
+
+Oscuro es un campo carbón, no una inversión. Se redefinen los roles: la página es `charcoal-900`, las tarjetas son `charcoal-800`, las cifras y la acción primaria pasan a lima, y los colores de estado se aclaran para mantener el contraste.
+
+<Demo surface="dark" column>
+  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12}}>
+    <Card title="Tarjetas sobre oscuro" description="surface-card es charcoal-800 sobre una página charcoal-900." />
+    <div style={{display: 'grid', gap: 8}}>
+      <Banner status="danger" title="Vencido hace 6h" />
+      <Banner status="positive" title="Respuesta publicada" />
+    </div>
+  </div>
+  <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>
+    <Button>El primario pasa a lima</Button>
+    <Button variant="outline">Contorno</Button>
+    <StatusBadge status="warning">Vence pronto</StatusBadge>
+  </div>
+</Demo>
+
+Pon `data-atr-theme="dark"` en cualquier ancestro para cambiar. Los agentes conservan por ahora los colores de su cara; su identidad no es parte de este sistema.
+
+## Haz y no hagas
+
+<DoDontRow>
+  <DoDont kind="do">Usa carbón sobre crema, y crema sobre carbón. Ambos superan 11:1.</DoDont>
+  <DoDont kind="dont">Usar clay-500 o lime-600 como texto sobre crema. No cumplen el contraste.</DoDont>
+  <DoDont kind="do">Pon <Highlight>un</Highlight> marcador lima detrás de la palabra que importa.</DoDont>
+  <DoDont kind="dont">Usar la arcilla como botón principal, o poner dos campos lima en una vista.</DoDont>
+</DoDontRow>

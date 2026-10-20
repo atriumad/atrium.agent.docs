@@ -15,6 +15,8 @@ Modules communicate only through events. An event is a past fact: immutable and 
 3. **Idempotency.** Each consumer stores the processed `id`s: receiving an event twice does not produce two effects.
 4. **No personal data.** Events carry ids, never email or phone. The consumer asks Core for the contact, which verifies consent.
 5. **Optional.** A consumer switched off for a client ignores the event.
+6. **Subscriptions are stored.** An event with no subscribed consumer is dropped. The worker subscribes every consumer when it starts, so run a worker once before taking traffic on a fresh database.
+7. **Dead letters name, never carry.** A job that exhausts its retries goes to the dead-letter queue; the worker logs its type, version, id and client, and nothing from its payload.
 
 ## Shape of an event
 
@@ -56,14 +58,18 @@ export type ReviewReceivedV1 = z.infer<typeof ReviewReceivedV1>;
 | `review.received` | reputation | Echo, Sentiment, Scorekeeper |
 | `review.replied` | reputation | Scorekeeper |
 | `survey.sent` | reputation | Scorekeeper |
-| `survey.response.submitted` | reputation | Recovery, Memory, Ask |
+| `survey.response.submitted` | reputation | Recovery, Sentiment, Memory, Ask |
+| `survey.response.read` | reputation | Recovery |
 | `recovery.case.opened` | reputation | Notifications (owner and AM alert) |
 | `recovery.case.resolved` | reputation | Scorekeeper |
 | `review.link.clicked` | reputation | Scorekeeper |
 | `contact.captured` | crm | Memory, Flows |
 | `automation.fired` | crm | Scorekeeper |
 | `campaign.sent` | crm | Ledger, Scorekeeper |
-| `loyalty.milestone.reached` | crm | Crown |
+| `loyalty.card.issued` | crm | none yet |
+| `loyalty.stamp.added` | crm | none yet |
+| `loyalty.reward.earned` | crm | Crown |
+| `loyalty.reward.redeemed` | crm | none yet |
 | `content.status.changed` | content | Manager, Platform |
 | `content.approved` | content | Distribution, Manager |
 | `content.published` | content | Pulse, elements registry |

@@ -6,40 +6,91 @@ description: "Levantar el repositorio en tu máquina."
 
 # Desarrollo *local*
 
-:::note Repositorio por crear
-Estos pasos describen el repositorio objetivo de la fase F0. Se actualizan cuando el esqueleto exista.
-:::
-
 ## Requisitos
 
 - Bun (versión fijada en `package.json` → `packageManager`)
-- Docker, para Postgres local, N8N y pruebas de integración
-- Acceso a los secretos de desarrollo
+- Docker, para Postgres y N8N locales
+- Un `.env.local` en la raíz del repositorio, copiado de `.env.example`. El ejemplo lista solo nombres; pide los valores de desarrollo
 
 ## Primer arranque
 
 ```bash
 bun install
-cp .env.example .env.local     # completar secretos de desarrollo
+cp .env.example .env.local          # completa los valores de desarrollo (incluye NODE_ENV=development)
 docker compose up -d postgres n8n   # Postgres y N8N locales
-bun run db:migrate              # migraciones de todos los módulos
-bun run db:seed                 # client, location y 90 días de signals de ejemplo (Casa Olivo)
-bun run dev                     # api, worker, platform, manager, hub, mobile y docs
+bun --env-file=.env.local scripts/migrate.ts            # igual que: bun run db:migrate
+bun --env-file=.env.local apps/worker/scripts/seed.ts   # igual que: bun run seed
 ```
 
-El seed genera signals diarias realistas para cada fuente, así que cada pantalla tiene datos sin un solo conector.
+El seed crea una agencia (`demo-atrium`), un client con un lugar (Casa Olivo Bellaire), un guest con consentimiento, un token de conector y dos usuarios demo. Se puede correr dos veces sin problema. Imprime los ids y el token que necesita el recorrido de abajo.
+
+| Usuario | Contraseña | Rol | Entra por |
+| --- | --- | --- | --- |
+| `demo-am@demo.test` | `demo-password-1` | Account manager | Manager, `localhost:3002` |
+| `demo-owner@demo.test` | `demo-password-1` | Dueño del client | Platform, `localhost:3003` |
+
+## Levantar las apps
+
+Todavía no hay un solo comando `dev`. Levanta cada app en su propia terminal, con las variables de `.env.local` cargadas y `AGENCY_SLUG=demo-atrium` (la agencia del seed):
+
+```bash
+export AGENCY_SLUG=demo-atrium
+bun --env-file=.env.local run --filter @atrium/api dev        # :3001
+bun --env-file=.env.local run --filter @atrium/agents dev     # :3005
+bun --env-file=.env.local run --filter @atrium/worker dev
+bun --env-file=.env.local run --filter @atrium/manager dev    # :3002
+bun --env-file=.env.local run --filter @atrium/platform dev   # :3003
+bun --env-file=.env.local run --filter @atrium/hub dev        # :3004
+bun --env-file=.env.local run --filter @atrium/qr-card dev    # :3006
+```
+
+Compruébalas: `curl localhost:3001/api/auth/ok` responde `200` y las tres pantallas responden en sus puertos. El worker registra `worker.started` con sus consumidores y tareas. El worker necesita `AGENTS_URL` y `AGENTS_SERVICE_TOKEN`; levanta primero el servicio de agentes. `AGENTS_SERVICE_TOKEN` es cualquier cadena aleatoria de 32 caracteres o más, y el servicio de agentes se niega a arrancar con una más corta. El servicio de agentes también lee `PUBLIC_BASE_URL` (y opcionalmente `ADMIN_BASE_URL`), que el worker ya no lee; fuera de desarrollo y pruebas no arranca sin `PUBLIC_BASE_URL`. Si `HOST_LLM_API_KEY` y un modelo para Sentiment (`HOST_MODEL_SENTIMENT` o `HOST_MODEL_DEFAULT`) están vacíos, Sentiment responde `rejected`; los casos se abren igual por la calificación.
+
+Variables de email. `RESEND_API_KEY` y `EMAIL_FROM` construyen el transporte de Resend; `RESEND_WEBHOOK_SECRET` (cualquier valor `whsec_` sirve en local) verifica el webhook de Resend en la API; `SURVEY_SECRET` (una cadena aleatoria larga, con `BETTER_AUTH_SECRET` como respaldo) firma los enlaces de baja, y la API y el servicio de agentes deben compartirlo. Sin la clave de Resend y con `NODE_ENV=development`, el correo se registra en la bandeja de salida y no se envía. Fuera de desarrollo y pruebas, la API y el servicio de agentes se niegan a arrancar sin las variables de Resend. El webhook no puede llegar a una máquina local, así que para probarlo envía un fixture firmado a `POST /webhooks/resend` de la API local.
+
+## Probar la tarjeta de sellos
+
+La app de la tarjeta tiene su propio puerto, 3006, y habla con la API por `/loyalty-api`. Levanta la API con `LOYALTY_SECRET` y `LOYALTY_PROXY_SECRET` (cada una de 32 caracteres o más) y `TRUST_PROXY=1`, y qr-card con el mismo `LOYALTY_PROXY_SECRET`:
+
+```bash
+export LOYALTY_SECRET=dev-loyalty-secret-0123456789abcdef0123 LOYALTY_PROXY_SECRET=dev-proxy-secret-0123456789abcdef01234 TRUST_PROXY=1
+bun --env-file=.env.local run seed:loyalty    # imprime la URL de registro de cada local
+```
+
+Abre una URL de registro impresa en una ventana del tamaño de un teléfono: la tarjeta aparece en `/c/<token>`. Luego entra a Platform como `demo-owner@demo.test`, abre **Retention › Stamp a card**, escribe el código de la tarjeta y agrega un sello; la tarjeta lo muestra en 5 segundos. Como prueba de humo del proxy, haz `POST` a `/loyalty-api/cards` 21 veces en `localhost:3006`, cada una con `-d '{"joinToken":"<token impreso>"}'` (el token de registro que imprimió el seed) y un `x-forwarded-for` distinto cada vez: las primeras veinte responden `201` y la siguiente `429`, porque con `QR_CARD_PROXY_HOPS` sin poner las direcciones falsificadas nunca llegan a la API. Los contadores duran una hora; borra `crm.rate_counters` para repetirlo. Ver [Lealtad y la tarjeta de sellos](./loyalty-and-qr-card).
+
+## Recorrer el flujo principal
+
+Es el flujo que describe [Usar el sistema hoy](../product/using-the-system). El seed imprime los ids y el token del conector.
+
+```bash
+# 1. Una orden identificada, como la enviaría Toast (a la API, puerto 3001)
+curl -s http://localhost:3001/v1/signals \
+  -H "authorization: Bearer $CONNECTOR_TOKEN" -H 'content-type: application/json' \
+  -d '{"rows":[{"date":"2026-10-15","locationId":"<location>","source":"toast","signalType":"order","value":1,"guestId":"<guest>"}]}'
+
+# 2. En menos de un minuto Ask envía la solicitud. Lee el enlace de la bandeja de salida
+docker compose exec postgres psql -U atrium atrium -c \
+  "select body from core.notifications where kind = 'reputation.review_request' order by created_at desc limit 1"
+
+# 3. Abre el enlace /s/svy_… en el Hub (:3004) y responde con 1 a 3 estrellas.
+#    Recovery abre un caso y avisa al dueño y al account manager
+docker compose exec postgres psql -U atrium atrium -c \
+  "select severity, status, due_at from reputation.recovery_cases order by opened_at desc limit 1"
+```
+
+Después entra al Manager como `demo-am@demo.test`, abre **Reputation → Cases**, elige el caso y usa **Mark contacted** y **Resolve**.
 
 ## Comandos frecuentes
 
 | Comando | Qué hace |
 | --- | --- |
-| `bun run dev` | Levanta todas las apps con recarga |
-| `bun run test` | Pruebas unitarias, de contrato, de calidad de datos y de integración |
-| `bun run test:e2e` | Playwright contra el entorno local |
-| `bun run lint` | Biome: lint y formato |
-| `bun run check:deps` | dependency-cruiser: límites entre módulos |
-| `bun run db:generate` | Genera una migración desde el esquema de Drizzle |
-| `bun run rollup` | Reconstruye `metrics_daily` y `scores_weekly` para un client y un rango |
-| `bun run connectors:replay <provider>` | Reproduce los fixtures grabados de un conector por la API de ingesta |
-| `bun run evals` | Evals de todos los subagentes |
-| `bun run --filter @atrium/docs dev` | Solo esta documentación |
+| `bun run test` | Pruebas de apps, módulos y config, y las del paquete de UI |
+| `bun run lint` | Biome: lint y formato (`lint:fix` aplica las correcciones) |
+| `bun run check:deps` | dependency-cruiser: fronteras entre módulos |
+| `bun run typecheck` | TypeScript sobre todo el repositorio |
+| `bun run ci` | Lint, fronteras, tipos y pruebas, en ese orden |
+| `bun run db:migrate` | Aplica las migraciones de todos los módulos |
+| `bun run seed` | Datos demo, descritos arriba |
+| `bun run docs:dev` | Solo esta documentación, en `localhost:3000` |
+| `bun run docs:build` | Construye el sitio en los dos idiomas y valida enlaces |

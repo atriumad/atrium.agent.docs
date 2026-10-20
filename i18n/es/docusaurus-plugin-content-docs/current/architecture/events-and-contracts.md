@@ -15,6 +15,8 @@ Los módulos solo se comunican por eventos. Un evento es un hecho pasado, inmuta
 3. **Idempotencia.** Cada consumidor guarda los `id` procesados: recibir un evento dos veces no produce dos efectos.
 4. **Sin datos personales.** Los eventos llevan ids, nunca email ni teléfono. El consumidor pide el contacto a Core, que verifica el consentimiento.
 5. **Opcional.** Un consumidor apagado para un client ignora el evento.
+6. **Las suscripciones se guardan.** Un evento sin consumidor suscrito se descarta. El worker suscribe a cada consumidor al arrancar, así que hay que correr un worker una vez antes de recibir tráfico en una base nueva.
+7. **Las dead letters se nombran, no se copian.** Un trabajo que agota sus reintentos va a la cola de dead letters; el worker registra su tipo, versión, id y client, y nada de su contenido.
 
 ## Forma de un evento
 
@@ -56,14 +58,18 @@ export type ReviewReceivedV1 = z.infer<typeof ReviewReceivedV1>;
 | `review.received` | reputation | Echo, Sentiment, Scorekeeper |
 | `review.replied` | reputation | Scorekeeper |
 | `survey.sent` | reputation | Scorekeeper |
-| `survey.response.submitted` | reputation | Recovery, Memory, Ask |
+| `survey.response.submitted` | reputation | Recovery, Sentiment, Memory, Ask |
+| `survey.response.read` | reputation | Recovery |
 | `recovery.case.opened` | reputation | Notificaciones (alerta al dueño y al AM) |
 | `recovery.case.resolved` | reputation | Scorekeeper |
 | `review.link.clicked` | reputation | Scorekeeper |
 | `contact.captured` | crm | Memory, Flows |
 | `automation.fired` | crm | Scorekeeper |
 | `campaign.sent` | crm | Ledger, Scorekeeper |
-| `loyalty.milestone.reached` | crm | Crown |
+| `loyalty.card.issued` | crm | ninguno todavía |
+| `loyalty.stamp.added` | crm | ninguno todavía |
+| `loyalty.reward.earned` | crm | Crown |
+| `loyalty.reward.redeemed` | crm | ninguno todavía |
 | `content.status.changed` | content | Manager, Platform |
 | `content.approved` | content | Distribución, Manager |
 | `content.published` | content | Pulse, registro de elements |

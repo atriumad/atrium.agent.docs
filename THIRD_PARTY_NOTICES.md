@@ -11,7 +11,8 @@ the proprietary license in `LICENSE` covers only Atrium Agency's own material.
 | `@easyops-cn/docusaurus-search-local` | Local search | MIT |
 | Mermaid (`@docusaurus/theme-mermaid`) | Diagrams | MIT |
 | Prism React Renderer | Code highlighting | MIT |
-| Inter Tight, Instrument Serif, JetBrains Mono (Google Fonts) | Typography | SIL Open Font License 1.1 |
+| Inter Tight, Instrument Serif (bundled in `static/fonts`), JetBrains Mono (Google Fonts) | Typography | SIL Open Font License 1.1 |
+| Lucide (`lucide-react`) | Product icons in the visual reference | ISC |
 
 The full list of transitive dependencies and their licenses is in `bun.lock` and in
 each package's own `LICENSE` file under `node_modules`.

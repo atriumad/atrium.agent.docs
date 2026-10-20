@@ -1,0 +1,30 @@
+<!-- @dsCard group="Components" viewport="700x260" name="Forms" subtitle="Input, Select, Checkbox — squared fields, caps labels, clay focus" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>html,body{margin:0}body{background:var(--surface-page);font-family:var(--font-sans);color:var(--text-body)}.w{padding:20px 24px;box-sizing:border-box}</style><script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script></head><body><div id="root" class="w"></div>
+<script type="text/babel">
+const { Input, Select, Checkbox, Button } = window.ARTIUMADDesignSystem_c5fefc;
+function Demo(){
+  return (
+    <div style={{display:"flex",flexDirection:"column",gap:18}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:14}}>
+        <Input label="Work email" placeholder="you@company.com" />
+        <Select label="Service" options={["Brand","Campaign","Media","Content"]} />
+        <Input label="Budget" error="Give us a range." defaultValue="?" />
+      </div>
+      <div style={{display:"flex",gap:24,alignItems:"center",flexWrap:"wrap"}}>
+        <Checkbox label="Send me the quarterly roundup" defaultChecked />
+        <Checkbox label="Unchecked" />
+        <Checkbox label="Disabled" disabled />
+        <Button variant="lime">Start a project</Button>
+      </div>
+      <div style={{background:"var(--charcoal-800)",padding:16,borderRadius:"var(--radius-md)",display:"flex",gap:14,alignItems:"flex-end"}}>
+        <Input tone="dark" label="On ink" placeholder="you@company.com" style={{flex:1}} />
+        <Button variant="lime">Subscribe</Button>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Demo/>);
+</script></body></html>

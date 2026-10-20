@@ -1,0 +1,116 @@
+---
+sidebar_position: 7
+title: "Actions"
+description: "Button and chip."
+---
+
+import {Demo, Button, Chip, DoDont, DoDontRow} from '@site/src/components/design';
+import {Plus, ArrowRight, Search} from 'lucide-react';
+import {useState} from 'react';
+
+# *Actions*: what you press
+
+A button is squared, with flat fills and 1 px strokes. A chip is the only pill. One primary action per view.
+
+## Button
+
+<Demo switcher code={`<Button>Primary</Button>
+<Button variant="lime">Lime</Button>
+<Button variant="clay">Clay</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>`}>
+  <Button>Primary</Button>
+  <Button variant="lime">Lime</Button>
+  <Button variant="clay">Clay</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="ghost">Ghost</Button>
+</Demo>
+
+| Variant | Use |
+| --- | --- |
+| `primary` | The default call to action. Charcoal fill, cream text. On a dark field it turns lime |
+| `lime` | The loud signal. One per view |
+| `clay` | The warm secondary, and a destructive action after a confirmation. It is **never** the main call to action |
+| `outline` | A secondary action. On hover it inverts to a solid charcoal fill |
+| `ghost` | A tertiary action, and actions inside dense toolbars |
+
+:::note The clay button is clay-600
+The system fills the clay button with clay-500. Cream on clay-500 is 3.8:1, which fails for a 15 px label. The fill here is **clay-600** (5.2:1) and the pressed state is **clay-700**.
+:::
+
+### Sizes, icons, loading, disabled
+
+<Demo surface="white" code={`<Button size="sm">Small</Button>
+<Button>Medium</Button>
+<Button size="lg">Large</Button>
+<Button icon={<Plus size={16} />}>Add client</Button>
+<Button variant="outline" iconRight={<ArrowRight size={16} />}>Continue</Button>
+<Button iconOnly variant="ghost" aria-label="Search"><Search size={18} /></Button>
+<Button loading>Saving</Button>
+<Button disabled>Disabled</Button>`}>
+  <Button size="sm">Small</Button>
+  <Button>Medium</Button>
+  <Button size="lg">Large</Button>
+  <Button icon={<Plus size={16} strokeWidth={1.5} />}>Add client</Button>
+  <Button variant="outline" iconRight={<ArrowRight size={16} strokeWidth={1.5} />}>Continue</Button>
+  <Button iconOnly variant="ghost" aria-label="Search"><Search size={18} strokeWidth={1.5} /></Button>
+  <Button loading>Saving</Button>
+  <Button disabled>Disabled</Button>
+</Demo>
+
+### API
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `variant` | `primary` \| `lime` \| `clay` \| `outline` \| `ghost` | `primary` | |
+| `size` | `sm` \| `md` \| `lg` | `md` | Padding 7/14, 11/22, 15/30; text 13, 15, 17 px |
+| `icon` / `iconRight` | `ReactNode` | none | 16 px, stroke 1.5, `currentColor` |
+| `iconOnly` | `boolean` | `false` | Needs `aria-label`. 44 px on touch |
+| `loading` | `boolean` | `false` | A spinner, `aria-busy`, disabled, keeps its width |
+| `block` | `boolean` | `false` | Full width: dialogs and mobile |
+| `disabled` | `boolean` | `false` | Opacity 0.4 and no color change. Say why nearby |
+
+### States
+
+Text is 500 at `0.01em`. **Hover** deepens the fill one step (an outline button inverts to solid). **Press** moves it down 1 px. **Focus** is a 2 px clay outline at 2 px offset. **Loading** shows a spinner and keeps the label.
+
+<DoDontRow>
+  <DoDont kind="do">Start with a verb: "Save client", "Resolve", "See the work".</DoDont>
+  <DoDont kind="dont">Round a button into a pill, use "OK" or "Submit", or put two lime buttons in one view.</DoDont>
+</DoDontRow>
+
+## Chip
+
+The only pill: service tags and filters. **Outlined** by default; **ink** when selected. Caps, 0.06em, 11 or 13 px.
+
+export const ChipDemo = () => {
+  const [on, setOn] = useState('SEO');
+  return (
+    <>
+      {['SEO', 'Media', 'Content', 'Brand'].map((c) => (
+        <Chip key={c} onClick={() => setOn(c)} active={on === c}>{c}</Chip>
+      ))}
+    </>
+  );
+};
+
+<Demo surface="white" code={`<Chip onClick={...} active={on === 'SEO'}>SEO</Chip>   // a filter
+<Chip variant="lime">New</Chip>                          // a tag
+<Chip onRemove={...}>Houston</Chip>                      // removable`}>
+  <ChipDemo />
+</Demo>
+
+<Demo surface="light">
+  <Chip>Outline</Chip>
+  <Chip variant="ink">Ink</Chip>
+  <Chip variant="lime">Lime</Chip>
+  <Chip variant="clay">Clay</Chip>
+  <Chip size="sm">Small</Chip>
+  <Chip count={3}>With count</Chip>
+  <Chip onRemove={() => undefined}>Removable</Chip>
+</Demo>
+<Demo surface="dark">
+  <Chip variant="dark">On dark</Chip>
+</Demo>
+
+A chip with `onClick` is a toggle button (`aria-pressed`). Without it, a chip is a label and is not focusable. The clay chip uses **clay-700** text on clay-200 (the system's clay-600 gave 4.1:1).

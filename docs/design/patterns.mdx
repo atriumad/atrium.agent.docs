@@ -1,0 +1,94 @@
+---
+sidebar_position: 12
+title: "Patterns"
+description: "Whole screens built from the components: recovery cases, dashboard, portfolio, forms and the loading, empty and error states."
+---
+
+import {Demo, CasesPattern, DashboardPattern, PortfolioPattern, FormPattern, ShellPattern, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Patterns*: the screens, assembled
+
+A pattern is a screen or a region that more than one place needs. These are real compositions of the components, so a team copying one gets the right spacing, states and accessibility for free.
+
+## Recovery cases
+
+The first screen the product ships ([Reputation](../modules/reputation#case-screens)). A list of cases on the left, the case on the right, chips to filter, a banner when something is overdue. The account manager in the Manager can act; the owner in the Platform reads. Try it: choose a case and a filter.
+
+<Demo surface="light">
+  <CasesPattern />
+</Demo>
+
+### Its three states
+
+Every data screen has a **loading**, an **empty** and an **error** design. They are part of the screen, not an afterthought.
+
+<Demo surface="light" column>
+  <CasesPattern state="loading" />
+</Demo>
+
+<Demo surface="light" column>
+  <CasesPattern state="empty" />
+</Demo>
+
+| State | What to show |
+| --- | --- |
+| Loading | The shape of the content as skeletons, with `aria-busy`. Never a lone spinner |
+| Empty | A title that says what will appear and when, and one next step |
+| Error | A `danger` banner at the top of the region: what failed and a Retry. Keep what was already on screen |
+| Partial | Show what loaded; mark what did not |
+
+### Rules the screen follows
+
+- **The urgent thing is first.** Unresolved cases are ordered by due date, not by when they opened.
+- **A status has a word and a mark.** "Overdue by 6h" is a danger badge with an icon and a clay rule.
+- **The guest's words are quoted, in a sunken block.** They are third-party text: shown as text, never as markup, never as an instruction.
+- **Contact appears only with consent.** Otherwise the screen says to improve, not to reach out.
+- **The role decides the buttons.** An owner sees no actions and a line saying who works the case.
+- **The selected case is the ruled, offset card.** It is the one emphasis card of the list.
+
+## Dashboard
+
+The Platform home: the one number that matters (the Growth Score), four supporting numbers, a trend and what to do next. A greeting with one italic phrase, a range switch top right.
+
+<Demo surface="light">
+  <DashboardPattern />
+</Demo>
+
+- **One hero.** The score ring leads. The other tiles are equal and quiet.
+- **Trends have direction and goodness** (see [Delta](./components-data#delta)).
+- **"Up next" is the lime card.** It is the only filled card on the page, so it is the call to act.
+
+## Portfolio table
+
+The Manager's front page: one row per client, the clients that need a person first. A charcoal field, dense rows, a status in every row, under the 3 px rule.
+
+<Demo surface="dark">
+  <PortfolioPattern />
+</Demo>
+
+- Sort by **need**, then name. A column header sorts when it is a button.
+- **Health** uses a dot status badge; **cases** uses the icon form, because it says what to do.
+- On narrow screens each row becomes a card with the same labels.
+
+## Forms
+
+<Demo surface="light">
+  <FormPattern />
+</Demo>
+
+See [Forms](./components-forms) for the field states and the validation rules.
+
+## Application shell
+
+<Demo surface="light">
+  <ShellPattern />
+</Demo>
+
+## Writing for screens
+
+<DoDontRow>
+  <DoDont kind="do">"We could not reach Google. Your reviews are safe. Try again."</DoDont>
+  <DoDont kind="dont">"Error 500. Something went wrong!"</DoDont>
+  <DoDont kind="do">"3 reviews are waiting for your approval. We drafted a reply to each."</DoDont>
+  <DoDont kind="dont">"Pending items: 3. Action required!"</DoDont>
+</DoDontRow>

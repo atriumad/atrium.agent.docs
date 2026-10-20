@@ -29,6 +29,12 @@ The module behind the Reputation engine. It stores reviews and replies, runs the
 
 Each invitation is a signed single-use link that expires in 7 days.
 
+## The review request email
+
+The review request is an HTML email (React Email, package `packages/email`) with a plain-text twin and a button to the survey. The footer has an unsubscribe link, and the message carries the `List-Unsubscribe` and `List-Unsubscribe-Post` headers, so mail clients offer one-click unsubscribe (a POST through the Hub origin, `/unsubscribe-api/<token>`). The outbox keeps the plain text only.
+
+The unsubscribe page is `/u/<token>` on the Hub; the token never expires. Unsubscribing withdraws the guest's email consent (source `email_unsubscribe`); doing it twice is harmless. A guest who unsubscribed, bounced or complained gets no more requests. Delivery statuses and the webhook are described in [Core](./core#notifications).
+
 ## Questions (template v1)
 
 1. How was your visit? — 1 to 5
@@ -36,6 +42,8 @@ Each invitation is a signed single-use link that expires in 7 days.
 3. What can we improve? — quick options
 4. Free comment, optional
 5. Would you like the manager to contact you? — optional, and only then it asks for a phone or email
+
+The guest's phone is only a contact detail for the team to call; a case shows it only when the response asked for contact.
 
 The template is versioned: changing questions does not break earlier responses. An anonymous response never opens a case that needs contact details unless the guest leaves them.
 
@@ -60,6 +68,63 @@ stateDiagram-v2
 
 Immediate email alert to the owner and the Account Manager. A public review is never linked to a guest by guessing: a case opens from a survey response, or when the Account Manager links the review.
 
+## Case screens
+
+The Manager (agency) and the Platform (client) show the same case list from `@atrium/ui`. What changes is the role, not the code.
+
+| Who | Sees | Can do |
+| --- | --- | --- |
+| Agency admin | Cases of every client | Mark contacted, resolve |
+| Account Manager | Cases of the clients assigned to them | Mark contacted, resolve |
+| Client owner | Cases of their own client | Read only; the team works the case |
+| Client staff | Cases of their own locations | Read only |
+
+Decisions taken while building it:
+
+- **The role comes from the database, never the screen.** The API resolves the scope from the membership and Postgres RLS decides which clients' cases come back. A case of another client is a `404`, not a `403`, so its existence is not revealed.
+- **Contact details only with consent.** A case shows the guest's email or phone only when they agreed to be reached about the visit (a `transactional` consent given in the survey). Otherwise the screen says so, and says not to reach out when the guest did not ask.
+- **The guest's comment is data.** It is rendered as plain text, never as markup, and never read as an instruction (see Recovery's `untrusted_input`).
+- **The 24-hour target is visible.** Open cases count down and turn urgent in the last four hours; past the target they are flagged. Contacted and resolved cases have no clock.
+- **One origin per screen.** Each app proxies `/api` to the API, so the session cookie stays same-origin and the API needs no CORS. Sign-in is Better Auth at `/api/auth/*`.
+- **The look is the ATRIUM AD design system** ([ADR 0023](../adr/0023-one-token-set)): squared buttons, a 3 px rule, serif figures, clay for focus. The case screens in `packages/ui` still use an earlier theme and move to it when the tokens are adopted.
+
+Routes: `GET /api/me`, `GET /api/cases`, `GET /api/cases/:id`, `POST /api/cases/:id/advance` (`to`: `contacted` or `resolved`, optional `note` up to 1000 characters). A resolved case cannot move again (`409`).
+
+## Reading guests' words
+
+When a response is submitted, the Sentiment subagent reads the comment and the two chosen options through a language model ([0019](../adr/0019-llm-provider-behind-a-port)) and stores internal labels on the response: sentiment, topics, a concern level (low, medium or high) and a safety flag. The tool is `reputation.read_response`, and the reading ends with the event `survey.response.read`. Only labels travel in events, never the guest's text.
+
+Recovery listens to both events. It decides alone: a reading opens a case when concern is medium or high, or when safety is true. Severity only escalates: a case takes the higher of the rating's severity and the reading's, and if one already exists for the response it is raised, never lowered. Sentiment cannot open a case, notify anyone or touch the review link.
+
+None of this changes who is asked for a review. The Google button never depends on the rating or on the reading ([0018](../adr/0018-no-review-gating)). If the model fails or is unavailable, the response stays unread and Recovery keeps working from the rating. Grouping themes across responses daily is later work, with the dashboard.
+
+Sentiment's daily cap (500 readings) also counts responses with no comment. A response refused at the cap stays unread; re-reading old responses is out of scope.
+
+## Help requests as conversations
+
+A help request is a thread between a client and the agency, not a one-shot note. The client opens it in the Platform (Help page) with a first message, which is required, and answers there. The agency answers in the same thread in the Manager (Help requests). Each message carries its author, the author's side (client or agency) and a time. Legacy requests with no note show the placeholder `(no message)`.
+
+| Role | Reads | Writes | Closes |
+| --- | --- | --- | --- |
+| `client_owner` | Yes | Yes | Only as Solved |
+| `agency_admin` | Yes | Yes | Solved or Declined |
+| `account_manager` | Yes | Yes | Solved or Declined |
+| `agency_staff` | Yes | No | No |
+| `client_staff` | No access | No | No |
+
+A message posted in a closed case reopens it, so a reply after Solved puts the thread back to Waiting. A request closed twice answers `409 invalid_state`.
+
+A message can carry one attachment, of two kinds:
+
+- **A survey response**, shown as a card with the rating, the comment, the agent's labels, the date and the location. The card never shows contact details. In the Platform, Responses has "Ask for help about this", which opens Help with the response and its place already chosen. The response must belong to the request's client and to a place the author can see; otherwise it is refused with `422 attachment_not_found`. The attach picker lists only the recent responses of that client.
+- **An external review**, as an `https` link plus optional text and stars.
+
+Every message or close notifies everyone who handles the client except its author (the owners and the assigned team) with the kind `reputation.help_message`. The notification carries a preview of at most 140 characters and points at the request, so the bell opens that thread on the Help page (`?request=<id>`). The list and the open thread refresh every 15 seconds while the tab is visible.
+
+The API replaced `POST /surveys/requests/:id/handle` with `GET /surveys/requests/:id`, `POST /surveys/requests/:id/messages`, `POST /surveys/requests/:id/close` and `GET /surveys/responses/pickable`.
+
+Out of scope: file attachments, real time, unread counters, editing or deleting messages, and agents taking part in threads.
+
 ## MCP tools
 
 | Tool | Writes | Initial level |
@@ -67,6 +132,7 @@ Immediate email alert to the owner and the Account Manager. A public review is n
 | `reputation.list_reviews` | No | 4 |
 | `reputation.list_responses` | No | 4 |
 | `reputation.classify_response` | Yes (labels) | 4 |
+| `reputation.read_response` | Yes (labels) | 4 |
 | `reputation.open_case` | Yes | 4 |
 | `reputation.draft_reply` | Yes (draft) | 2 |
 | `reputation.publish_reply` | Yes | 3 (negatives stay at 3) |
@@ -74,7 +140,7 @@ Immediate email alert to the owner and the Account Manager. A public review is n
 
 ## Events
 
-**Publishes:** `review.received`, `review.replied`, `survey.sent`, `survey.response.submitted`, `recovery.case.opened`, `recovery.case.resolved`, `review.link.clicked`.
+**Publishes:** `review.received`, `review.replied`, `survey.sent`, `survey.response.submitted`, `survey.response.read`, `recovery.case.opened`, `recovery.case.resolved`, `review.link.clicked`.
 **Consumes (optional):** `contact.captured`.
 
 ## Metrics

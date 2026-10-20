@@ -1,0 +1,88 @@
+---
+sidebar_position: 1
+title: "Design"
+description: "The visual language of Atrium: principles, voice, and where each part is documented."
+---
+
+import {Demo, Eyebrow, Highlight, Emphasis, Button, Chip, Badge, Card, Rule, StatFigure, Gallery, Tile, StatusBadge} from '@site/src/components/design';
+
+# Design: *a printed* visual language
+
+Atrium looks printed, not glassy: warm-black ink on cream paper, one loud acid-lime signal, one warm clay, and a heavy 3 px rule doing the structural work. It writes like someone who has already done the work and is telling you what happened. This section is the visual reference. It defines the colors, the type, the shapes, the motion and the components, so the Platform, the Manager, the Hub, the mobile app and this documentation read as one product.
+
+<Demo surface="dark">
+  <div style={{display: 'grid', gap: 16, width: '100%'}}>
+    <Eyebrow tone="on-dark">01 — The system</Eyebrow>
+    <div style={{fontSize: 'var(--text-display-md)', lineHeight: 0.95, letterSpacing: 'var(--tracking-tighter)', color: 'var(--cream-100)', maxWidth: '16ch'}}>
+      We agree the number <Emphasis>before</Emphasis> we start
+    </div>
+    <Rule tone="on-dark" label="Atrium" />
+    <div style={{display: 'flex', gap: 10, flexWrap: 'wrap'}}>
+      <Button variant="lime">See the work</Button>
+      <Button variant="outline">Read the case</Button>
+    </div>
+  </div>
+</Demo>
+
+## The principles
+
+1. **Charcoal on cream.** There is no black and no pure white. The dark anchor is a warm charcoal, the light anchor is cream paper. The inverse, cream on charcoal, carries proof bands and footers.
+2. **One signal.** Lime is punctuation: a call to action, a marker, one card. One lime field per view, at most. Clay is the warm secondary: focus, errors, a quote. It is never the main button.
+3. **Drawn, not shaded.** Depth comes from 1 px hairlines, a 3 px rule and flat blocks of color. A diffuse shadow is only for a menu or a dialog.
+4. **Squared off.** Buttons, fields and cards have small, deliberate corners. Only chips are round.
+5. **One family, one accent.** Inter Tight at 400, with 500 as the one step up. Instrument Serif for the italic emphasis phrase and for every figure.
+6. **Numbers carry the claim.** Anything that can hold a figure holds one, set in the serif.
+
+## The voice on screen
+
+Plain, blunt, specific, unhurried. First person plural ("we") talking to "you". Short declarative sentences, sentence case, periods and no exclamation marks, no emoji. Errors say what happened and what to do. Empty states say what will appear and when. Avoid "leverage", "unlock", "best-in-class", and any sentence whose first job is to describe the next one.
+
+<Gallery min={280}>
+  <Tile title="Do">
+    <Card title="Nothing needs follow-up right now." description="New cases appear here the moment a guest leaves a low rating." />
+  </Tile>
+  <Tile title="Do">
+    <StatFigure value="2.7x" label="Return on ad spend" />
+  </Tile>
+</Gallery>
+
+## Where it applies
+
+| Surface | Look | What is specific |
+| --- | --- | --- |
+| **Platform** (the client) | Cream paper, cards with a hairline | Figures in the serif, calm density, one lime card |
+| **Manager** (the agency) | A charcoal side navigation over a cream work area | Dense tables under a 3 px rule, status everywhere |
+| **Hub** (the guest) | The same components with each restaurant's accent | An accent guard; see [Surfaces](./surfaces) |
+| **Mobile** (the owner) | Cream paper, large targets | One decision per screen, 44 px targets |
+| **Documentation** | Cream and charcoal, with a dark theme | This section and its live examples |
+
+## What is in this section
+
+| Page | What it covers |
+| --- | --- |
+| [Colors](./colors) | The palette, semantic roles, status and data colors, the dark theme |
+| [Typography](./typography) | Two families, the ramp, the wide-caps label, the emphasis devices |
+| [Foundations](./foundations) | Spacing, layout, radius, borders, elevation, motion, focus |
+| [Iconography and logo](./iconography-and-logo) | The typographic wordmark, and the icon question |
+| [Components](./components) | The catalogue and the contract every one meets |
+| [Patterns](./patterns) | Whole screens: cases, dashboard, portfolio, forms, shell |
+| [Surfaces](./surfaces) | How each app themes the same parts |
+| [Accessibility](./accessibility) | Measured contrast, focus, targets, motion |
+| [Tokens](./tokens) | The code to copy, and what is ours versus the system's |
+
+## Where it comes from
+
+This is the **ATRIUM AD design system**. A copy lives in `design/system` of this repository (see its `SOURCE.md`). Its tokens and its thirteen components are used as they are, with a few exceptions made for contrast; [Tokens](./tokens#what-is-ours) lists them. The system says that app and product UI, email and documents were never authored. The status colors, the data palette, the dark theme and the extra components here are that missing layer, built only from the system's own palette.
+
+:::caution Open items in the source system
+Lime and clay are **placeholders** until the brand boards can be read. There is **no logo** (the wordmark is typographic) and **no icon set**. Product screens use Lucide as a stand-in that still needs approval. See [Iconography and logo](./iconography-and-logo).
+:::
+
+<Demo>
+  <Chip variant="lime">Lime</Chip>
+  <Chip variant="ink">Ink</Chip>
+  <Chip>Outline</Chip>
+  <Badge variant="clay">Clay</Badge>
+  <StatusBadge status="positive">Resolved</StatusBadge>
+  <span style={{fontSize: 20}}>Plain words, <Highlight>one</Highlight> marker.</span>
+</Demo>

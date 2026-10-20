@@ -1,0 +1,88 @@
+---
+sidebar_position: 14
+title: "Accessibility"
+description: "The target (WCAG 2.2 AA), the measured contrast of every pairing, where the system falls short, and the rules for focus, targets, motion and meaning."
+---
+
+import {ContrastTable, Demo, Button, Input, StatusBadge, DoDont, DoDontRow} from '@site/src/components/design';
+
+# *Accessibility*: built in, measured
+
+The target is **WCAG 2.2 level AA** on every surface. Most of it is decided in the tokens, and measured.
+
+## Contrast
+
+Computed from the real token values: `bun run tokens:check` fails if a pairing the product relies on drops below its minimum. Text needs **4.5:1** (7:1 is AAA); interface parts such as field edges and focus rings need **3:1**. The last rows are the system's own pairings that fall short. No component uses them.
+
+<ContrastTable />
+
+## Where the system falls short, and what we do
+
+| The system's pairing | Ratio | What the product does |
+| --- | --- | --- |
+| Cream on clay-500: the clay button and the clay card | 3.8:1 | The button is filled with **clay-600** (5.2:1). Text on a clay card is **24 px or larger**, or the card uses the clay-200 tint |
+| Clay-600 on clay-200: the clay chip | 4.1:1 | The chip text is **clay-700** (5.3:1) |
+| Clay-500 as text on cream | 3.5:1 | Clay is a fill, a rule, a ring and an error border. Error **text** is clay-600 (5.2:1) |
+| Lime-600 as text on cream: the lime eyebrow | 1.4:1 | The lime eyebrow only appears on a charcoal field, where lime-500 is 11.6:1 |
+| The cream hairline as a field edge | 1.5:1 | Fields use `--field-border`, charcoal-500 (6.1:1). Cards and rules keep the hairline |
+| Charcoal-500 hairline as a field edge on dark | 2.3:1 | Dark fields use charcoal-400 (4.7:1) |
+
+None of this changes the look of the system: it moves a text color or a fill by one step.
+
+## Focus
+
+Every interactive part shows a visible focus indicator: a **2 px clay outline, offset 2 px**. Clay is 3.5:1 on cream and 3.8:1 on charcoal, enough for an interface part. Never remove the outline without replacing it. Focus order follows reading order, and a dialog traps focus, returns it, and closes on Escape.
+
+<Demo surface="white">
+  <Button>Press Tab</Button>
+  <Button variant="outline">to move focus</Button>
+  <Input small label="Search" placeholder="Then type" />
+</Demo>
+
+## Keyboard
+
+| Component | Keys |
+| --- | --- |
+| Button, chip, link | Enter, Space |
+| Tabs | Arrow keys move, Home and End jump |
+| Menu | Arrows move, Enter chooses, Escape closes |
+| Dialog | Tab cycles inside, Escape closes |
+| Switch, checkbox | Space |
+| Radio group | Arrows move and select |
+
+## Target size
+
+**44 by 44 px** on touch surfaces (the Hub, the survey, mobile). **24 by 24 px at minimum** on desktop (WCAG 2.5.8), with spacing so neighbors do not overlap. Small visuals get a larger hit area.
+
+## Meaning is never in color alone
+
+A status has a **word, a fill, a 3 px left rule and a mark**. A trend has an **arrow and a sign**. A chart has **labels or direct annotation**, and a text alternative that lists its values. Selected and current states change shape or fill too (a filled chip, a lime edge, `aria-current`).
+
+## Motion
+
+Durations are tokens. With `prefers-reduced-motion: reduce` they become `0ms`, the press shift becomes `0`, skeleton shimmer stops and nothing moves in. No flashing above three times a second, ever.
+
+## Forms
+
+A **visible label** on every control, never only a placeholder. **Error text** is linked with `aria-describedby`, announced with `role="alert"`, and written as a fix. Required is the default; optional is marked. Use the right `type`, `inputmode` and `autocomplete`.
+
+## Content
+
+- Sentence case, plain words, one idea per sentence.
+- Link text makes sense alone ("Read the case", not "Click here").
+- Images that carry meaning have alt text; decorative ones have `alt=""`.
+- Numbers keep units and context: "4.6 out of 5", not "4.6".
+
+## Checking a component
+
+1. Tab to it and use it with the keyboard only.
+2. Zoom to 200% and to a 320 px width: nothing is lost or overlaps.
+3. Turn on reduced motion: nothing moves.
+4. Read it with a screen reader: name, role, state and value are spoken.
+5. Look at it in grayscale: every state is still clear.
+6. If you add a color pairing, add it to the guard list in <code>scripts/build-tokens.ts</code>.
+
+<DoDontRow>
+  <DoDont kind="do">Pair a new fill with a text color that clears 4.5:1, and add it to the guard.</DoDont>
+  <DoDont kind="dont">Ship a pairing that is "close enough". Move the color one step.</DoDont>
+</DoDontRow>

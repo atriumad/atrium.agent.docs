@@ -29,7 +29,7 @@ Los conectores llevan los datos de cada proveedor a `signals_daily`.
 flowchart LR
   T["Toast POS · 4 h"] --> N
   MC["Metricool · 6 h"] --> N
-  TW["Twilio · 4 h + webhook"] --> N
+  RS["Resend · 4 h + webhook"] --> N
   GB["Google GBP · diaria"] --> N
   AD["Meta + Google Ads · diaria"] --> N
   H["Atrium Landing · tiempo real"] --> API
@@ -44,7 +44,7 @@ flowchart LR
 | --- | --- | --- |
 | Toast POS | Órdenes, revenue, guests, suscriptores, desempeño del menú | cada 4 h |
 | Metricool | Todas las redes sociales más paid social y search | cada 6 h |
-| Twilio | Email, SMS y automatizaciones | 4 h + webhook |
+| Resend | Email y automatizaciones | 4 h + webhook |
 | Google GBP | Acciones del perfil, reseñas, ranking local | diaria |
 | Atrium Landing | Sesiones del hub y cada toque de botón, etiquetados por fuente | tiempo real |
 | Survey Flow | Notas post-orden, altas por QR | tiempo real |
@@ -55,6 +55,13 @@ Los workflows de N8N son la capa de conectores y nunca escriben directo en la ba
 ## Identity stitching
 
 Los solapamientos se resuelven con identity stitching: ID de pixel, cruce con POS y teléfono o email unen cada signal, así que un guest se cuenta una sola vez en todas las fuentes. Un escaneo de QR y la orden a la que llevó son el mismo guest y nunca se cuentan doble. Las cargas manuales caen en la misma tabla, con sello de hora y etiquetadas `source = manual`.
+
+## Reglas de operación
+
+- **Particiones.** `signals_daily` tiene una partición por mes. La ingestión crea la que falte cuando hace falta, y el worker mantiene listos el mes actual y los doce siguientes (job `signals.ensure_partitions`, el día 1 de cada mes a las 03:00 UTC). La base de datos rechaza fechas anteriores al 2020-01-01 y a más de unos 400 días hacia adelante. Solo el rol dueño puede leer una partición directamente; la aplicación lee la tabla padre, así que las políticas por fila siempre aplican.
+- **Reemplazar un día.** Cada fila lleva una `revision`: 1 al insertarse, y +1 cada vez que una re-ejecución la reemplaza, de modo que los días corregidos son visibles.
+- **Borrado.** Cuando se borra un guest, sus señales se quedan (los conteos son reales) y el consumidor `signals.erase_guest` limpia el `guest_id`, solo en ese client. La fila opaca del guest y el log de consentimientos (solo ids) se conservan.
+- **Retención.** El ledger de idempotencia de los consumidores (`processed_events`) se poda a los 30 días con el job `core.prune_processed_events`, a diario a las 03:30 UTC. La aplicación nunca borra de `signals_daily`.
 
 ## Métodos de atribución
 

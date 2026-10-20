@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Campaign landing page" description="Single-offer Atrium AD landing page: ink hero, proof band, brief form." -->
+<helmet><script src="./ds-base.js"></script><style>body{margin:0}</style></helmet>
+<div style="background:#F4EEE2;min-height:100vh;font-family:'Inter Tight',system-ui,sans-serif;color:#242726">
+<header style="border-bottom:1px solid #D4CAB6"><div style="max-width:1240px;margin:0 auto;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between"><span style="font-family:'Inter Tight',sans-serif;font-weight:400;font-size:24px;text-transform:uppercase;letter-spacing:.01em;display:inline-flex;align-items:baseline;gap:.34em;color:#1C1F1D">Atrium<span style="opacity:.45">AD</span></span><span style="font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#5A605B">Kansas City · Est. 2014</span></div></header>
+<section style="background:#242726;padding:96px 0"><div style="max-width:1240px;margin:0 auto;padding:0 40px">
+<span style="display:inline-flex;align-items:center;gap:12px;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#C6F24E"><span style="width:28px;height:1px;background:currentColor;opacity:.6"></span>Q2 openings</span>
+<h1 style="font-family:'Inter Tight',sans-serif;font-weight:400;font-size:88px;line-height:.94;letter-spacing:-.035em;color:#FBF8F1;margin:28px 0 24px;max-width:16ch">We take four clients at a time. <em style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:0;color:#C6F24E">One slot is open.</em></h1>
+<p style="font-size:20px;line-height:1.6;color:#E9E1D1;max-width:52ch;margin:0 0 40px">Brand, campaign, media and content from one room. We agree the number before we start and show you the number after.</p>
+<div style="display:flex;gap:16px;flex-wrap:wrap"><x-import component-from-global-scope="ARTIUMADDesignSystem_c5fefc.Button" variant="lime" size="lg" hint-size="200px,52px">Take the slot</x-import><x-import component-from-global-scope="ARTIUMADDesignSystem_c5fefc.Button" variant="ghost" size="lg" style="color:#F4EEE2;border-color:#5A605B" hint-size="180px,52px">See the work</x-import></div>
+</div></section>
+<section style="padding:88px 0"><div style="max-width:1240px;margin:0 auto;padding:0 40px">
+<hr style="border:0;border-top:3px solid #242726;margin:0 0 40px">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px">
+<div><div style="font-family:'Instrument Serif',serif;font-weight:400;font-size:64px;line-height:.9">2.7x</div><div style="font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#5A605B;margin-top:10px">Median ROAS</div></div>
+<div><div style="font-family:'Instrument Serif',serif;font-weight:400;font-size:64px;line-height:.9">$44M</div><div style="font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#5A605B;margin-top:10px">Media managed</div></div>
+<div><div style="font-family:'Instrument Serif',serif;font-weight:400;font-size:64px;line-height:.9">91%</div><div style="font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#5A605B;margin-top:10px">Clients past year 3</div></div>
+<div><div style="font-family:'Instrument Serif',serif;font-weight:400;font-size:64px;line-height:.9">9 wks</div><div style="font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#5A605B;margin-top:10px">Concept to air</div></div>
+</div>
+</div></section>
+<section style="padding:0 0 96px"><div style="max-width:1240px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start">
+<div><h2 style="font-family:'Inter Tight',sans-serif;font-weight:400;font-size:52px;line-height:1;letter-spacing:-.03em;margin:0 0 20px;max-width:14ch">Tell us what you're up against.</h2><p style="font-size:18px;line-height:1.6;color:#5A605B;max-width:44ch;margin:0">We reply within two working days, and we will tell you if we're the wrong studio for it.</p></div>
+<div style="background:#FBF8F1;border:1px solid #242726;border-radius:6px;padding:40px;display:flex;flex-direction:column;gap:24px">
+<x-import component-from-global-scope="ARTIUMADDesignSystem_c5fefc.Input" label="Work email" placeholder="you@company.com" hint-size="100%,74px"></x-import>
+<x-import component-from-global-scope="ARTIUMADDesignSystem_c5fefc.Select" label="What do you need" dc-props="{{ serviceProps }}" hint-size="100%,74px"></x-import>
+<x-import component-from-global-scope="ARTIUMADDesignSystem_c5fefc.Checkbox" label="Send me the quarterly work roundup" hint-size="100%,24px"></x-import>
+<x-import component-from-global-scope="ARTIUMADDesignSystem_c5fefc.Button" variant="lime" size="lg" fullWidth="{{ true }}" hint-size="100%,52px">Send it</x-import>
+</div>
+</div></section>
+<footer style="background:#1C1F1D;padding:40px 0"><div style="max-width:1240px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center"><span style="font-family:'Inter Tight',sans-serif;font-weight:400;font-size:20px;text-transform:uppercase;color:#F4EEE2;display:inline-flex;align-items:baseline;gap:.34em">Atrium<span style="opacity:.45">AD</span></span><span style="font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#8C918C">© 2026 Atrium AD</span></div></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return { serviceProps: { options: ["Brand", "Campaign", "Media", "Content", "Not sure yet"] } };
+  }
+}
+</script>
+</body>
+</html>

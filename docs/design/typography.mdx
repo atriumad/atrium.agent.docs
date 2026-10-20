@@ -1,0 +1,87 @@
+---
+sidebar_position: 3
+title: "Typography"
+description: "Two families, the ramp, the wide-caps label and the emphasis devices."
+---
+
+import {FontCards, TypeRamp, TrackingTable, Demo, Eyebrow, Emphasis, Highlight, StatFigure, Rule, DoDont, DoDontRow, Stat} from '@site/src/components/design';
+
+# *Typography*: scale and tracking, not weight
+
+Two families do three jobs. **Inter Tight** carries display, headings, body and UI at regular 400, with 500 as the single step up. **Instrument Serif** carries the italic emphasis phrase and **every figure**. Nothing in the system is heavier than 500: hierarchy comes from size, tracking and leading.
+
+## The families
+
+<FontCards />
+
+Inter Tight and Instrument Serif are bundled with the system and with this site (`static/fonts`), so they work offline.
+
+:::note A decision recorded
+The Platform prototype was drawn in **Geist**. The design system uses **Inter Tight**, so Inter Tight is the product face and Geist is a prototype artifact. The two have close metrics; no screen needs redrawing.
+:::
+
+## The headline
+
+A headline is a tight, stacked grotesque sentence at 400. Give it **one** emphasis device, never two: the italic serif phrase for warmth, or the lime marker for volume.
+
+<Demo surface="white" column>
+  <div style={{fontSize: 'var(--text-display-md)', lineHeight: 0.95, letterSpacing: 'var(--tracking-tighter)', color: 'var(--charcoal-900)'}}>
+    We take <Emphasis>four</Emphasis> clients at a time
+  </div>
+  <div style={{fontSize: 'var(--text-display-md)', lineHeight: 0.95, letterSpacing: 'var(--tracking-tighter)', color: 'var(--charcoal-900)'}}>
+    Built to pay for <Highlight>itself</Highlight> in nine weeks
+  </div>
+</Demo>
+
+| Device | Face | Rule |
+| --- | --- | --- |
+| Emphasis phrase | Instrument Serif, italic | One per headline, 1 to 4 words. Has a little right padding so the italic does not clip |
+| Marker block | Flat lime behind the word | One per line. A clay tint variant exists for quotes |
+| Figure | Instrument Serif, upright | Every number that is a claim, at display size |
+| Label | Inter Tight 500, 11 px, caps, 0.16em | Eyebrows, nav, captions, metadata, table headers |
+
+## The wide-caps label
+
+The system's connective tissue: 11 px, 500, uppercase, `0.16em`, in the muted color. Eyebrows carry a 28 px leading rule and are numbered in marketing (`01 —`, `02 —`).
+
+<Demo surface="white" column>
+  <Eyebrow>Case study</Eyebrow>
+  <Eyebrow rule={false}>Metadata, no rule</Eyebrow>
+  <Rule label="Section" />
+</Demo>
+
+## Figures
+
+Figures are always set in the serif, never in the grotesque at display size, with tabular numerals so columns align. A caption in the wide-caps label says what the number is.
+
+<Demo surface="white">
+  <StatFigure value="2.7x" label="Return on ad spend" />
+  <StatFigure value="$44M" label="Media managed" size="sm" />
+  <div style={{width: 220}}><Stat label="Average rating" value="4.6" unit="/ 5" delta={2} /></div>
+</Demo>
+
+## The ramp
+
+Display sizes are fluid (`--text-display-xl`, `-lg`, `-md`, each a `clamp()`). The static ramp runs from 72 to 11 px. Product screens live between 11 and 32: tables and dense UI at **14 px**, body at 16.
+
+<TypeRamp />
+
+### Weights and leading
+
+| Weight | Use |
+| --- | --- |
+| 400 | Headlines, body, everything by default |
+| 500 | The one step up: caps labels, buttons, chips, a table cell that needs weight |
+
+Leading is `0.92` to `1.05` for tight stacked headlines, `1.15` for smaller headings, `1.6` for body. Keep paragraphs to **68 characters** (`--container-text`).
+
+## Tracking
+
+Headlines tighten, labels spread.
+
+<TrackingTable />
+
+<DoDontRow>
+  <DoDont kind="do">Build hierarchy with size, tracking and leading. Write headlines in sentence case.</DoDont>
+  <DoDont kind="dont">Use bold, Title Case, or all caps beyond the label style. Never set a figure in the grotesque at display size.</DoDont>
+</DoDontRow>
